@@ -31,10 +31,9 @@ func set_positions(positions : Array[Vector3]):
 func _on_area_3d_body_entered(body):
 	if body.name == "President":
 		president_protected = true
-		print("President is protected")
+		#print("President is protected")
 
 func _on_area_3d_body_exited(body):
-	
 	if body.name == "President":
 		president_protected = false
-		print("President is exposed")
+		#print("President is exposed")
