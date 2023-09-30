@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://dptcs77jneftx"]
+[gd_scene load_steps=18 format=3 uid="uid://dptcs77jneftx"]
 
 [ext_resource type="Script" path="res://President.gd" id="1_yt3hd"]
 [ext_resource type="Texture2D" uid="uid://d3hx2auwpkkx0" path="res://icon.svg" id="2_ba8xh"]
+[ext_resource type="Script" path="res://ServicemanPosition.gd" id="3_u5vjg"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mvs6x"]
 radius = 0.669442
@@ -12,6 +13,9 @@ albedo_color = Color(0, 1, 1, 0.45098)
 
 [sub_resource type="SphereMesh" id="SphereMesh_27gjd"]
 material = SubResource("StandardMaterial3D_h33rw")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w4pkb"]
+radius = 0.845363
 
 [sub_resource type="Animation" id="Animation_b5iw1"]
 resource_name = "Idle"
@@ -258,8 +262,8 @@ states/Start/position = Vector2(312, 99)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_qsrkn"), "Idle", "Moving", SubResource("AnimationNodeStateMachineTransition_tuaxc"), "Moving", "Idle", SubResource("AnimationNodeStateMachineTransition_brm6p")]
 
 [node name="President" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 script = ExtResource("1_yt3hd")
+distance = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_mvs6x")
@@ -274,13 +278,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
 [node name="Serviceman A" type="MeshInstance3D" parent="Serviceman Array"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.89, 0.5, -1.075)
 mesh = SubResource("SphereMesh_27gjd")
+script = ExtResource("3_u5vjg")
+
+[node name="Area3D" type="Area3D" parent="Serviceman Array/Serviceman A"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Serviceman Array/Serviceman A/Area3D"]
+shape = SubResource("SphereShape3D_w4pkb")
 
 [node name="Serviceman B" type="MeshInstance3D" parent="Serviceman Array"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1.635)
+visible = false
 mesh = SubResource("SphereMesh_27gjd")
 
 [node name="Serviceman C" type="MeshInstance3D" parent="Serviceman Array"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.945, 0.5, -1.275)
+visible = false
 mesh = SubResource("SphereMesh_27gjd")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -294,3 +306,6 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/conditions/isIdle = false
 parameters/conditions/isMoving = false
+
+[connection signal="input_event" from="Serviceman Array/Serviceman A/Area3D" to="Serviceman Array/Serviceman A" method="_on_area_3d_input_event"]
+[connection signal="mouse_exited" from="Serviceman Array/Serviceman A/Area3D" to="Serviceman Array/Serviceman A" method="_on_area_3d_mouse_exited"]

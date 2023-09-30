@@ -29,7 +29,6 @@ func _process(delta):
 		else:
 			position = position.move_toward(target_position, delta * move_speed)
 	elif time_elapsed > stand_time:
-		print("time_elapsed")
 		time_elapsed = 0
 		is_moving = true
 		anim_tree.set("parameters/conditions/isIdle", false)
