@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://1c1ruagdu8ys"]
+
+[ext_resource type="Script" path="res://Scripts/ServicemanPosition.gd" id="1_nwld4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h33rw"]
+transparency = 1
+albedo_color = Color(0, 1, 1, 0.45098)
+
+[sub_resource type="SphereMesh" id="SphereMesh_27gjd"]
+material = SubResource("StandardMaterial3D_h33rw")
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w4pkb"]
+radius = 0.7
+
+[node name="Serviceman Position" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88015, -2.38419e-07, -1.08038)
+mesh = SubResource("SphereMesh_27gjd")
+script = ExtResource("1_nwld4")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_w4pkb")
+
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7uvml1wafwnw"]
+
+[ext_resource type="Script" path="res://Scripts/Serviceman.gd" id="1_5v6s2"]
+[ext_resource type="Texture2D" uid="uid://d3hx2auwpkkx0" path="res://Assets/icon.svg" id="1_q7c0p"]
+
+[node name="Serviceman" type="Node3D"]
+script = ExtResource("1_5v6s2")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71, 0)
+modulate = Color(0.262745, 0.623529, 0.380392, 1)
+texture = ExtResource("1_q7c0p")
