@@ -12,7 +12,6 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 	enemy_list.push_back(preload("res://Entities/missle.tscn"))
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	time_elapsed += delta
 	
@@ -20,6 +19,8 @@ func _process(delta):
 		time_elapsed = 0
 		var new_enemy = enemy_list[rng.randi_range(0, enemy_list.size() - 1)].instantiate()
 		var offset = Vector3(rng.randf_range(10,20), 0, rng.randf_range(10,20))
-		new_enemy.global_position = president.global_position + offset
+		var rot = rng.randf_range(0, PI)
+		offset = Vector3(cos(rot) * offset.x, 0, sin(rot) * offset.z)
 		new_enemy.president = president
 		add_child(new_enemy)
+		new_enemy.global_position = president.position + offset
