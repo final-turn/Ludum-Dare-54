@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bjukmj8c2wcpo"]
+[gd_scene load_steps=21 format=3 uid="uid://bjukmj8c2wcpo"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
 [ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/Player/Force Field.gd" id="6_y3o43"]
 [ext_resource type="Script" path="res://Scripts/UI Manager.gd" id="7_iistj"]
 [ext_resource type="Texture2D" uid="uid://jnqfdwed14p0" path="res://Assets/HealthBar.png" id="8_dck3u"]
+[ext_resource type="PackedScene" path="res://Scenes/Perks.tscn" id="9_s0ww4"]
 [ext_resource type="Texture2D" uid="uid://bvsnuja4h32xw" path="res://Assets/Health.png" id="9_v63yd"]
 [ext_resource type="Script" path="res://Scripts/Enemy/Enemy Spawner.gd" id="10_e321x"]
 
@@ -124,6 +125,10 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("7_iistj")
+
+[node name="Perks" parent="UI Manager" instance=ExtResource("9_s0ww4")]
+visible = false
+layout_mode = 1
 
 [node name="HP" type="Control" parent="UI Manager"]
 layout_mode = 1
