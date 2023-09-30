@@ -4,7 +4,9 @@ extends RigidBody3D
 @export var distance = 10
 @export var stand_time = 6
 
-@onready var anim_tree = $"AnimationTree"
+@onready var anim_tree = $"Visuals/AnimationTree"
+@onready var environment : ClickEnvironment = $"../Environment"
+@onready var serviceman_array : ServicemanArray = $"Serviceman Array"
 
 var rng : RandomNumberGenerator
 
@@ -15,6 +17,7 @@ var is_moving : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng = RandomNumberGenerator.new()
+	environment.mouse_world_position.connect(serviceman_array.on_mouse_world_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

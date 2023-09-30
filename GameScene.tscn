@@ -59,7 +59,6 @@ shape = SubResource("BoxShape3D_4y5le")
 transform = Transform3D(0.9151, -0.282489, 0.287734, 0, 0.713581, 0.700573, -0.403226, -0.641095, 0.652998, 0, 2.925, 0)
 
 [node name="President" parent="." instance=ExtResource("2_ryh8r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="Servicemen" type="Node3D" parent="."]
 visible = false
@@ -73,3 +72,6 @@ environment = SubResource("Environment_gq8e6")
 [node name="Serviceman" parent="Servicemen" instance=ExtResource("4_ch8jo")]
 
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
+[connection signal="input_event" from="President/Serviceman Array/Serviceman Position/Area3D" to="Environment" method="_on_area_3d_input_event"]
+
+[editable path="President"]

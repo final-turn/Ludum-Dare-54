@@ -1,163 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://dptcs77jneftx"]
+[gd_scene load_steps=19 format=3 uid="uid://dptcs77jneftx"]
 
 [ext_resource type="Script" path="res://President.gd" id="1_yt3hd"]
 [ext_resource type="Texture2D" uid="uid://d3hx2auwpkkx0" path="res://icon.svg" id="2_ba8xh"]
+[ext_resource type="Script" path="res://ServicemanArray.gd" id="3_si7m5"]
 [ext_resource type="Script" path="res://ServicemanPosition.gd" id="3_u5vjg"]
+[ext_resource type="Animation" uid="uid://cfbpa4m37rge" path="res://Animations/Idle.res" id="3_vyjpj"]
+[ext_resource type="Animation" uid="uid://iuhycydd0tkq" path="res://Animations/Moving.res" id="4_md2h7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mvs6x"]
-radius = 0.669442
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h33rw"]
-transparency = 1
-albedo_color = Color(0, 1, 1, 0.45098)
-
-[sub_resource type="SphereMesh" id="SphereMesh_27gjd"]
-material = SubResource("StandardMaterial3D_h33rw")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_w4pkb"]
-radius = 0.845363
-
-[sub_resource type="Animation" id="Animation_b5iw1"]
-resource_name = "Idle"
-length = 3.0
-loop_mode = 1
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite3D:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 3)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite3D:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0.0162798, -0.25, 0, 0.25, 0, 0.0162798, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 3)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite3D:position:z")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 3)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite3D:rotation:x")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1, 2, 3)
-}
-tracks/4/type = "bezier"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite3D:rotation:y")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.349066, -0.25, 0, 0.25, 0, 0.349066, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1, 2, 3)
-}
-tracks/5/type = "bezier"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Sprite3D:rotation:z")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1, 2, 3)
-}
-
-[sub_resource type="Animation" id="Animation_sdtjs"]
-resource_name = "Moving"
-length = 0.4
-loop_mode = 1
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite3D:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 0.4)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite3D:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.4, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 0.4)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite3D:position:z")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 0.4)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite3D:rotation:x")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.1, 0.3, 0.4)
-}
-tracks/4/type = "bezier"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite3D:rotation:y")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.1, 0.3, 0.4)
-}
-tracks/5/type = "bezier"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Sprite3D:rotation:z")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(0.139626, -0.25, 0, 0.25, 0, 0.139626, -0.25, 0, 0.25, 0, -0.139626, -0.25, 0, 0.25, 0, 0.139626, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.1, 0.3, 0.4)
-}
+radius = 0.7
 
 [sub_resource type="Animation" id="Animation_d8ril"]
 length = 0.001
@@ -230,8 +81,8 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mlpeb"]
 _data = {
-"Idle": SubResource("Animation_b5iw1"),
-"Moving": SubResource("Animation_sdtjs"),
+"Idle": ExtResource("3_vyjpj"),
+"Moving": ExtResource("4_md2h7"),
 "RESET": SubResource("Animation_d8ril")
 }
 
@@ -261,51 +112,55 @@ states/Moving/position = Vector2(633, 100)
 states/Start/position = Vector2(312, 99)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_qsrkn"), "Idle", "Moving", SubResource("AnimationNodeStateMachineTransition_tuaxc"), "Moving", "Idle", SubResource("AnimationNodeStateMachineTransition_brm6p")]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h33rw"]
+transparency = 1
+albedo_color = Color(0, 1, 1, 0.45098)
+
+[sub_resource type="SphereMesh" id="SphereMesh_27gjd"]
+material = SubResource("StandardMaterial3D_h33rw")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w4pkb"]
+radius = 0.7
+
 [node name="President" type="RigidBody3D"]
 script = ExtResource("1_yt3hd")
 distance = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 shape = SubResource("SphereShape3D_mvs6x")
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Visuals" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="Visuals"]
 transform = Transform3D(0.990268, -0.139173, 0, 0.139173, 0.990268, 0, 0, 0, 1, 0, 0, 0)
 texture = ExtResource("2_ba8xh")
 
-[node name="Serviceman Array" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
-
-[node name="Serviceman A" type="MeshInstance3D" parent="Serviceman Array"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.89, 0.5, -1.075)
-mesh = SubResource("SphereMesh_27gjd")
-script = ExtResource("3_u5vjg")
-
-[node name="Area3D" type="Area3D" parent="Serviceman Array/Serviceman A"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Serviceman Array/Serviceman A/Area3D"]
-shape = SubResource("SphereShape3D_w4pkb")
-
-[node name="Serviceman B" type="MeshInstance3D" parent="Serviceman Array"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1.635)
-visible = false
-mesh = SubResource("SphereMesh_27gjd")
-
-[node name="Serviceman C" type="MeshInstance3D" parent="Serviceman Array"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.945, 0.5, -1.275)
-visible = false
-mesh = SubResource("SphereMesh_27gjd")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals"]
 libraries = {
 "": SubResource("AnimationLibrary_mlpeb")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="Visuals"]
 tree_root = SubResource("AnimationNodeStateMachine_i05bl")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/conditions/isIdle = false
 parameters/conditions/isMoving = false
 
-[connection signal="input_event" from="Serviceman Array/Serviceman A/Area3D" to="Serviceman Array/Serviceman A" method="_on_area_3d_input_event"]
-[connection signal="mouse_exited" from="Serviceman Array/Serviceman A/Area3D" to="Serviceman Array/Serviceman A" method="_on_area_3d_mouse_exited"]
+[node name="Serviceman Array" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+script = ExtResource("3_si7m5")
+
+[node name="Serviceman Position" type="MeshInstance3D" parent="Serviceman Array"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.89, 0, -1.075)
+mesh = SubResource("SphereMesh_27gjd")
+script = ExtResource("3_u5vjg")
+
+[node name="Area3D" type="Area3D" parent="Serviceman Array/Serviceman Position"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Serviceman Array/Serviceman Position/Area3D"]
+shape = SubResource("SphereShape3D_w4pkb")
+
+[connection signal="input_event" from="Serviceman Array/Serviceman Position/Area3D" to="Serviceman Array/Serviceman Position" method="_on_area_3d_input_event"]
