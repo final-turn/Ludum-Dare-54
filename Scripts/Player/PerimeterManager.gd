@@ -1,7 +1,9 @@
 extends Node3D
 
-@onready var camera = $"../Camera Position"
 @export var camera_distance = 9.7
+
+@onready var force_field : ForceField = $"../Force Field"
+@onready var camera = $"../Camera Position"
 
 var perimeter_servicemen : Array[Serviceman]
 
@@ -11,6 +13,11 @@ func _ready():
 		var serviceman : Serviceman = N
 		perimeter_servicemen.append(serviceman)
 
+func _physics_process(_delta):
+	var positions : Array[Vector3] = []
+	for child in get_children():
+		positions.push_back(child.global_position)
+	force_field.set_positions(positions)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

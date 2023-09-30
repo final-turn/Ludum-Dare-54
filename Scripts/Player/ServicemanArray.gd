@@ -12,7 +12,7 @@ func _ready():
 
 func on_mouse_world_position(pos):
 	if held_node != null:
-		print("Holding " + str(held_node) + " at " + str(pos))
+		#print("Holding " + str(held_node) + " at " + str(pos))
 		held_node.position = Vector3(pos.x, 0.7, pos.z)
 
 func on_node_held(target, is_held):

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsxhn187y5ex1"]
+
+[ext_resource type="PackedScene" uid="uid://dgcxg04ngtq7q" path="res://Assets/Models/missle01.gltf" id="1_simjy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hveya"]
+albedo_color = Color(1, 0.188235, 0.294118, 1)
+
+[node name="missle01" instance=ExtResource("1_simjy")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0)
+
+[node name="missle_01" parent="." index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_hveya")

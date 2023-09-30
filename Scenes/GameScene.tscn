@@ -1,0 +1,173 @@
+[gd_scene load_steps=19 format=3 uid="uid://bjukmj8c2wcpo"]
+
+[ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
+[ext_resource type="Script" path="res://Scripts/Player/ClickEnvironment.gd" id="1_wh88n"]
+[ext_resource type="PackedScene" uid="uid://dptcs77jneftx" path="res://Entities/president.tscn" id="2_ryh8r"]
+[ext_resource type="Script" path="res://Scripts/Player/PerimeterManager.gd" id="4_bflj1"]
+[ext_resource type="PackedScene" uid="uid://b7uvml1wafwnw" path="res://Entities/serviceman.tscn" id="4_ch8jo"]
+[ext_resource type="Script" path="res://Scripts/Player/Force Field.gd" id="6_y3o43"]
+[ext_resource type="Script" path="res://Scripts/UI Manager.gd" id="7_iistj"]
+[ext_resource type="Texture2D" uid="uid://jnqfdwed14p0" path="res://Assets/HealthBar.png" id="8_dck3u"]
+[ext_resource type="Texture2D" uid="uid://bvsnuja4h32xw" path="res://Assets/Health.png" id="9_v63yd"]
+[ext_resource type="Script" path="res://Scripts/Enemy/Enemy Spawner.gd" id="10_e321x"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_afgvt"]
+sky_top_color = Color(0.627451, 0.792157, 1, 1)
+sky_horizon_color = Color(0, 0.619608, 0.627451, 1)
+sky_curve = 0.023898
+ground_bottom_color = Color(0.0117647, 0.184314, 0.298039, 1)
+ground_horizon_color = Color(0, 0.619608, 0.654902, 1)
+ground_curve = 0.171484
+
+[sub_resource type="Sky" id="Sky_7jnkm"]
+sky_material = SubResource("ProceduralSkyMaterial_afgvt")
+
+[sub_resource type="Environment" id="Environment_gq8e6"]
+background_mode = 2
+sky = SubResource("Sky_7jnkm")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4y5le"]
+size = Vector3(500, 1, 500)
+
+[sub_resource type="QuadMesh" id="QuadMesh_252xs"]
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oo4o0"]
+albedo_texture = ExtResource("1_nse8l")
+uv1_scale = Vector3(50, 50, 50)
+texture_filter = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v8tkb"]
+transparency = 1
+cull_mode = 2
+albedo_color = Color(0.921569, 0, 0.352941, 0.713726)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_lk0ef"]
+
+[node name="Game Scene" type="Node3D"]
+
+[node name="Camera Position" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Camera Position"]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 4.4, 7)
+environment = SubResource("Environment_gq8e6")
+
+[node name="Environment" type="Node3D" parent="."]
+script = ExtResource("1_wh88n")
+
+[node name="Area3D" type="Area3D" parent="Environment"]
+top_level = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Area3D"]
+shape = SubResource("BoxShape3D_4y5le")
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+collision_priority = 2.0
+input_ray_pickable = false
+
+[node name="Floor Mesh" type="MeshInstance3D" parent="Environment/Floor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_252xs")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_oo4o0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+shape = SubResource("BoxShape3D_4y5le")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.9151, -0.282489, 0.287734, 0, 0.713581, 0.700573, -0.403226, -0.641095, 0.652998, 0, 2.925, 0)
+
+[node name="President" parent="." instance=ExtResource("2_ryh8r")]
+
+[node name="Perimeter Manager" type="Node3D" parent="."]
+script = ExtResource("4_bflj1")
+camera_distance = 0.0
+
+[node name="Serviceman A" parent="Perimeter Manager" instance=ExtResource("4_ch8jo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="Serviceman B" parent="Perimeter Manager" instance=ExtResource("4_ch8jo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Serviceman C" parent="Perimeter Manager" instance=ExtResource("4_ch8jo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Force Field" type="Node3D" parent="."]
+script = ExtResource("6_y3o43")
+
+[node name="Force Field" type="MeshInstance3D" parent="Force Field"]
+material_override = SubResource("StandardMaterial3D_v8tkb")
+mesh = SubResource("ArrayMesh_lk0ef")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="Force Field"]
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Force Field/Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.465, 0)
+depth = 2.71
+polygon = PackedVector2Array(2.445, 0, -2.495, 0, 3.82, 8.045)
+
+[node name="UI Manager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_iistj")
+
+[node name="HP Bar" type="TextureProgressBar" parent="UI Manager"]
+texture_repeat = 2
+layout_mode = 0
+offset_left = 30.5
+offset_top = 12.25
+offset_right = 286.5
+offset_bottom = 268.25
+scale = Vector2(2.05, 0.225)
+value = 100.0
+texture_under = ExtResource("8_dck3u")
+texture_progress = ExtResource("9_v63yd")
+texture_progress_offset = Vector2(5, 5)
+tint_progress = Color(0.227451, 1, 0, 1)
+
+[node name="Label2" type="Label" parent="UI Manager"]
+layout_mode = 0
+offset_left = 219.0
+offset_top = 17.0
+offset_right = 383.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 31
+text = "Health"
+
+[node name="EXP Bar" type="TextureProgressBar" parent="UI Manager"]
+texture_repeat = 2
+layout_mode = 1
+offset_left = 232.0
+offset_top = 588.0
+offset_right = 488.0
+offset_bottom = 844.0
+scale = Vector2(3, 0.15)
+value = 77.0
+texture_under = ExtResource("8_dck3u")
+texture_progress = ExtResource("9_v63yd")
+texture_progress_offset = Vector2(5, 5)
+tint_progress = Color(1, 1, 0, 1)
+
+[node name="Label" type="Label" parent="UI Manager"]
+layout_mode = 1
+offset_left = 539.0
+offset_top = 581.0
+offset_right = 703.0
+offset_bottom = 628.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 31
+text = "Experience"
+
+[node name="Enemy Spawner" type="Node3D" parent="."]
+script = ExtResource("10_e321x")
+
+[connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
+[connection signal="body_entered" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_body_exited"]

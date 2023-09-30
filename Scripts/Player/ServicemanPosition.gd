@@ -1,4 +1,4 @@
-class_name ServicemanPosition extends MeshInstance3D
+class_name ServicemanPosition extends Node3D
 
 @onready var orb : Area3D = $"Area3D"
 

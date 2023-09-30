@@ -1,5 +1,8 @@
-extends RigidBody3D
+class_name President extends RigidBody3D
 
+signal on_health_update(health)
+
+@export var health : int = 100
 @export var move_speed = 5
 @export var distance = 10
 @export var stand_time = 6
@@ -8,8 +11,8 @@ extends RigidBody3D
 @onready var environment : ClickEnvironment = $"../Environment"
 @onready var serviceman_array : ServicemanArray = $"Serviceman Array"
 
+var is_protected : bool
 var rng : RandomNumberGenerator
-
 var time_elapsed : float = 0
 var target_position : Vector3 = Vector3(0,0,0)
 var is_moving : bool = false
@@ -36,4 +39,7 @@ func _process(delta):
 		is_moving = true
 		anim_tree.set("parameters/conditions/isIdle", false)
 		anim_tree.set("parameters/conditions/isMoving", true)
-		target_position = position + (Vector3(rng.randf_range(-1.0, 1.0),0,rng.randf_range(-1.0, 1.0)).normalized() * distance)
+		var randX = rng.randf_range(-1.0, 1.0)
+		var randZ = rng.randf_range(-1.0, 1.0)
+		var randLen = rng.randf_range(3, distance)
+		target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
