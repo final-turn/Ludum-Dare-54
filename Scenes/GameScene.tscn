@@ -1,5 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://bjukmj8c2wcpo"]
+[gd_scene load_steps=20 format=3 uid="uid://bjukmj8c2wcpo"]
 
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
 [ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
 [ext_resource type="Script" path="res://Scripts/Player/ClickEnvironment.gd" id="1_wh88n"]
 [ext_resource type="PackedScene" uid="uid://dptcs77jneftx" path="res://Entities/president.tscn" id="2_ryh8r"]
@@ -45,14 +46,18 @@ albedo_color = Color(0.921569, 0, 0.352941, 0.713726)
 [sub_resource type="ArrayMesh" id="ArrayMesh_lk0ef"]
 
 [node name="Game Scene" type="Node3D"]
+process_mode = 3
+script = ExtResource("1_jj2c5")
 
 [node name="Camera Position" type="Node3D" parent="."]
+process_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="Camera Position"]
 transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 4.4, 7)
 environment = SubResource("Environment_gq8e6")
 
 [node name="Environment" type="Node3D" parent="."]
+process_mode = 1
 script = ExtResource("1_wh88n")
 
 [node name="Area3D" type="Area3D" parent="Environment"]
@@ -78,8 +83,10 @@ shape = SubResource("BoxShape3D_4y5le")
 transform = Transform3D(0.9151, -0.282489, 0.287734, 0, 0.713581, 0.700573, -0.403226, -0.641095, 0.652998, 0, 2.925, 0)
 
 [node name="President" parent="." instance=ExtResource("2_ryh8r")]
+process_mode = 1
 
 [node name="Perimeter Manager" type="Node3D" parent="."]
+process_mode = 1
 script = ExtResource("4_bflj1")
 camera_distance = 0.0
 
@@ -93,6 +100,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
 
 [node name="Force Field" type="Node3D" parent="."]
+process_mode = 1
 script = ExtResource("6_y3o43")
 
 [node name="Force Field" type="MeshInstance3D" parent="Force Field"]
@@ -117,9 +125,15 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("7_iistj")
 
-[node name="HP Bar" type="TextureProgressBar" parent="UI Manager"]
+[node name="HP" type="Control" parent="UI Manager"]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HP Bar" type="TextureProgressBar" parent="UI Manager/HP"]
 texture_repeat = 2
-layout_mode = 0
+layout_mode = 1
 offset_left = 30.5
 offset_top = 12.25
 offset_right = 286.5
@@ -131,7 +145,7 @@ texture_progress = ExtResource("9_v63yd")
 texture_progress_offset = Vector2(5, 5)
 tint_progress = Color(0.227451, 1, 0, 1)
 
-[node name="Label2" type="Label" parent="UI Manager"]
+[node name="Label2" type="Label" parent="UI Manager/HP"]
 layout_mode = 0
 offset_left = 219.0
 offset_top = 17.0
@@ -141,30 +155,44 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 31
 text = "Health"
 
-[node name="EXP Bar" type="TextureProgressBar" parent="UI Manager"]
+[node name="Control" type="Control" parent="UI Manager"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="EXP Bar" type="TextureProgressBar" parent="UI Manager/Control"]
 texture_repeat = 2
 layout_mode = 1
-offset_left = 232.0
-offset_top = 588.0
-offset_right = 488.0
-offset_bottom = 844.0
+offset_left = -366.0
+offset_top = -14.0
+offset_right = -110.0
+offset_bottom = 242.0
 scale = Vector2(3, 0.15)
 texture_under = ExtResource("8_dck3u")
 texture_progress = ExtResource("9_v63yd")
 texture_progress_offset = Vector2(5, 5)
 tint_progress = Color(1, 1, 0, 1)
 
-[node name="Label" type="Label" parent="UI Manager"]
+[node name="Label" type="Label" parent="UI Manager/Control"]
 layout_mode = 1
-offset_left = 539.0
-offset_top = 581.0
-offset_right = 703.0
-offset_bottom = 628.0
+offset_left = -59.0
+offset_top = -21.0
+offset_right = 105.0
+offset_bottom = 26.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 31
 text = "Experience"
 
 [node name="Enemy Spawner" type="Node3D" parent="."]
+process_mode = 1
 script = ExtResource("10_e321x")
 
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]

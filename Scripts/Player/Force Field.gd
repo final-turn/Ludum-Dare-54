@@ -4,7 +4,6 @@ class_name ForceField extends Node3D
 @onready var col_polygon : CollisionPolygon3D = $"Area3D/CollisionPolygon3D"
 
 var height_offset : Vector3 = Vector3(0,0.5,0)
-var president_protected : bool
 
 func set_positions(positions : Array[Vector3]):
 	var vertices = PackedVector3Array()
@@ -30,10 +29,10 @@ func set_positions(positions : Array[Vector3]):
 
 func _on_area_3d_body_entered(body):
 	if body.name == "President":
-		president_protected = true
+		body.set_protected(true)
 		#print("President is protected")
 
 func _on_area_3d_body_exited(body):
 	if body.name == "President":
-		president_protected = false
+		body.set_protected(false)
 		#print("President is exposed")

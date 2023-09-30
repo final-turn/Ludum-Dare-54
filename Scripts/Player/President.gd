@@ -7,6 +7,7 @@ signal on_health_update(health)
 @export var distance = 10
 @export var stand_time = 6
 
+@onready var warning = $"Warning Texture"
 @onready var anim_tree = $"Visuals/AnimationTree"
 @onready var environment : ClickEnvironment = $"../Environment"
 @onready var serviceman_array : ServicemanArray = $"Serviceman Array"
@@ -44,9 +45,13 @@ func _process(delta):
 		var randLen = rng.randf_range(3, distance)
 		target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
 
+func set_protected(protected :bool):
+	warning.visible = !protected
+	is_protected = protected
+
 func _take_damage(damage):
 	if not is_protected:
 		health -= damage
 		on_health_update.emit(health)
 	else:
-		print("DODGED")
+		pass #print("DODGED")
