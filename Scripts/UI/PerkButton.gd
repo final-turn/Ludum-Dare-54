@@ -2,7 +2,11 @@ extends Node
 
 class_name PerkButton
 
-signal perkSelected
+@export var label : Label
+@export var button : Button
+var perk : PerkDefinition
+signal buttonPressed
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -13,5 +17,9 @@ func _process(delta):
 	pass
 
 func _on_button_pressed():
-	print("Button Pressed")
-	emit_signal("perkSelected");
+	emit_signal("buttonPressed", perk)
+
+
+func _set_perk(newPerk):
+	perk = newPerk
+	label.text = perk.get_decription()
