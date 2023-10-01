@@ -1,4 +1,5 @@
 extends Node3D
+class_name PerimeterManager
 
 @export var camera_distance = 9.7
 
@@ -12,6 +13,12 @@ func _ready():
 	for N in get_children():
 		var serviceman : Serviceman = N
 		perimeter_servicemen.append(serviceman)
+
+func _get_serviceman_defense():
+	var defense = 0
+	for serviceman in get_children():
+		defense += serviceman.defense
+	return defense
 
 func _physics_process(_delta):
 	var positions : Array[Vector3] = []

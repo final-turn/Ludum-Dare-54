@@ -2,7 +2,7 @@ class_name Serviceman extends Node3D
 
 @export var response_time : float = 1
 @export var speed : float = 5
-@export var defense : float = 1
+@export var defense : float = 2
 
 @onready var model = $"Model"
 @onready var anim_tree = $"AnimationTree"

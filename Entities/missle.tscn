@@ -10,7 +10,7 @@ height = 1.96988
 [node name="Missle" type="Area3D"]
 script = ExtResource("1_ruw1l")
 movespeed = 2.0
-damage = 5.0
+damage = 6.0
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(-0.0812949, 0, -0.99669, 0, 1, 0, 0.99669, 0, -0.0812949, 0, 2.1724, 0)
