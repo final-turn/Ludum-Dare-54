@@ -127,5 +127,5 @@ _increaseHealth = 1
 
 [node name="Defense" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase [AGENT]'s defense by  [DEFENSE]"
+_description = "Increase [AGENT]'s defense by [DEFENSE]"
 _increaseDefense = 1

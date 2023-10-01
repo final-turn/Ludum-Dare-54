@@ -15,8 +15,8 @@ func hide_ui():
 
 func show_ui(serviceman : Serviceman):
 	visible = true
-	alertness.text = "ALERTNESS: [shake] %d" % serviceman.response_time
+	alertness.text = "REACT: [shake] %.2f" % serviceman.response_time
 	speed.text = "SPEED: [wave] %d" % serviceman.speed
-	defense.text = "DEFENSE: [rainbow] %d" % serviceman.defense
+	defense.text = "DEFENSE: [b] %d" % serviceman.defense
 	
 	self.position = camera.unproject_position(serviceman.global_position)

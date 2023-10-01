@@ -34,7 +34,7 @@ func _process(delta):
 		if not is_standing:
 			anim_tree.set("parameters/conditions/isIdle", true)
 			anim_tree.set("parameters/conditions/isMoving", false)
-			idle_countdown = rng.randf_range(0, 0.5 + response_time)
+			idle_countdown = response_time + rng.randf_range(0, 0.5)
 			is_standing = true
 	else:
 		idle_countdown = max(0, idle_countdown - delta)
