@@ -12,6 +12,12 @@ var max_defense : float #should be set by game manager
 var field_area : float
 var damage_reduction : int
 
+func _ready():
+	pass
+	
+	#mat.albedo_color = Color(randf(), randf(), randf())
+
+
 func set_positions(positions : Array[Vector3]):
 	generate_triangle(positions)
 	#generate_fence(positions)
