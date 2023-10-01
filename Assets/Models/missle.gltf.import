@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dgcxg04ngtq7q"
-path="res://.godot/imported/missle01.gltf-48b5e99cf4ef41b2af7352ef67cf1152.scn"
+path="res://.godot/imported/missle.gltf-292a1f4bcd92cd44857342ad0bcfaa3d.scn"
 
 [deps]
 
-source_file="res://Assets/Models/missle01.gltf"
-dest_files=["res://.godot/imported/missle01.gltf-48b5e99cf4ef41b2af7352ef67cf1152.scn"]
+source_file="res://Assets/Models/missle.gltf"
+dest_files=["res://.godot/imported/missle.gltf-292a1f4bcd92cd44857342ad0bcfaa3d.scn"]
 
 [params]
 

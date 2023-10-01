@@ -3,7 +3,9 @@ class_name Enemy extends Node3D
 @export var movespeed : float
 @export var damage : float
 
-@onready var damage_label : Label3D = $"Label3D"
+@onready var damage_label : Label3D = $"Damage Label"
+@onready var label_animp : AnimationPlayer = $"Missle Flair/Label Animation"
+@onready var reduced_label : Label3D = $"Missle Flair/Reduced Damage Label"
 
 var president : President
 
@@ -26,4 +28,6 @@ func decrease_damage(amount : float):
 	if damage <= 0:
 		queue_free()
 	else:
+		reduced_label.text = "-%d" % amount
+		label_animp.play("Chip Damage")
 		damage_label.text = str(damage)

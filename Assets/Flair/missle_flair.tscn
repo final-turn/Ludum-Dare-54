@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=3 uid="uid://bq8rfxhukyu2u"]
+
+[ext_resource type="PackedScene" uid="uid://dgcxg04ngtq7q" path="res://Assets/Models/missle.gltf" id="1_7g1w6"]
+
+[sub_resource type="Animation" id="Animation_5p51e"]
+resource_name = "Chip Damage"
+length = 0.5
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Reduced Damage Label")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Reduced Damage Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 2.2, 0), Vector3(0, 2.55025, 0.530851), Vector3(0, 2.55573, 0.884752), Vector3(0, 2.15439, 1.20946), Vector3(0, 0.503464, 1.65093)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Reduced Damage Label")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"show"
+}, {
+"args": [],
+"method": &"hide"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_k2kbi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Reduced Damage Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2.60133, 1.2952)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_37yv1"]
+_data = {
+"Chip Damage": SubResource("Animation_5p51e"),
+"RESET": SubResource("Animation_k2kbi")
+}
+
+[node name="Missle Flair" type="Node3D"]
+
+[node name="Reduced Damage Label" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.60133, 1.2952)
+visible = false
+pixel_size = 0.03
+billboard = 1
+modulate = Color(0, 1, 0, 1)
+text = "5"
+
+[node name="Label Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_37yv1")
+}
+
+[node name="missle" parent="." instance=ExtResource("1_7g1w6")]
+transform = Transform3D(-0.5, 0, -3.7749e-08, 0, 0.5, 0, 7.54979e-08, 0, -0.25, 0, 1, 0)
+
+[node name="Mesh Animation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+
+[editable path="missle"]
