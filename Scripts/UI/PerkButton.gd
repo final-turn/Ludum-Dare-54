@@ -22,4 +22,4 @@ func _on_button_pressed():
 
 func _set_perk(newPerk):
 	perk = newPerk
-	label.text = perk._descriptiom
+	label.text = perk.get_decription()

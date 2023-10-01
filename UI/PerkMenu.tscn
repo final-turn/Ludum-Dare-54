@@ -16,7 +16,7 @@ fill_from = Vector2(1, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jfhd4"]
 texture = SubResource("GradientTexture2D_itqr6")
 
-[node name="Perks" type="Control" node_paths=PackedStringArray("perkManager", "perkButton1", "perkButton2", "perkButton3")]
+[node name="PerkMenu" type="Control" node_paths=PackedStringArray("perkManager", "perkButton1", "perkButton2", "perkButton3")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,46 +78,40 @@ script = ExtResource("3_cshh1")
 
 [node name="Speed1" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase Steves movement speed by 15%"
+_description = "Increase [AGENT] movement speed by [SPEED]"
 _increaseMovementSpeed = 0.15
-_serviceManEffected = 0
 
 [node name="Speed2" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase Johns movement speed by 10%"
+_description = "Increase [AGENT] movement speed by [SPEED]"
 _increaseMovementSpeed = 0.1
-_serviceManEffected = 1
 
 [node name="Speed3" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase Heny's movement speed by 20%"
+_description = "Increase [AGENT] movement speed by [SPEED]"
 _increaseMovementSpeed = 0.2
-_serviceManEffected = 2
 
 [node name="ReactionTime1" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase Steve's reaction time 10%"
+_description = "Increase [AGENT] reaction time by [REACTION]"
 _increaseReactionTime = 0.1
-_serviceManEffected = 0
 
 [node name="ReactionTime2" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase Johns's reaction time 15%"
+_description = "Increase [AGENT] reaction time by [REACTION]"
 _increaseReactionTime = 0.15
-_serviceManEffected = 1
 
 [node name="ReactionTime3" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase Johns's reaction time 20%"
+_description = "Increase [AGENT] reaction time by [REACTION]"
 _increaseReactionTime = 0.2
-_serviceManEffected = 1
 
 [node name="Health" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase the Presidents health by 10%"
+_description = "Increase the Presidents health by [HEALTH]"
 _increaseHealth = 1
 
 [node name="Defense" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_descriptiom = "Increase defence by 10%"
+_description = "Increase defense by  [DEFENSE]"
 _increaseHealth = 1

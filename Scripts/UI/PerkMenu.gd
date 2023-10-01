@@ -22,7 +22,7 @@ func _process(delta):
 	pass
 	
 func _on_perk_selected(perk: PerkDefinition):
-	print(perk._descriptiom)
+	print(perk.formatted_description)
 	_close()
 	emit_signal("perk_selected", perk)
 	pass
@@ -31,10 +31,9 @@ func _on_perk_selected(perk: PerkDefinition):
 func _close():
 	self.visible = false
 
-
 func _present_perks():
-	perkButton1._set_perk(perkManager._get_random_perk())
-	perkButton2._set_perk(perkManager._get_random_perk())
-	perkButton3._set_perk(perkManager._get_random_perk())
+	perkManager.generate_perks()
+	perkButton1._set_perk(perkManager.get_perk(0))
+	perkButton2._set_perk(perkManager.get_perk(1))
+	perkButton3._set_perk(perkManager.get_perk(2))
 	self.visible = true
-	pass # Replace with function body.

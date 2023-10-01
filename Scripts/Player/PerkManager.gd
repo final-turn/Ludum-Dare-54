@@ -2,6 +2,8 @@ extends Node
 
 class_name PerkManager
 
+
+var agent_names = ["Agent 1","Agent 2","Agent 3"]
 var perks : Array[PerkDefinition]
 
 
@@ -13,12 +15,25 @@ func _process(delta):
 	pass
 
 
-
-func _get_random_perk():
+func generate_perks():
+	var allPerks : Array[PerkDefinition]
 	for N in get_children():
 		var child : PerkDefinition = N
-		perks.append(child)
+		allPerks.append(child)
 		
-	return perks.pick_random()
+	perks.clear()
+	var random
+	random = allPerks.pick_random()
+	random.assign_agent()
+	perks.append(random)
+	random = allPerks.pick_random()
+	random.assign_agent()
+	perks.append(random)
+	random = allPerks.pick_random()
+	random.assign_agent()
+	perks.append(random)
+
+func get_perk( index):
+	return perks[index]
 
 
