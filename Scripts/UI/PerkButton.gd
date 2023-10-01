@@ -15,7 +15,6 @@ func _ready():
 func _process(delta):
 	pass
 
-
 func _on_button_pressed():
 	print("Button Pressed")
 	emit_signal("perkSelected")

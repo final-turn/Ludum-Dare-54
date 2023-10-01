@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bjukmj8c2wcpo"]
+[gd_scene load_steps=18 format=3 uid="uid://bjukmj8c2wcpo"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
 [ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
@@ -7,10 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/Player/PerimeterManager.gd" id="4_bflj1"]
 [ext_resource type="PackedScene" uid="uid://b7uvml1wafwnw" path="res://Entities/serviceman.tscn" id="4_ch8jo"]
 [ext_resource type="Script" path="res://Scripts/Player/Force Field.gd" id="6_y3o43"]
-[ext_resource type="Script" path="res://Scripts/UI Manager.gd" id="7_iistj"]
-[ext_resource type="Texture2D" uid="uid://jnqfdwed14p0" path="res://Assets/HealthBar.png" id="8_dck3u"]
-[ext_resource type="PackedScene" path="res://Scenes/Perks.tscn" id="9_s0ww4"]
-[ext_resource type="Texture2D" uid="uid://bvsnuja4h32xw" path="res://Assets/Health.png" id="9_v63yd"]
+[ext_resource type="PackedScene" uid="uid://ctosa5xd50c1w" path="res://Scenes/ui_manager.tscn" id="8_xc0yl"]
 [ext_resource type="Script" path="res://Scripts/Enemy/Enemy Spawner.gd" id="10_e321x"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_afgvt"]
@@ -110,91 +107,14 @@ mesh = SubResource("ArrayMesh_lk0ef")
 skeleton = NodePath("../..")
 
 [node name="Area3D" type="Area3D" parent="Force Field"]
+input_ray_pickable = false
 
 [node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Force Field/Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.465, 0)
 depth = 2.71
 polygon = PackedVector2Array(2.445, 0, -2.495, 0, 3.82, 8.045)
 
-[node name="UI Manager" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("7_iistj")
-
-[node name="Perks" parent="UI Manager" instance=ExtResource("9_s0ww4")]
-visible = false
-layout_mode = 1
-
-[node name="HP" type="Control" parent="UI Manager"]
-layout_mode = 1
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="HP Bar" type="TextureProgressBar" parent="UI Manager/HP"]
-texture_repeat = 2
-layout_mode = 1
-offset_left = 30.5
-offset_top = 12.25
-offset_right = 286.5
-offset_bottom = 268.25
-scale = Vector2(2.05, 0.225)
-value = 100.0
-texture_under = ExtResource("8_dck3u")
-texture_progress = ExtResource("9_v63yd")
-texture_progress_offset = Vector2(5, 5)
-tint_progress = Color(0.227451, 1, 0, 1)
-
-[node name="Label2" type="Label" parent="UI Manager/HP"]
-layout_mode = 0
-offset_left = 219.0
-offset_top = 17.0
-offset_right = 383.0
-offset_bottom = 64.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 31
-text = "Health"
-
-[node name="Control" type="Control" parent="UI Manager"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="EXP Bar" type="TextureProgressBar" parent="UI Manager/Control"]
-texture_repeat = 2
-layout_mode = 1
-offset_left = -366.0
-offset_top = -14.0
-offset_right = -110.0
-offset_bottom = 242.0
-scale = Vector2(3, 0.15)
-texture_under = ExtResource("8_dck3u")
-texture_progress = ExtResource("9_v63yd")
-texture_progress_offset = Vector2(5, 5)
-tint_progress = Color(1, 1, 0, 1)
-
-[node name="Label" type="Label" parent="UI Manager/Control"]
-layout_mode = 1
-offset_left = -59.0
-offset_top = -21.0
-offset_right = 105.0
-offset_bottom = 26.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 31
-text = "Experience"
+[node name="UI Manager" parent="." instance=ExtResource("8_xc0yl")]
 
 [node name="Enemy Spawner" type="Node3D" parent="."]
 process_mode = 1
