@@ -68,6 +68,7 @@ func on_perk_selected(perk : PerkDefinition):
 	servman.defense *= 1 + perk._increaseDefense
 	servman.speed *= 1 + perk._increaseMovementSpeed
 	servman.response_time *= 1 - perk._increaseReactionTime
+	get_defense()
 	get_tree().paused = false
 
 func on_area_changed(_new_area, _new_reduction):

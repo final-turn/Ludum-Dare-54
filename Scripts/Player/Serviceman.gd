@@ -1,6 +1,6 @@
 class_name Serviceman extends Node3D
 
-@export var response_time : float = 1
+@export var response_time : float = 2
 @export var speed : float = 5
 @export var defense : float = 2
 
@@ -34,7 +34,7 @@ func _process(delta):
 		if not is_standing:
 			anim_tree.set("parameters/conditions/isIdle", true)
 			anim_tree.set("parameters/conditions/isMoving", false)
-			idle_countdown = rng.randf_range(0, 0.5 + response_time)
+			idle_countdown = response_time + rng.randf_range(0, 0.5)
 			is_standing = true
 	else:
 		idle_countdown = max(0, idle_countdown - delta)
