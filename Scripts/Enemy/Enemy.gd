@@ -22,6 +22,7 @@ func _on_body_entered(body):
 
 func decrease_damage(amount : float):
 	damage -= amount
+	print(damage)
 	if damage <= 0:
 		queue_free()
 	else:

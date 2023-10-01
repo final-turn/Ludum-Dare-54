@@ -9,10 +9,10 @@ signal on_health_update(health)
 
 @onready var warning = $"Warning Texture"
 @onready var anim_tree = $"Visuals/AnimationTree"
+@onready var visuals : Node3D = $"Visuals"
 @onready var environment : ClickEnvironment = $"../Environment"
 @onready var serviceman_array : ServicemanArray = $"Serviceman Array"
 
-var is_protected : bool
 var rng : RandomNumberGenerator
 var time_elapsed : float = 0
 var target_position : Vector3 = Vector3(0,0,0)
@@ -44,14 +44,11 @@ func _process(delta):
 		var randZ = rng.randf_range(-1.0, 1.0)
 		var randLen = rng.randf_range(3, distance)
 		target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
+		visuals.look_at(-1 * target_position)
 
 func set_protected(protected :bool):
 	warning.visible = !protected
-	is_protected = protected
 
 func _take_damage(damage):
-	if not is_protected:
-		health -= damage
-		on_health_update.emit(health)
-	else:
-		pass #print("DODGED")
+	health -= damage
+	on_health_update.emit(health)

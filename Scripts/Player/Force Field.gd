@@ -47,6 +47,9 @@ func _on_area_3d_body_exited(body):
 
 func _on_area_3d_area_entered(area):
 	if area.name != "Area3D":
-		var a = max(0, defense_area - 6.0)
+		print(defense_area)
+		var a = sqrt(max(0, defense_area - 6.0))
 		print(a)
-		area.decrease_damage(max(0, 5.0 - floorf(a * 6)))
+		var damage_reduction = max(0, 5.0 - floorf(a))
+		print(damage_reduction)
+		area.decrease_damage(damage_reduction)
