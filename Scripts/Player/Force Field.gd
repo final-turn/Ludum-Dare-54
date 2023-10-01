@@ -55,8 +55,8 @@ func _on_area_3d_body_exited(body):
 func compute_damage_reduction():
 	# At the start of the game the triangle around the prez is 6
 	var base_area = 6
-	# at this stage I don't want the prez to take any damage
-	# as the area increases the prez should take less damage
+	# at this stage I don't want the prez to take any damage from starter mobs
+	# as the area increases the prez should reduce less damage
 	var area_modifier = 1
 	damage_reduction = floorf(min(1, (base_area/(field_area * area_modifier)))  * max_defense)
 	print("Field Area (%d) shields for %d" % [field_area, damage_reduction])
