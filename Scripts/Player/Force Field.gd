@@ -34,9 +34,9 @@ func generate_triangle(positions : Array[Vector3]):
 	#vertices.push_back(positions[0] + height_offset)
 	#vertices.push_back(positions[1] + height_offset)
 	#vertices.push_back(positions[2]+ height_offset)
-	vertices = add_quad(positions[0], positions[1], 3, vertices )
-	vertices = add_quad(positions[1], positions[2], 3, vertices )
-	vertices = add_quad(positions[2], positions[0], 3, vertices )
+	vertices = add_quad(positions[0], positions[1], 2, vertices )
+	vertices = add_quad(positions[1], positions[2], 2, vertices )
+	vertices = add_quad(positions[2], positions[0], 2, vertices )
 	# Initialize the ArrayMesh.
 	var arr_mesh = ArrayMesh.new()
 	var arrays = []
