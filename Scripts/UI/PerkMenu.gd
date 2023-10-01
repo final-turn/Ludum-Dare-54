@@ -7,34 +7,26 @@ extends Node
 @export var perkButton2 : PerkButton
 @export var perkButton3 : PerkButton
 
+signal perk_selected
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	perkButton1.perkSelected.connect(_on_perk1_selected)
-	perkButton2.perkSelected.connect(_on_perk2_selected)
-	perkButton3.perkSelected.connect(_on_perk3_selected)
-	pass # Replace with function body.
+	perkButton1.buttonPressed.connect(_on_perk_selected)
+	perkButton2.buttonPressed.connect(_on_perk_selected)
+	perkButton3.buttonPressed.connect(_on_perk_selected)
+	_close()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 	
-func _on_perk1_selected():
-	print("perk 1")
+func _on_perk_selected(perk: PerkDefinition):
+	print(perk._descriptiom)
 	_close()
+	emit_signal("perk_selected", perk)
 	pass
 	
-	
-func _on_perk2_selected():
-	print("perk 2")
-	_close()
-	pass
-	
-	
-func _on_perk3_selected():
-	print("perk 3")
-	_close()
-	pass
 	
 
 func _close():

@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://Scripts/UI/PerkButton.gd" id="1_08buw"]
 
 [node name="PerkButton" type="Control" node_paths=PackedStringArray("label", "button")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(250, 100)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 192.0
+offset_right = 548.0
 offset_bottom = 186.0
 script = ExtResource("1_08buw")
 label = NodePath("MarginContainer/Label")
