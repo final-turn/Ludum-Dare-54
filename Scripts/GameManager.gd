@@ -14,8 +14,9 @@ var second_interval : float = 0
 var exp : float = 0
 
 func _ready():
-	time_remaining = 600
 	get_defense()
+	time_remaining = 600
+	force_field.area_changed.connect(on_area_changed)
 	perk_menu.perk_selected.connect(on_perk_selected)
 
 func _input(_event):
@@ -47,7 +48,10 @@ func _process(delta):
 func on_perk_selected(perk : PerkDefinition):
 	get_tree().paused = false
 
+func on_area_changed(_new_area, _new_reduction):
+	ui_manager.update_shield_stats(force_field.damage_reduction, force_field.max_defense)
+
 func get_defense():
 	var max_defense = permimeter_manager._get_serviceman_defense()
-	ui_manager.update_shield_stats(max_defense,max_defense)
 	force_field.max_defense = max_defense
+	ui_manager.update_shield_stats(force_field.damage_reduction, max_defense)

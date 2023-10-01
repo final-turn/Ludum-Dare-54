@@ -34,7 +34,7 @@ layout_mode = 0
 offset_left = 52.0
 offset_top = 466.0
 offset_right = 1027.0
-offset_bottom = 654.0
+offset_bottom = 687.775
 theme_override_styles/panel = SubResource("StyleBoxTexture_jfhd4")
 
 [node name="Control" type="Control" parent="Panel"]
