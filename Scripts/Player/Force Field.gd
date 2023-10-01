@@ -2,6 +2,7 @@ class_name ForceField extends Node3D
 
 signal area_changed(new_area, new_damage_reduction)
 
+@onready var fence : MeshInstance3D = $"Fence"
 @onready var force_field : MeshInstance3D = $"Force Field"
 @onready var col_polygon : CollisionPolygon3D = $"Area3D/CollisionPolygon3D"
 #render
@@ -12,11 +13,30 @@ var field_area : float
 var damage_reduction : int
 
 func set_positions(positions : Array[Vector3]):
-	var vertices = PackedVector3Array()
-	vertices.push_back(positions[0] + height_offset)
-	vertices.push_back(positions[1] + height_offset)
-	vertices.push_back(positions[2])
+	generate_triangle(positions)
+	#generate_fence(positions)
+	
+	
+func add_quad(posA : Vector3, posB : Vector3, height,  vertices :PackedVector3Array ):
+	var c = posA + Vector3(0,height,0)
+	var d = posB + Vector3(0,height,0)
+	vertices.push_back(posA)
+	vertices.push_back(posB)
+	vertices.push_back(c)
 
+	vertices.push_back(c)
+	vertices.push_back(posB)
+	vertices.push_back(d)
+	return vertices
+
+func generate_triangle(positions : Array[Vector3]):
+	var vertices = PackedVector3Array()
+	#vertices.push_back(positions[0] + height_offset)
+	#vertices.push_back(positions[1] + height_offset)
+	#vertices.push_back(positions[2]+ height_offset)
+	vertices = add_quad(positions[0], positions[1], 2, vertices )
+	vertices = add_quad(positions[1], positions[2], 2, vertices )
+	vertices = add_quad(positions[2], positions[0], 2, vertices )
 	# Initialize the ArrayMesh.
 	var arr_mesh = ArrayMesh.new()
 	var arrays = []
@@ -33,6 +53,26 @@ func set_positions(positions : Array[Vector3]):
 	col_polygon.polygon = packed_array
 	
 	compute_area(packed_array[0], packed_array[1], packed_array[2])
+
+
+
+func generate_fence(positions : Array[Vector3]):
+	var vertices = PackedVector3Array()
+	vertices.push_back(positions[0] )
+	vertices.push_back(positions[1] )
+	vertices.push_back(positions[2])
+
+	# Initialize the ArrayMesh.
+	var arr_mesh = ArrayMesh.new()
+	var arrays = []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+
+	# Create the Mesh.
+	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	fence.mesh = arr_mesh
+	
+
 
 func compute_area(a : Vector2, b: Vector2, c: Vector2):
 	var new_area = abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y))/2.0
