@@ -3,7 +3,12 @@ class_name Enemy extends Node3D
 @export var movespeed : float
 @export var damage : float
 
+@onready var damage_label : Label3D = $"Label3D"
+
 var president : President
+
+func _ready():
+	damage_label.text = str(damage)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -14,3 +19,10 @@ func _on_body_entered(body):
 	if body.name == "President":
 		president._take_damage(damage)
 		queue_free()
+
+func decrease_damage(amount : float):
+	damage -= amount
+	if damage <= 0:
+		queue_free()
+	else:
+		damage_label.text = str(damage)

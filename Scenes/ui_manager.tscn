@@ -15,12 +15,9 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_7ecfm")
 
-[node name="Perks" parent="." node_paths=PackedStringArray("perkButton1", "perkButton2", "perkButton3") instance=ExtResource("2_rjd7c")]
+[node name="Perks" parent="." instance=ExtResource("2_rjd7c")]
 visible = false
 layout_mode = 1
-perkButton1 = NodePath("")
-perkButton2 = NodePath("")
-perkButton3 = NodePath("")
 
 [node name="HP Meter" type="Control" parent="."]
 layout_mode = 1

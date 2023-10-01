@@ -121,5 +121,6 @@ process_mode = 1
 script = ExtResource("10_e321x")
 
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
+[connection signal="area_entered" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_area_entered"]
 [connection signal="body_entered" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_body_exited"]
