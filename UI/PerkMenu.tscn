@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://bnvk6flifxul"]
 
-[ext_resource type="PackedScene" uid="uid://0kuxu6ai1rft" path="res://UI/PerkButton.tscn" id="1_m0jcl"]
-[ext_resource type="Script" path="res://Scripts/UI/PerkMenu.gd" id="1_oqf3r"]
-[ext_resource type="Script" path="res://Scripts/Player/PerkManager.gd" id="3_glex0"]
-[ext_resource type="Script" path="res://Scripts/Player/PerkDefinition.gd" id="3_wv5lo"]
+[ext_resource type="Script" path="res://Scripts/UI/PerkMenu.gd" id="1_jb55h"]
+[ext_resource type="PackedScene" uid="uid://0kuxu6ai1rft" path="res://UI/PerkButton.tscn" id="2_ncibk"]
+[ext_resource type="Script" path="res://Scripts/Player/PerkManager.gd" id="3_cshh1"]
+[ext_resource type="Script" path="res://Scripts/Player/PerkDefinition.gd" id="4_on0by"]
 
 [sub_resource type="Gradient" id="Gradient_61pnr"]
 offsets = PackedFloat32Array(0.00527241, 1)
@@ -23,7 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_oqf3r")
+script = ExtResource("1_jb55h")
 perkManager = NodePath("PerkDefinitions")
 perkButton1 = NodePath("Panel/CenterContainer/HBoxContainer/PerkButton1")
 perkButton2 = NodePath("Panel/CenterContainer/HBoxContainer/PerkButton2")
@@ -64,60 +64,60 @@ offset_bottom = 166.0
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="PerkButton1" parent="Panel/CenterContainer/HBoxContainer" instance=ExtResource("1_m0jcl")]
+[node name="PerkButton1" parent="Panel/CenterContainer/HBoxContainer" instance=ExtResource("2_ncibk")]
 layout_mode = 2
 
-[node name="PerkButton2" parent="Panel/CenterContainer/HBoxContainer" instance=ExtResource("1_m0jcl")]
+[node name="PerkButton2" parent="Panel/CenterContainer/HBoxContainer" instance=ExtResource("2_ncibk")]
 layout_mode = 2
 
-[node name="PerkButton3" parent="Panel/CenterContainer/HBoxContainer" instance=ExtResource("1_m0jcl")]
+[node name="PerkButton3" parent="Panel/CenterContainer/HBoxContainer" instance=ExtResource("2_ncibk")]
 layout_mode = 2
 
 [node name="PerkDefinitions" type="Node" parent="."]
-script = ExtResource("3_glex0")
+script = ExtResource("3_cshh1")
 
 [node name="Speed1" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase Steves movement speed by 15%"
 _increaseMovementSpeed = 0.15
 _serviceManEffected = 0
 
 [node name="Speed2" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase Johns movement speed by 10%"
 _increaseMovementSpeed = 0.1
 _serviceManEffected = 1
 
 [node name="Speed3" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase Heny's movement speed by 20%"
 _increaseMovementSpeed = 0.2
 _serviceManEffected = 2
 
 [node name="ReactionTime1" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase Steve's reaction time 10%"
 _increaseReactionTime = 0.1
 _serviceManEffected = 0
 
 [node name="ReactionTime2" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase Johns's reaction time 15%"
 _increaseReactionTime = 0.15
 _serviceManEffected = 1
 
 [node name="ReactionTime3" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase Johns's reaction time 20%"
 _increaseReactionTime = 0.2
 _serviceManEffected = 1
 
 [node name="Health" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase the Presidents health by 10%"
 _increaseHealth = 1
 
 [node name="Defense" type="Node" parent="PerkDefinitions"]
-script = ExtResource("3_wv5lo")
+script = ExtResource("4_on0by")
 _descriptiom = "Increase defence by 10%"
 _increaseHealth = 1

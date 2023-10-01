@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwnv2oi61t50y"]
 
 [ext_resource type="Script" path="res://Scripts/UI Manager.gd" id="1_7ecfm"]
-[ext_resource type="PackedScene" uid="uid://bnvk6flifxul" path="res://Scenes/Perks.tscn" id="2_rjd7c"]
+[ext_resource type="PackedScene" uid="uid://bnvk6flifxul" path="res://UI/PerkMenu.tscn" id="2_rjd7c"]
 [ext_resource type="Texture2D" uid="uid://jnqfdwed14p0" path="res://Assets/HealthBar.png" id="3_dtwm8"]
 [ext_resource type="Texture2D" uid="uid://bvsnuja4h32xw" path="res://Assets/Health.png" id="4_hv3lu"]
 
@@ -153,7 +153,7 @@ offset_bottom = 31.0
 grow_horizontal = 0
 text = "Test Perks"
 
-[node name="Perks" parent="." instance=ExtResource("2_rjd7c")]
+[node name="PerkMenu" parent="." instance=ExtResource("2_rjd7c")]
 layout_mode = 1
 
-[connection signal="pressed" from="Debug Button" to="Perks" method="_present_perks"]
+[connection signal="pressed" from="Debug Button" to="PerkMenu" method="_present_perks"]

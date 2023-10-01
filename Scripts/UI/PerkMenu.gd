@@ -7,7 +7,7 @@ extends Node
 @export var perkButton2 : PerkButton
 @export var perkButton3 : PerkButton
 
-signal perk_selected
+signal perk_selected # use this hook to recieve perk data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,7 +26,6 @@ func _on_perk_selected(perk: PerkDefinition):
 	_close()
 	emit_signal("perk_selected", perk)
 	pass
-	
 	
 
 func _close():
