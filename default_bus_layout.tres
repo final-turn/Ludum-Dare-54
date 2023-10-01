@@ -1,0 +1,26 @@
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://c6c421xo6qgiy"]
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_hkpef"]
+resource_name = "PitchShift"
+
+[sub_resource type="AudioEffectEQ10" id="AudioEffectEQ10_fpib5"]
+resource_name = "EQ10"
+band_db/62_hz = 6.8
+
+[resource]
+bus/1/name = &"Music"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectPitchShift_hkpef")
+bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource("AudioEffectEQ10_fpib5")
+bus/1/effect/1/enabled = false
+bus/2/name = &"SFX"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"Master"

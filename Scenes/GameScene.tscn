@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bjukmj8c2wcpo"]
+[gd_scene load_steps=19 format=3 uid="uid://bjukmj8c2wcpo"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
 [ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/Player/Force Field.gd" id="6_y3o43"]
 [ext_resource type="PackedScene" uid="uid://dwnv2oi61t50y" path="res://Scenes/ui_manager.tscn" id="8_xc0yl"]
 [ext_resource type="Script" path="res://Scripts/Enemy/Enemy Spawner.gd" id="10_e321x"]
+[ext_resource type="AudioStream" uid="uid://c4d0srwj31qdb" path="res://Sound/presidentPRINT.wav" id="10_wueg0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_afgvt"]
 sky_top_color = Color(0.627451, 0.792157, 1, 1)
@@ -119,6 +120,11 @@ polygon = PackedVector2Array(2.445, 0, -2.495, 0, 3.82, 8.045)
 [node name="Enemy Spawner" type="Node3D" parent="."]
 process_mode = 1
 script = ExtResource("10_e321x")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_wueg0")
+autoplay = true
+bus = &"Music"
 
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
 [connection signal="area_entered" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_area_entered"]

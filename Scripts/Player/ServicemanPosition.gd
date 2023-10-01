@@ -11,3 +11,10 @@ func _on_area_3d_input_event(_camera, _event, _position, _normal, _shape_idx):
 	if Input.is_action_just_released("click"):
 		self.top_level = false
 		node_held.emit(self, false)
+
+
+func _on_area_3d_mouse_entered():
+	get_parent().get_parent().serviceman_ui.emit(true, self)
+
+func _on_area_3d_mouse_exited():
+	get_parent().get_parent().serviceman_ui.emit(false, self)

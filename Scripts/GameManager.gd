@@ -6,24 +6,32 @@ extends Node3D
 @onready var president : President = $"President"
 @onready var ui_manager = $"UI Manager"
 @onready var perk_menu = $"UI Manager/PerkMenu"
+@onready var serv_stats : ServicemanStats = $"UI Manager/Serviceman Stats"
 @onready var force_field = $"Force Field"
 @onready var permimeter_manager = $"Perimeter Manager"
+@onready var audio_stream_player : AudioStreamPlayer = $"AudioStreamPlayer"
 
 var time_remaining : float = 600
 var second_interval : float = 0
 var exp : float = 0
 
+var effect
+
 func _ready():
+	effect = AudioServer.get_bus_effect(1, 0)
 	get_defense()
 	time_remaining = 600
 	force_field.area_changed.connect(on_area_changed)
 	perk_menu.perk_selected.connect(on_perk_selected)
+	president.serviceman_ui.connect(on_serviceman_ui)
+	president.on_health_update.connect(on_damage_taken)
 
 func _input(_event):
 	if Input.is_action_just_pressed("pause"):
 		get_tree().paused = !get_tree().paused
 
-func on_damage_taken(damage_taken):
+func on_damage_taken(health, damage_taken):
+	print("gain %d exp" % (damage_taken * exp_per_health))
 	increase_exp(damage_taken * exp_per_health)
 
 func increase_exp(amount):
@@ -44,6 +52,9 @@ func _process(delta):
 		if second_interval >= 1:
 			second_interval-=1
 			increase_exp(exp_per_second)
+			var scaled_remaining = (600 - time_remaining)/600
+			audio_stream_player.pitch_scale = 1 + (scaled_remaining * 0.4)
+			effect.pitch_scale = 1 - (scaled_remaining * .3)
 
 func on_perk_selected(perk : PerkDefinition):
 	get_tree().paused = false
@@ -55,3 +66,11 @@ func get_defense():
 	var max_defense = permimeter_manager._get_serviceman_defense()
 	force_field.max_defense = max_defense
 	ui_manager.update_shield_stats(force_field.damage_reduction, max_defense)
+
+func on_serviceman_ui(is_shown, serviceman_position):
+	var man = get_node("Perimeter Manager/" + serviceman_position.name.substr(0, 12))
+	if is_shown:
+		serv_stats.show_ui(man)
+	else:
+		serv_stats.hide_ui()
+

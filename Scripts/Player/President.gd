@@ -1,6 +1,7 @@
 class_name President extends RigidBody3D
 
-signal on_health_update(health)
+signal on_health_update(health, damage)
+signal serviceman_ui(is_shown, serviceman)
 
 @export var health : int = 100
 @export var move_speed = 5
@@ -52,4 +53,4 @@ func set_protected(protected :bool):
 
 func _take_damage(damage):
 	health -= damage
-	on_health_update.emit(health)
+	on_health_update.emit(health, damage)

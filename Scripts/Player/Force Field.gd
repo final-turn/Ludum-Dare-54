@@ -59,9 +59,9 @@ func compute_damage_reduction():
 	# as the area increases the prez should reduce less damage
 	var area_modifier = 1
 	damage_reduction = floorf(min(1, (base_area/(field_area * area_modifier)))  * max_defense)
-	print("Field Area (%d) shields for %d" % [field_area, damage_reduction])
+	#print("Field Area (%d) shields for %d" % [field_area, damage_reduction])
 
 func _on_area_3d_area_entered(area):
 	if area.name != "Area3D":
-		print("reducing %d damage" % damage_reduction)
+		#print("reducing %d damage" % damage_reduction)
 		area.decrease_damage(damage_reduction)
