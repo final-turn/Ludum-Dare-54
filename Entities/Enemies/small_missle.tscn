@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2ea0wwre6yes"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy/Enemy.gd" id="1_n10ud"]
+[ext_resource type="PackedScene" uid="uid://bq8rfxhukyu2u" path="res://Assets/Flair/missle_flair.tscn" id="2_hloud"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_73kha"]
+radius = 0.300026
+height = 1.72943
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05k2o"]
+albedo_color = Color(0.666667, 1, 0.580392, 1)
+
+[node name="Missle" type="Area3D"]
+script = ExtResource("1_n10ud")
+movespeed = 2.0
+damage = 6.0
+
+[node name="Damage Label" type="Label3D" parent="."]
+transform = Transform3D(-0.0812949, 0, -0.99669, 0, 1, 0, 0.99669, 0, -0.0812949, 0, 2.2, 0)
+pixel_size = 0.03
+billboard = 1
+text = "5"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.952504, -0.132406)
+shape = SubResource("CapsuleShape3D_73kha")
+
+[node name="Missle Flair" parent="." instance=ExtResource("2_hloud")]
+
+[node name="missle_01" parent="Missle Flair/missle" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_05k2o")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Missle Flair"]
+[editable path="Missle Flair/missle"]

@@ -10,7 +10,9 @@ var rng : RandomNumberGenerator
 
 func _ready():
 	rng = RandomNumberGenerator.new()
-	enemy_list.push_back(preload("res://Entities/missle.tscn"))
+	enemy_list.push_back(preload("res://Entities/Enemies/small_missle.tscn"))
+	enemy_list.push_back(preload("res://Entities/Enemies/mid_missle.tscn"))
+	enemy_list.push_back(preload("res://Entities/Enemies/big_missle.tscn"))
 
 func _process(delta):
 	time_elapsed += delta

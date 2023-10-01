@@ -34,7 +34,7 @@ func _close():
 
 func _present_perks(level):
 	perkManager.generate_perks()
-	#heading.text = "[rainbow]LEVEL " +  str(level) + "!"
+	heading.text = "[rainbow]LEVEL " +  str(level) + "!"
 	perkButton1._set_perk(perkManager.get_perk(0))
 	perkButton2._set_perk(perkManager.get_perk(1))
 	perkButton3._set_perk(perkManager.get_perk(2))
