@@ -4,19 +4,19 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://k3qxmi5t5p6"
-path="res://.godot/imported/seervicemen.glb-1a6f83a1dc247e5cda1ec9055c3b8a63.scn"
+path="res://.godot/imported/serviceman.glb-16e6926733190986b9292907e909cb16.scn"
 
 [deps]
 
-source_file="res://Assets/Models/seervicemen.glb"
-dest_files=["res://.godot/imported/seervicemen.glb-1a6f83a1dc247e5cda1ec9055c3b8a63.scn"]
+source_file="res://Assets/Models/serviceman.glb"
+dest_files=["res://.godot/imported/serviceman.glb-16e6926733190986b9292907e909cb16.scn"]
 
 [params]
 
 nodes/root_type="Node3D"
 nodes/root_name="Scene Root"
 nodes/apply_root_scale=true
-nodes/root_scale=1.0
+nodes/root_scale=0.05
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true

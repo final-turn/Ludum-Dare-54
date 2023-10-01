@@ -4,6 +4,7 @@ class_name Serviceman extends Node3D
 @export var speed : float = 5
 @export var defense : float = 1
 
+@onready var model = $"Model"
 @onready var anim_tree = $"AnimationTree"
 @onready var anim_player = $"AnimationPlayer"
 
@@ -26,7 +27,8 @@ func _process(delta):
 		is_standing = false
 		anim_tree.set("parameters/conditions/isIdle", false)
 		anim_tree.set("parameters/conditions/isMoving", true)
-		global_position = global_position.move_toward(_get_target_position(), delta * speed)
+		global_position = global_position.move_toward(_get_target_position(), delta * speed)		
+		model.look_at(-1 * _get_target_position())
 	
 	if global_position == _get_target_position():
 		if not is_standing:

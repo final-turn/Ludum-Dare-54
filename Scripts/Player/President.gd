@@ -44,6 +44,7 @@ func _process(delta):
 		var randZ = rng.randf_range(-1.0, 1.0)
 		var randLen = rng.randf_range(3, distance)
 		target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
+		
 		visuals.look_at(-1 * target_position)
 
 func set_protected(protected :bool):

@@ -51,7 +51,7 @@ script = ExtResource("1_jj2c5")
 process_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="Camera Position"]
-transform = Transform3D(1, 0, 0, 0, 0.636078, 0.771624, 0, -0.771624, 0.636078, 0, 6.82, 6.605)
+transform = Transform3D(1, 0, 0, 0, 0.636078, 0.771624, 0, -0.771624, 0.636078, 0, 5.51, 6.735)
 environment = SubResource("Environment_gq8e6")
 
 [node name="Environment" type="Node3D" parent="."]
