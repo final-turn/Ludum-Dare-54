@@ -1,4 +1,4 @@
-extends Node
+class_name damagable extends Node
 
 var mesh : MeshInstance3D
 var color
@@ -15,7 +15,6 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("increaseExperienceSpeed"):
 		flash_damage()
-		cooldown = cooldownInterval
 		
 	if cooldown > 0:
 		cooldown -= delta
@@ -26,7 +25,8 @@ func _process(delta):
 	
 func flash_damage():
 	mesh.get_active_material(0).albedo_color = Color(1, 0, 0, color.a)
-
+	cooldown = cooldownInterval
+	
 
 func reset():
 	mesh.get_active_material(0).albedo_color = color
