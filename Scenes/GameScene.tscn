@@ -124,7 +124,6 @@ script = ExtResource("10_e321x")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_wueg0")
 autoplay = true
-bus = &"Music"
 
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
 [connection signal="area_entered" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_area_entered"]

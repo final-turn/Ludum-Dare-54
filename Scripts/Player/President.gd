@@ -5,7 +5,7 @@ signal serviceman_ui(is_shown, serviceman)
 
 @export var health : int = 100
 @export var move_speed = 5
-@export var distance = 10
+@export var distance = 8
 @export var stand_time = 6
 
 @onready var warning = $"Warning Texture"

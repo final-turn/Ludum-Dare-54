@@ -3,7 +3,7 @@ class_name PerkDefinition
 
 @export var _description = "enter description"
 @export var _increaseDefense = 0
-@export var _increaseHealth = 0
+@export var _increaseHealth = 0.0
 @export var _increaseReactionTime = 0.0
 @export var _increaseMovementSpeed = 0.0
 

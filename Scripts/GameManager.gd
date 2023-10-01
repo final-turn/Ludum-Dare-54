@@ -14,6 +14,7 @@ extends Node3D
 var time_remaining : float = 600
 var second_interval : float = 0
 var exp : float = 0
+var level = 1
 
 var effect
 
@@ -38,7 +39,8 @@ func increase_exp(amount):
 	exp += amount
 	if exp >= 100:
 		exp -= 100
-		perk_menu._present_perks()
+		level = level + 1
+		perk_menu._present_perks(level)
 		get_tree().paused = true
 		
 	ui_manager.on_exp_update(exp)
@@ -48,7 +50,11 @@ func _process(delta):
 		time_remaining -= delta
 		ui_manager.update_timer(time_remaining)
 		
-		second_interval += delta
+		var experienceMultiplier =1
+		if Input.is_action_pressed("increaseExperienceSpeed"):
+			experienceMultiplier = 20
+		
+		second_interval += delta*experienceMultiplier
 		if second_interval >= 1:
 			second_interval-=1
 			increase_exp(exp_per_second)
@@ -62,6 +68,7 @@ func on_perk_selected(perk : PerkDefinition):
 	servman.defense *= 1 + perk._increaseDefense
 	servman.speed *= 1 + perk._increaseMovementSpeed
 	servman.response_time *= 1 - perk._increaseReactionTime
+	get_defense()
 	get_tree().paused = false
 
 func on_area_changed(_new_area, _new_reduction):

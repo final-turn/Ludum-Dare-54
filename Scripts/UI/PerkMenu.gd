@@ -6,6 +6,7 @@ extends Node
 @export var perkButton1 : PerkButton
 @export var perkButton2 : PerkButton
 @export var perkButton3 : PerkButton
+@export var heading : RichTextLabel
 
 signal perk_selected # use this hook to recieve perk data
 
@@ -31,8 +32,9 @@ func _on_perk_selected(perk: PerkDefinition):
 func _close():
 	self.visible = false
 
-func _present_perks():
+func _present_perks(level):
 	perkManager.generate_perks()
+	#heading.text = "LEVEL " +  str(level) + "!"
 	perkButton1._set_perk(perkManager.get_perk(0))
 	perkButton2._set_perk(perkManager.get_perk(1))
 	perkButton3._set_perk(perkManager.get_perk(2))

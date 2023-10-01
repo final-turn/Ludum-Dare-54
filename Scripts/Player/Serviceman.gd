@@ -1,6 +1,6 @@
 class_name Serviceman extends Node3D
 
-@export var response_time : float = 1
+@export var response_time : float = 2
 @export var speed : float = 5
 @export var defense : float = 2
 
