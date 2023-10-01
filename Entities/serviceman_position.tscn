@@ -28,6 +28,7 @@ shape = SubResource("SphereShape3D_w4pkb")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.532, 0)
+pixel_size = 0.0115
 billboard = 1
 text = "Serviceman"
 

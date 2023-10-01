@@ -51,6 +51,10 @@ func _process(delta):
 func set_protected(protected :bool):
 	warning.visible = !protected
 
+func _set_health(hp):
+	health = hp
+	on_health_update.emit(hp, 0)
+
 func _take_damage(damage):
 	health -= damage
 	on_health_update.emit(health, damage)

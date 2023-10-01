@@ -31,7 +31,7 @@ func _input(_event):
 		get_tree().paused = !get_tree().paused
 
 func on_damage_taken(health, damage_taken):
-	print("gain %d exp" % (damage_taken * exp_per_health))
+	#print("gain %d exp" % (damage_taken * exp_per_health))
 	increase_exp(damage_taken * exp_per_health)
 
 func increase_exp(amount):
@@ -57,6 +57,11 @@ func _process(delta):
 			effect.pitch_scale = 1 - (scaled_remaining * .3)
 
 func on_perk_selected(perk : PerkDefinition):
+	var servman = permimeter_manager.get_child(perk.agent_affected)
+	president._set_health(president.health * (1 + perk._increaseHealth))
+	servman.defense *= 1 + perk._increaseDefense
+	servman.speed *= 1 + perk._increaseMovementSpeed
+	servman.response_time *= 1 - perk._increaseReactionTime
 	get_tree().paused = false
 
 func on_area_changed(_new_area, _new_reduction):

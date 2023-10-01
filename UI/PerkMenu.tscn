@@ -92,32 +92,32 @@ script = ExtResource("3_cshh1")
 
 [node name="Speed1" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase [AGENT] movement speed by [SPEED]"
+_description = "Increase [AGENT]'s movement speed by [SPEED]"
 _increaseMovementSpeed = 0.15
 
 [node name="Speed2" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase [AGENT] movement speed by [SPEED]"
+_description = "Increase [AGENT]'s movement speed by [SPEED]"
 _increaseMovementSpeed = 0.1
 
 [node name="Speed3" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase [AGENT] movement speed by [SPEED]"
+_description = "Increase [AGENT]'s movement speed by [SPEED]"
 _increaseMovementSpeed = 0.2
 
 [node name="ReactionTime1" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase [AGENT] reaction time by [REACTION]"
+_description = "Increase [AGENT]'s reaction time by [REACTION]"
 _increaseReactionTime = 0.1
 
 [node name="ReactionTime2" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase [AGENT] reaction time by [REACTION]"
+_description = "Increase [AGENT]'s reaction time by [REACTION]"
 _increaseReactionTime = 0.15
 
 [node name="ReactionTime3" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase [AGENT] reaction time by [REACTION]"
+_description = "Increase [AGENT]'s reaction time by [REACTION]"
 _increaseReactionTime = 0.2
 
 [node name="Health" type="Node" parent="PerkDefinitions"]
@@ -127,5 +127,5 @@ _increaseHealth = 1
 
 [node name="Defense" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase defense by  [DEFENSE]"
-_increaseHealth = 1
+_description = "Increase [AGENT]'s defense by  [DEFENSE]"
+_increaseDefense = 1
