@@ -1,0 +1,72 @@
+[gd_scene load_steps=2 format=3 uid="uid://54wk7apvly3i"]
+
+[ext_resource type="Script" path="res://Scenes/TitleScene.gd" id="1_lbofb"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_lbofb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 128.57
+offset_bottom = 128.57
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 201
+bbcode_enabled = true
+text = "[rainbow][center]YOU WON"
+
+[node name="Play Again" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -474.5
+offset_top = -183.0
+offset_right = -169.5
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 51
+text = "PLAY AGAIN"
+
+[node name="Title Screen" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 174.0
+offset_top = -184.0
+offset_right = 466.0
+offset_bottom = -106.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 51
+text = "Title Screen
+"
+
+[connection signal="pressed" from="Play Again" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Title Screen" to="." method="goto_title"]
