@@ -2,7 +2,7 @@ class_name ForceField extends Node3D
 
 signal area_changed(new_area, new_damage_reduction)
 
-@onready var fence : MeshInstance3D = $"Fence"
+@onready var damage : damagable = $"Force Field/TakeDamage"
 @onready var force_field : MeshInstance3D = $"Force Field"
 @onready var col_polygon : CollisionPolygon3D = $"Area3D/CollisionPolygon3D"
 #render
@@ -11,6 +11,12 @@ var height_offset : Vector3 = Vector3(0,0.5,0)
 var max_defense : float #should be set by game manager
 var field_area : float
 var damage_reduction : int
+
+func _ready():
+	pass
+	
+	#mat.albedo_color = Color(randf(), randf(), randf())
+
 
 func set_positions(positions : Array[Vector3]):
 	generate_triangle(positions)
@@ -56,23 +62,6 @@ func generate_triangle(positions : Array[Vector3]):
 
 
 
-func generate_fence(positions : Array[Vector3]):
-	var vertices = PackedVector3Array()
-	vertices.push_back(positions[0] )
-	vertices.push_back(positions[1] )
-	vertices.push_back(positions[2])
-
-	# Initialize the ArrayMesh.
-	var arr_mesh = ArrayMesh.new()
-	var arrays = []
-	arrays.resize(Mesh.ARRAY_MAX)
-	arrays[Mesh.ARRAY_VERTEX] = vertices
-
-	# Create the Mesh.
-	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	fence.mesh = arr_mesh
-	
-
 
 func compute_area(a : Vector2, b: Vector2, c: Vector2):
 	var new_area = abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y))/2.0
@@ -93,6 +82,7 @@ func _on_area_3d_body_exited(body):
 		#print("President is exposed")
 
 func compute_damage_reduction():
+	
 	# At the start of the game the triangle around the prez is 6
 	var base_area = 6
 	# at this stage I don't want the prez to take any damage from starter mobs
@@ -105,3 +95,5 @@ func _on_area_3d_area_entered(area):
 	if area.name != "Area3D":
 		#print("reducing %d damage" % damage_reduction)
 		area.decrease_damage(damage_reduction)
+		print("_on_area_3d_area_entered")
+		damage.flash_damage()
