@@ -30,6 +30,7 @@ shape = SubResource("CapsuleShape3D_73kha")
 [node name="Missle Flair" parent="." instance=ExtResource("2_hloud")]
 
 [node name="Tail" parent="Missle Flair/missle" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 surface_material_override/0 = SubResource("StandardMaterial3D_6n57p")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

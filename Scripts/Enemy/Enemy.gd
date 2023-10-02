@@ -38,10 +38,11 @@ func decrease_damage(amount : float):
 		damage_label.text = str(damage)
 
 func le_kill(animation):
-	var stashed_position = flair_root.global_position
-	remove_child(flair_root)
-	get_tree().root.add_child(flair_root)
-	flair_root.global_position = stashed_position
-	mesh_animp.play(animation)
-	is_moving = false
-	queue_free()
+	if is_moving:
+		var stashed_position = flair_root.global_position
+		remove_child(flair_root)
+		get_tree().root.add_child(flair_root)
+		flair_root.global_position = stashed_position
+		mesh_animp.play(animation)
+		is_moving = false
+		queue_free()

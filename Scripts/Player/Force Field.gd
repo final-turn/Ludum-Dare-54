@@ -82,7 +82,6 @@ func _on_area_3d_body_exited(body):
 		#print("President is exposed")
 
 func compute_damage_reduction():
-	
 	# At the start of the game the triangle around the prez is 6
 	var base_area = 6
 	# at this stage I don't want the prez to take any damage from starter mobs

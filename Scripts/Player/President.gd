@@ -19,14 +19,17 @@ var rng : RandomNumberGenerator
 var time_elapsed : float = 0
 var target_position : Vector3 = Vector3(0,0,0)
 var is_moving : bool = false
+var game_manager
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	game_manager = get_parent_node_3d()
 	rng = RandomNumberGenerator.new()
 	environment.mouse_world_position.connect(serviceman_array.on_mouse_world_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	stand_time = 6 - 5 * game_manager.get_scaled_remaining()
 	time_elapsed += delta
 	
 	if is_moving:

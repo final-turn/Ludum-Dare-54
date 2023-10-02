@@ -13,9 +13,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("increaseExperienceSpeed"):
-		flash_damage()
-		
 	if cooldown > 0:
 		cooldown -= delta
 		if cooldown <= 0:

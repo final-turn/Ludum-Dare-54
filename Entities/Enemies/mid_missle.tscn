@@ -14,7 +14,7 @@ albedo_texture = ExtResource("3_fd0cm")
 
 [node name="Missle" type="Area3D"]
 script = ExtResource("1_rrf8j")
-movespeed = 3.0
+movespeed = 5.0
 damage = 8.0
 
 [node name="Damage Label" type="Label3D" parent="."]

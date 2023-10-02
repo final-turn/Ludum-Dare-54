@@ -11,6 +11,7 @@ extends Node3D
 @onready var permimeter_manager = $"Perimeter Manager"
 @onready var audio_stream_player : AudioStreamPlayer = $"AudioStreamPlayer"
 
+var max_time : float = 300
 var time_remaining : float
 var second_interval : float = 0
 var experience : float = 0
@@ -21,7 +22,7 @@ var effect
 func _ready():
 	effect = AudioServer.get_bus_effect(1, 0)
 	get_defense()
-	time_remaining = 600
+	time_remaining = max_time
 	force_field.area_changed.connect(on_area_changed)
 	perk_menu.perk_selected.connect(on_perk_selected)
 	president.serviceman_ui.connect(on_serviceman_ui)
@@ -45,6 +46,7 @@ func increase_exp(amount):
 		level = level + 1
 		perk_menu._present_perks(level)
 		get_tree().paused = true
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		
 	ui_manager.on_exp_update(experience)
 
@@ -54,19 +56,19 @@ func _process(delta):
 		ui_manager.update_timer(time_remaining)
 		
 		var experienceMultiplier =1
-		if Input.is_action_pressed("increaseExperienceSpeed"):
-			experienceMultiplier = 20
-		
 		second_interval += delta*experienceMultiplier
 		if second_interval >= 1:
 			second_interval-=1
 			increase_exp(exp_per_second)
-			var scaled_remaining = (600 - time_remaining)/600
+			var scaled_remaining = get_scaled_remaining()
 			audio_stream_player.pitch_scale = 1 + (scaled_remaining * 0.4)
 			effect.pitch_scale = 1 - (scaled_remaining * .3)
 			
 			if time_remaining <= 0:
 				get_tree().change_scene_to_file("res://Scenes/Winning Scene.tscn")
+
+func get_scaled_remaining():
+	return (max_time - time_remaining)/max_time
 
 func on_perk_selected(perk : PerkDefinition):
 	var servman = permimeter_manager.get_child(perk.agent_affected)
@@ -83,6 +85,7 @@ func on_area_changed(_new_area, _new_reduction):
 func get_defense():
 	var max_defense = permimeter_manager._get_serviceman_defense()
 	force_field.max_defense = max_defense
+	force_field.compute_damage_reduction()
 	ui_manager.update_shield_stats(force_field.damage_reduction, max_defense)
 
 func on_serviceman_ui(is_shown, serviceman_position):
