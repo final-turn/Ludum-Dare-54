@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://cted0mnnfrmkf"]
+[gd_scene load_steps=6 format=3 uid="uid://cted0mnnfrmkf"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy/Enemy.gd" id="1_rrf8j"]
 [ext_resource type="PackedScene" uid="uid://bq8rfxhukyu2u" path="res://Assets/Flair/missle_flair.tscn" id="2_d3pfj"]
+[ext_resource type="Texture2D" uid="uid://bnrctccypshnv" path="res://Assets/Models/missle_Tail.png" id="3_fd0cm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_73kha"]
 radius = 0.300026
 height = 1.72943
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uy7tr"]
-albedo_color = Color(1, 0.615686, 0.262745, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ji70a"]
+albedo_color = Color(1, 0.65098, 0, 1)
+albedo_texture = ExtResource("3_fd0cm")
 
 [node name="Missle" type="Area3D"]
 script = ExtResource("1_rrf8j")
@@ -30,8 +32,8 @@ shape = SubResource("CapsuleShape3D_73kha")
 [node name="missle" parent="Missle Flair" index="2"]
 transform = Transform3D(-0.5, 0, -7.54979e-08, 0, 0.5, 0, 7.54979e-08, 0, -0.5, 0, 1, 0)
 
-[node name="missle_01" parent="Missle Flair/missle" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_uy7tr")
+[node name="Tail" parent="Missle Flair/missle" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ji70a")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 
