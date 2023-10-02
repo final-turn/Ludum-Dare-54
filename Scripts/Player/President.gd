@@ -11,6 +11,7 @@ signal serviceman_ui(is_shown, serviceman)
 @onready var warning = $"Warning Texture"
 @onready var anim_tree = $"Visuals/AnimationTree"
 @onready var visuals : Node3D = $"Visuals"
+@onready var damageable = $"Visuals/Armature/Skeleton3D/torso_1_1_1/TakeDamage"
 @onready var environment : ClickEnvironment = $"../Environment"
 @onready var serviceman_array : ServicemanArray = $"Serviceman Array"
 
@@ -44,9 +45,15 @@ func _process(delta):
 		var randX = rng.randf_range(-1.0, 1.0)
 		var randZ = rng.randf_range(-1.0, 1.0)
 		var randLen = rng.randf_range(3, distance)
-		target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
 		
-		visuals.look_at(-1 * target_position)
+		while true:
+			target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
+			if target_position.x > -250 && target_position.x < 250 && target_position.y > -250 && target_position.y < 250:
+				break
+		
+		var targ = -1 * target_position
+		targ.y = visuals.global_position.y
+		visuals.look_at(targ)
 
 func set_protected(protected :bool):
 	warning.visible = !protected
@@ -58,3 +65,4 @@ func _set_health(hp):
 func _take_damage(damage):
 	health -= damage
 	on_health_update.emit(health, damage)
+	damageable.flash_damage()

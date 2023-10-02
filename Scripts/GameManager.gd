@@ -11,7 +11,7 @@ extends Node3D
 @onready var permimeter_manager = $"Perimeter Manager"
 @onready var audio_stream_player : AudioStreamPlayer = $"AudioStreamPlayer"
 
-var time_remaining : float = 600
+var time_remaining : float
 var second_interval : float = 0
 var experience : float = 0
 var level = 1
@@ -34,6 +34,9 @@ func _input(_event):
 func on_damage_taken(_health, damage_taken):
 	#print("gain %d experience" % (damage_taken * exp_per_health))
 	increase_exp(damage_taken * exp_per_health)
+	
+	if _health <= 0:
+		get_tree().change_scene_to_file("res://Scenes/GameOver.tscn")
 
 func increase_exp(amount):
 	experience += amount
@@ -61,6 +64,9 @@ func _process(delta):
 			var scaled_remaining = (600 - time_remaining)/600
 			audio_stream_player.pitch_scale = 1 + (scaled_remaining * 0.4)
 			effect.pitch_scale = 1 - (scaled_remaining * .3)
+			
+			if time_remaining <= 0:
+				get_tree().change_scene_to_file("res://Scenes/Winning Scene.tscn")
 
 func on_perk_selected(perk : PerkDefinition):
 	var servman = permimeter_manager.get_child(perk.agent_affected)
