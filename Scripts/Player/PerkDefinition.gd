@@ -2,8 +2,8 @@ extends Node
 class_name PerkDefinition
 
 @export var _description = "enter description"
-@export var _increaseDefense = 0.0
-@export var _increaseHealth = 0.0
+@export var _increaseDefense = 0
+@export var _increaseHealth = 0
 @export var _increaseReactionTime = 0.0
 @export var _increaseMovementSpeed = 0.0
 
@@ -16,9 +16,9 @@ func assign_agent():
 func get_decription():
 	formatted_description = _description
 	formatted_description = formatted_description.replace("[AGENT]", ["Curly", "Larry"," Moe"][agent_affected])
-	formatted_description = formatted_description.replace("[DEFENSE]", str(_increaseDefense*100) + "%")
+	formatted_description = formatted_description.replace("[DEFENSE]", str(_increaseDefense))
 	formatted_description = formatted_description.replace("[SPEED]", str(_increaseMovementSpeed*100) + "%")
 	formatted_description = formatted_description.replace("[REACTION]", str(_increaseReactionTime*100) + "%")
-	formatted_description = formatted_description.replace("[HEALTH]", str(_increaseHealth*100) + "%")
+	formatted_description = formatted_description.replace("[HEALTH]", str(_increaseHealth))
 	
 	return formatted_description

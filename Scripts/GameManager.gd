@@ -13,7 +13,7 @@ extends Node3D
 
 var time_remaining : float = 600
 var second_interval : float = 0
-var exp : float = 0
+var experience : float = 0
 var level = 1
 
 var effect
@@ -31,19 +31,19 @@ func _input(_event):
 	if Input.is_action_just_pressed("pause"):
 		get_tree().paused = !get_tree().paused
 
-func on_damage_taken(health, damage_taken):
-	#print("gain %d exp" % (damage_taken * exp_per_health))
+func on_damage_taken(_health, damage_taken):
+	#print("gain %d experience" % (damage_taken * exp_per_health))
 	increase_exp(damage_taken * exp_per_health)
 
 func increase_exp(amount):
-	exp += amount
-	if exp >= 100:
-		exp -= 100
+	experience += amount
+	if experience >= 100:
+		experience -= 100
 		level = level + 1
 		perk_menu._present_perks(level)
 		get_tree().paused = true
 		
-	ui_manager.on_exp_update(exp)
+	ui_manager.on_exp_update(experience)
 
 func _process(delta):
 	if !get_tree().paused:
@@ -64,8 +64,8 @@ func _process(delta):
 
 func on_perk_selected(perk : PerkDefinition):
 	var servman = permimeter_manager.get_child(perk.agent_affected)
-	president._set_health(president.health * (1 + perk._increaseHealth))
-	servman.defense *= 1 + perk._increaseDefense
+	president._set_health(president.health + perk._increaseHealth)
+	servman.defense += perk._increaseDefense
 	servman.speed *= 1 + perk._increaseMovementSpeed
 	servman.response_time *= 1 - perk._increaseReactionTime
 	get_defense()

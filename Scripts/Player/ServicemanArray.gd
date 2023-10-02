@@ -23,7 +23,7 @@ func on_mouse_world_position(pos):
 func on_node_held(target, is_held):
 	held_node = target if is_held else null
 
-func _process(delta):
+func _process(_delta):
 	if held_node != null:
 		var pos = screen_to_world()
 		held_node.position = Vector3(pos.x, 0.7, pos.z)

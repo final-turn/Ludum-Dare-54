@@ -102,7 +102,19 @@ _increaseReactionTime = 0.2
 [node name="Health" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
 _description = "Increase the Presidents health by [HEALTH]"
+_increaseHealth = 10
 
 [node name="Defense" type="Node" parent="PerkDefinitions"]
 script = ExtResource("4_on0by")
-_description = "Increase defense by  [DEFENSE]"
+_description = "Increase [AGENT]'s defense by  [DEFENSE]"
+_increaseDefense = 1
+
+[node name="Defense2" type="Node" parent="PerkDefinitions"]
+script = ExtResource("4_on0by")
+_description = "Increase [AGENT]'s defense by  [DEFENSE]"
+_increaseDefense = 2
+
+[node name="Defense3" type="Node" parent="PerkDefinitions"]
+script = ExtResource("4_on0by")
+_description = "Increase [AGENT]'s defense by  [DEFENSE]"
+_increaseDefense = 3

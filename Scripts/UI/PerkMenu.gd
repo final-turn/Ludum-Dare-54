@@ -17,10 +17,6 @@ func _ready():
 	perkButton3.buttonPressed.connect(_on_perk_selected)
 	_close()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 	
 func _on_perk_selected(perk: PerkDefinition):
 	print(perk.formatted_description)

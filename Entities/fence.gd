@@ -9,6 +9,6 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	self.position = (servicemanFrom.position + servicemanTo.position)/2
 	pass

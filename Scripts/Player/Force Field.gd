@@ -88,7 +88,7 @@ func compute_damage_reduction():
 	# at this stage I don't want the prez to take any damage from starter mobs
 	# as the area increases the prez should reduce less damage
 	var area_modifier = 1
-	damage_reduction = floorf(min(1, (base_area/(field_area * area_modifier)))  * max_defense)
+	damage_reduction = floori(min(1, (base_area/(field_area * area_modifier)))  * max_defense)
 	#print("Field Area (%d) shields for %d" % [field_area, damage_reduction])
 
 func _on_area_3d_area_entered(area):

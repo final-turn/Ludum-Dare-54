@@ -20,12 +20,12 @@ func update_timer(amount : float):
 	var ms = "%02d" % floori((amount - floorf(amount)) * 100)
 	timer.text = ("%02d" % minutes) + ":" + seconds + "." + ms
 
-func on_health_update(health, damage):
+func on_health_update(health, _damage):
 	health_label.text = "%d HP" % health
 	health_bar.value = health
 
-func on_exp_update(exp):
-	exp_bar.value = floori(exp)
+func on_exp_update(experience):
+	exp_bar.value = floori(experience)
 
 func update_shield_stats(current_shield, max_shield):
 	shield_max.text = "MAX: " + str(max_shield)
