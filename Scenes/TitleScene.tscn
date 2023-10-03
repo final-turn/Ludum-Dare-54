@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://5ve6kvgey6q4"]
+[gd_scene load_steps=3 format=3 uid="uid://5ve6kvgey6q4"]
 
 [ext_resource type="Script" path="res://Scenes/TitleScene.gd" id="1_k4h2k"]
-[ext_resource type="Texture2D" uid="uid://d3hx2auwpkkx0" path="res://Assets/icon.svg" id="2_6h1kw"]
 [ext_resource type="Texture2D" uid="uid://bjylwdwneldy6" path="res://Assets/cover.png" id="2_q0xqn"]
 
 [node name="Control" type="Control"]
@@ -15,6 +14,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_k4h2k")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -24,6 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_q0xqn")
 expand_mode = 3
+stretch_mode = 4
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
@@ -37,14 +45,6 @@ offset_bottom = -88.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
-visible = false
-layout_mode = 0
-offset_left = -64.0
-offset_right = 64.0
-offset_bottom = 128.0
-texture = ExtResource("2_6h1kw")
-
 [node name="Button" type="Button" parent="Control"]
 layout_mode = 1
 anchors_preset = 8
@@ -52,13 +52,31 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -145.0
-offset_top = 224.265
-offset_right = 145.0
-offset_bottom = 302.265
+offset_left = 315.0
+offset_top = 347.0
+offset_right = 605.0
+offset_bottom = 425.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 51
 text = "PLAY GAME"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 925.0
+offset_top = 13.0
+offset_right = 1256.0
+offset_bottom = 586.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[center]position the agents around the president to protect him from threats, the bigger the area of the force field, however, the weaker the shield
+
+click and drag on the circles on the ground to position the agents.
+
+hold right mouse button to rotate the camera
+
+scroll wheel to zoom
+"
 
 [connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]

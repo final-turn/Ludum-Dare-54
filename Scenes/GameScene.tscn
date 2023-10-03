@@ -48,9 +48,12 @@ script = ExtResource("1_wh88n")
 top_level = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_4y5le")
 
 [node name="Floor" type="StaticBody3D" parent="Environment"]
+collision_layer = 3
+collision_mask = 3
 collision_priority = 2.0
 input_ray_pickable = false
 
@@ -61,6 +64,7 @@ skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_oo4o0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_4y5le")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
@@ -108,6 +112,8 @@ servicemanTo = NodePath("../../../Perimeter Manager/Serviceman B")
 script = ExtResource("8_sm64e")
 
 [node name="Area3D" type="Area3D" parent="Force Field"]
+collision_layer = 2
+collision_mask = 2
 input_ray_pickable = false
 
 [node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Force Field/Area3D"]

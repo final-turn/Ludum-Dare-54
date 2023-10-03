@@ -18,7 +18,7 @@ func _ready():
 func on_mouse_world_position(pos):
 	if held_node != null:
 		print("Holding " + str(held_node) + " at " + str(pos))
-		held_node.position = Vector3(pos.x, 0.7, pos.z)
+		held_node.position = Vector3(pos.x, 0, pos.z)
 
 func on_node_held(target, is_held):
 	held_node = target if is_held else null
@@ -26,13 +26,17 @@ func on_node_held(target, is_held):
 func _process(_delta):
 	if held_node != null:
 		var pos = screen_to_world()
-		held_node.position = Vector3(pos.x, 0.7, pos.z)
+		print(pos)
+		held_node.position = Vector3(pos.x, 0, pos.z)
 
 func screen_to_world():
 	var mouse_position = get_viewport().get_mouse_position()
 	var ray_origin = camera.project_ray_origin(mouse_position)
 	var ray_end = ray_origin + camera.project_ray_normal(mouse_position) * 200
-	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	
+	var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end, 0x0001, [self])
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
 	var ray_array = space_state.intersect_ray(query)
 	
 	if(ray_array.has("position")):

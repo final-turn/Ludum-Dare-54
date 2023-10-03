@@ -17,9 +17,6 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 	target = get_node("/root/Game Scene/President/Serviceman Array/" + name + " Position")
 
-func _get_target_position():
-	return target.global_position - Vector3(0, 0.7, 0)
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	anim_player.speed_scale = speed / 5
@@ -27,10 +24,10 @@ func _process(delta):
 		is_standing = false
 		anim_tree.set("parameters/conditions/isIdle", false)
 		anim_tree.set("parameters/conditions/isMoving", true)
-		global_position = global_position.move_toward(_get_target_position(), delta * speed)		
-		model.look_at(-1 * _get_target_position())
+		global_position = global_position.move_toward(target.global_position, delta * speed)		
+		model.look_at(-1 * target.global_position)
 	
-	if global_position == _get_target_position():
+	if global_position == target.global_position:
 		if not is_standing:
 			anim_tree.set("parameters/conditions/isIdle", true)
 			anim_tree.set("parameters/conditions/isMoving", false)

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dwnv2oi61t50y"]
+[gd_scene load_steps=7 format=3 uid="uid://dwnv2oi61t50y"]
 
 [ext_resource type="Script" path="res://Scripts/UI Manager.gd" id="1_7ecfm"]
 [ext_resource type="PackedScene" uid="uid://bnvk6flifxul" path="res://UI/PerkMenu.tscn" id="2_rjd7c"]
 [ext_resource type="Texture2D" uid="uid://jnqfdwed14p0" path="res://Assets/HealthBar.png" id="3_dtwm8"]
 [ext_resource type="Texture2D" uid="uid://bvsnuja4h32xw" path="res://Assets/Health.png" id="4_hv3lu"]
 [ext_resource type="Script" path="res://Scripts/ServicemanStats.gd" id="5_vut87"]
+[ext_resource type="Script" path="res://Scenes/SoundSlider.gd" id="6_vvgj5"]
 
 [node name="UI Manager" type="Control"]
 layout_mode = 3
@@ -167,6 +168,7 @@ visible = false
 layout_mode = 0
 offset_right = 220.0
 offset_bottom = 120.0
+mouse_filter = 2
 script = ExtResource("5_vut87")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Serviceman Stats"]
@@ -205,4 +207,23 @@ bbcode_enabled = true
 text = "ALERTNESS: [shake] 0"
 fit_content = true
 
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 913.0
+offset_top = 6.0
+offset_right = 1270.0
+offset_bottom = 22.0
+max_value = 1.0
+step = 0.05
+script = ExtResource("6_vvgj5")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 848.0
+offset_top = 2.0
+offset_right = 1012.0
+offset_bottom = 28.0
+text = "Sound"
+
 [connection signal="pressed" from="Debug Button" to="PerkMenu" method="_present_perks"]
+[connection signal="value_changed" from="HSlider" to="HSlider" method="_on_value_changed"]

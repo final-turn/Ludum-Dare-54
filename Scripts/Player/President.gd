@@ -11,7 +11,7 @@ signal serviceman_ui(is_shown, serviceman)
 @onready var warning = $"Warning Texture"
 @onready var anim_tree = $"Visuals/AnimationTree"
 @onready var visuals : Node3D = $"Visuals"
-@onready var damageable = $"Visuals/Armature/Skeleton3D/torso_1_1_1/TakeDamage"
+@onready var damageable = $"Visuals/Armature/Skeleton3D/lower_poly/Node"
 @onready var environment : ClickEnvironment = $"../Environment"
 @onready var serviceman_array : ServicemanArray = $"Serviceman Array"
 
@@ -23,6 +23,7 @@ var game_manager
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print(global_position)
 	game_manager = get_parent_node_3d()
 	rng = RandomNumberGenerator.new()
 	environment.mouse_world_position.connect(serviceman_array.on_mouse_world_position)
@@ -51,7 +52,7 @@ func _process(delta):
 		
 		while true:
 			target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
-			if target_position.x > -250 && target_position.x < 250 && target_position.y > -250 && target_position.y < 250:
+			if target_position.x > -250 && target_position.x < 250 && target_position.z > -250 && target_position.z < 250:
 				break
 		
 		var targ = -1 * target_position
@@ -69,3 +70,5 @@ func _take_damage(damage):
 	health -= damage
 	on_health_update.emit(health, damage)
 	damageable.flash_damage()
+	var state_machine = anim_tree["parameters/playback"]
+	state_machine.travel("Hit")

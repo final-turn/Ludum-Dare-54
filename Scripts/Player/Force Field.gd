@@ -60,9 +60,6 @@ func generate_triangle(positions : Array[Vector3]):
 	
 	compute_area(packed_array[0], packed_array[1], packed_array[2])
 
-
-
-
 func compute_area(a : Vector2, b: Vector2, c: Vector2):
 	var new_area = abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y))/2.0
 	if new_area != field_area:
@@ -86,8 +83,8 @@ func compute_damage_reduction():
 	var base_area = 6
 	# at this stage I don't want the prez to take any damage from starter mobs
 	# as the area increases the prez should reduce less damage
-	var area_modifier = 1
-	damage_reduction = floori(min(1, (base_area/(field_area * area_modifier)))  * max_defense)
+	var area_modifier = 1.3
+	damage_reduction = floori(min(1, (base_area/(sqrt(field_area) * area_modifier)))  * max_defense)
 	#print("Field Area (%d) shields for %d" % [field_area, damage_reduction])
 
 func _on_area_3d_area_entered(area):

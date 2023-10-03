@@ -1,35 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://1c1ruagdu8ys"]
+[gd_scene load_steps=6 format=3 uid="uid://1c1ruagdu8ys"]
 
 [ext_resource type="Script" path="res://Scripts/Player/ServicemanPosition.gd" id="1_nwld4"]
+[ext_resource type="Texture2D" uid="uid://mtgsrx4tql2c" path="res://Assets/Circle.png" id="2_qvdw8"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h33rw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hr2xi"]
 transparency = 1
-albedo_color = Color(0.27451, 0, 0.431373, 0.45098)
+albedo_color = Color(0.14902, 0.0666667, 1, 1)
+albedo_texture = ExtResource("2_qvdw8")
 
-[sub_resource type="SphereMesh" id="SphereMesh_27gjd"]
-material = SubResource("StandardMaterial3D_h33rw")
-height = 0.1
+[sub_resource type="PlaneMesh" id="PlaneMesh_2tom2"]
+material = SubResource("StandardMaterial3D_hr2xi")
+size = Vector2(1, 1)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_w4pkb"]
-radius = 1.01322
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_aaxe5"]
+height = 0.5
 
 [node name="Serviceman Position" type="Node3D"]
 script = ExtResource("1_nwld4")
 
 [node name="Visual" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.575, 0)
-mesh = SubResource("SphereMesh_27gjd")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("PlaneMesh_2tom2")
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_w4pkb")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("CylinderShape3D_aaxe5")
 
 [node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.532, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 pixel_size = 0.0115
 billboard = 1
+render_priority = 1
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0.25, 0.183594, 0.996094, 1)
 text = "Serviceman"
 
 [connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]
