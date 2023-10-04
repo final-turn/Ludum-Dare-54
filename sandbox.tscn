@@ -1,0 +1,133 @@
+[gd_scene load_steps=15 format=3 uid="uid://ca0kgkiaxqbwx"]
+
+[ext_resource type="Script" path="res://Scripts/Player/ClickEnvironment.gd" id="1_5lnr0"]
+[ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="2_dhxa1"]
+[ext_resource type="Script" path="res://Scripts/Player/ServicemanArray.gd" id="4_t0fro"]
+[ext_resource type="PackedScene" uid="uid://1c1ruagdu8ys" path="res://Entities/serviceman_position.tscn" id="5_xif14"]
+[ext_resource type="Script" path="res://Scripts/Player/PerimeterManager.gd" id="6_h5owy"]
+[ext_resource type="PackedScene" uid="uid://b7uvml1wafwnw" path="res://Entities/serviceman.tscn" id="7_f63yk"]
+[ext_resource type="PackedScene" uid="uid://dj3vics7rmpdf" path="res://force_field.tscn" id="8_34ynx"]
+[ext_resource type="Script" path="res://Scenes/Camera Position.gd" id="14_ewjy6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ynvk7"]
+size = Vector3(500, 1, 500)
+
+[sub_resource type="QuadMesh" id="QuadMesh_5x0sd"]
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sip1w"]
+albedo_texture = ExtResource("2_dhxa1")
+uv1_scale = Vector3(50, 50, 50)
+texture_filter = 2
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_p8d3x"]
+sky_top_color = Color(0.537255, 0.741176, 1, 1)
+sky_horizon_color = Color(0, 0.686275, 0.698039, 1)
+sky_curve = 0.023898
+ground_bottom_color = Color(0.596078, 0, 0.529412, 1)
+ground_horizon_color = Color(0, 0.686275, 0.72549, 1)
+ground_curve = 0.171484
+
+[sub_resource type="Sky" id="Sky_4ukhx"]
+sky_material = SubResource("ProceduralSkyMaterial_p8d3x")
+
+[sub_resource type="Environment" id="Environment_rxt8b"]
+background_mode = 2
+sky = SubResource("Sky_4ukhx")
+fog_light_color = Color(1, 1, 1, 1)
+fog_light_energy = 0.0
+fog_density = 0.0
+
+[node name="Sandbox" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+process_mode = 1
+script = ExtResource("1_5lnr0")
+
+[node name="Area3D" type="Area3D" parent="Environment"]
+top_level = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_ynvk7")
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+collision_layer = 3
+collision_mask = 3
+collision_priority = 2.0
+input_ray_pickable = false
+
+[node name="Floor Mesh" type="MeshInstance3D" parent="Environment/Floor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_5x0sd")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_sip1w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_ynvk7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.9151, -0.282489, 0.287734, 0, 0.713581, 0.700573, -0.403226, -0.641095, 0.652998, 0, 2.925, 0)
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Camera Position" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+process_mode = 1
+transform = Transform3D(-1, -1.51808e-08, 8.60946e-08, 0, 0.984808, 0.173648, -8.74228e-08, 0.173648, -0.984808, 0, 1, 0)
+script = ExtResource("14_ewjy6")
+target = NodePath("../Node3D")
+
+[node name="Camera3D" type="Camera3D" parent="Camera Position"]
+transform = Transform3D(1, -7.10543e-15, -7.10543e-14, 0, 1, 1.49012e-08, 0, -1.49012e-08, 1, 1.95399e-14, 5.96046e-08, 10)
+environment = SubResource("Environment_rxt8b")
+far = 50.0
+
+[node name="Serviceman Array" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+process_mode = 3
+script = ExtResource("4_t0fro")
+target = NodePath("../Node3D")
+
+[node name="Serviceman A Position" parent="Serviceman Array" instance=ExtResource("5_xif14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="Label3D" parent="Serviceman Array/Serviceman A Position" index="2"]
+text = "Curly"
+
+[node name="Serviceman B Position" parent="Serviceman Array" instance=ExtResource("5_xif14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Label3D" parent="Serviceman Array/Serviceman B Position" index="2"]
+text = "Larry
+"
+
+[node name="Serviceman C Position" parent="Serviceman Array" instance=ExtResource("5_xif14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Label3D" parent="Serviceman Array/Serviceman C Position" index="2"]
+text = "Moe"
+
+[node name="Perimeter Manager" type="Node3D" parent="."]
+process_mode = 1
+script = ExtResource("6_h5owy")
+camera_distance = 0.0
+
+[node name="Serviceman A" parent="Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("7_f63yk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+target = NodePath("../../Serviceman Array/Serviceman A Position")
+
+[node name="Serviceman B" parent="Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("7_f63yk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+target = NodePath("../../Serviceman Array/Serviceman B Position")
+
+[node name="Serviceman C" parent="Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("7_f63yk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+target = NodePath("../../Serviceman Array/Serviceman C Position")
+
+[node name="Force Field" parent="." instance=ExtResource("8_34ynx")]
+
+[connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
+
+[editable path="Serviceman Array/Serviceman A Position"]
+[editable path="Serviceman Array/Serviceman B Position"]
+[editable path="Serviceman Array/Serviceman C Position"]

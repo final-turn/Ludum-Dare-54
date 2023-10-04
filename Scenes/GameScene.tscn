@@ -1,17 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://bjukmj8c2wcpo"]
+[gd_scene load_steps=26 format=3 uid="uid://bjukmj8c2wcpo"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
 [ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
 [ext_resource type="Script" path="res://Scripts/Player/ClickEnvironment.gd" id="1_wh88n"]
-[ext_resource type="PackedScene" uid="uid://dptcs77jneftx" path="res://Entities/president.tscn" id="2_ryh8r"]
 [ext_resource type="Script" path="res://Scripts/Player/PerimeterManager.gd" id="4_bflj1"]
 [ext_resource type="PackedScene" uid="uid://b7uvml1wafwnw" path="res://Entities/serviceman.tscn" id="4_ch8jo"]
+[ext_resource type="PackedScene" uid="uid://dkjep733w0j7q" path="res://Entities/president.tscn" id="5_mmk3v"]
 [ext_resource type="Script" path="res://Scripts/Player/Force Field.gd" id="6_y3o43"]
 [ext_resource type="PackedScene" uid="uid://cw417jfpsdh44" path="res://Entities/fence.tscn" id="7_bd5ae"]
 [ext_resource type="Script" path="res://Scripts/Player/Damagable.gd" id="8_sm64e"]
 [ext_resource type="PackedScene" uid="uid://dwnv2oi61t50y" path="res://Scenes/ui_manager.tscn" id="8_xc0yl"]
 [ext_resource type="Script" path="res://Scripts/Enemy/Enemy Spawner.gd" id="10_e321x"]
 [ext_resource type="AudioStream" uid="uid://c4d0srwj31qdb" path="res://Sound/presidentPRINT.wav" id="10_wueg0"]
+[ext_resource type="Script" path="res://Scenes/Camera Position.gd" id="13_a0c2c"]
+[ext_resource type="Script" path="res://Scripts/Player/ServicemanArray.gd" id="14_x2rwj"]
+[ext_resource type="PackedScene" uid="uid://1c1ruagdu8ys" path="res://Entities/serviceman_position.tscn" id="15_sktww"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4y5le"]
 size = Vector3(500, 1, 500)
@@ -35,10 +38,36 @@ albedo_color = Color(0, 0.615686, 0.878431, 0.490196)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_i6ylv"]
 
-[node name="Game Scene" type="Node3D"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1wsvd"]
+sky_top_color = Color(0.537255, 0.741176, 1, 1)
+sky_horizon_color = Color(0, 0.686275, 0.698039, 1)
+sky_curve = 0.023898
+ground_bottom_color = Color(0.596078, 0, 0.529412, 1)
+ground_horizon_color = Color(0, 0.686275, 0.72549, 1)
+ground_curve = 0.171484
+
+[sub_resource type="Sky" id="Sky_7jnkm"]
+sky_material = SubResource("ProceduralSkyMaterial_1wsvd")
+
+[sub_resource type="Environment" id="Environment_q17kr"]
+background_mode = 2
+sky = SubResource("Sky_7jnkm")
+fog_light_color = Color(1, 1, 1, 1)
+fog_light_energy = 0.0
+fog_density = 0.0
+
+[node name="Game Scene" type="Node3D" node_paths=PackedStringArray("president", "permimeter_manager", "agent_positions", "force_field", "scaled_entities")]
 process_mode = 3
 script = ExtResource("1_jj2c5")
+president = NodePath("President Nodes/President")
+permimeter_manager = NodePath("President Nodes/Perimeter Manager")
+agent_positions = NodePath("President Nodes/Serviceman Array")
+force_field = NodePath("President Nodes/Force Field")
 exp_per_second = 3.0
+scaled_entities = [NodePath("President Nodes/President"), NodePath("Enemy Spawner")]
+
+[node name="UI Manager" parent="." node_paths=PackedStringArray("president") instance=ExtResource("8_xc0yl")]
+president = NodePath("../President Nodes/President")
 
 [node name="Environment" type="Node3D" parent="."]
 process_mode = 1
@@ -70,65 +99,110 @@ shape = SubResource("BoxShape3D_4y5le")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
 transform = Transform3D(0.9151, -0.282489, 0.287734, 0, 0.713581, 0.700573, -0.403226, -0.641095, 0.652998, 0, 2.925, 0)
 
-[node name="Enemy Spawner" type="Node3D" parent="."]
+[node name="Enemy Spawner" type="Node3D" parent="." node_paths=PackedStringArray("president")]
 process_mode = 1
 script = ExtResource("10_e321x")
+president = NodePath("../President Nodes/President")
 
-[node name="President" parent="." instance=ExtResource("2_ryh8r")]
-process_mode = 1
+[node name="President Nodes" type="Node3D" parent="."]
 
-[node name="Perimeter Manager" type="Node3D" parent="."]
+[node name="President" parent="President Nodes" node_paths=PackedStringArray("serviceman_array", "environment") instance=ExtResource("5_mmk3v")]
+serviceman_array = NodePath("../Serviceman Array")
+environment = NodePath("../../Environment")
+
+[node name="Serviceman Array" type="Node3D" parent="President Nodes" node_paths=PackedStringArray("target")]
+process_mode = 3
+script = ExtResource("14_x2rwj")
+target = NodePath("../President")
+
+[node name="Serviceman A Position" parent="President Nodes/Serviceman Array" instance=ExtResource("15_sktww")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="Label3D" parent="President Nodes/Serviceman Array/Serviceman A Position" index="2"]
+text = "Curly"
+
+[node name="Serviceman B Position" parent="President Nodes/Serviceman Array" instance=ExtResource("15_sktww")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Label3D" parent="President Nodes/Serviceman Array/Serviceman B Position" index="2"]
+text = "Larry
+"
+
+[node name="Serviceman C Position" parent="President Nodes/Serviceman Array" instance=ExtResource("15_sktww")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Label3D" parent="President Nodes/Serviceman Array/Serviceman C Position" index="2"]
+text = "Moe"
+
+[node name="Perimeter Manager" type="Node3D" parent="President Nodes"]
 process_mode = 1
 script = ExtResource("4_bflj1")
 camera_distance = 0.0
 
-[node name="Serviceman A" parent="Perimeter Manager" instance=ExtResource("4_ch8jo")]
+[node name="Serviceman A" parent="President Nodes/Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("4_ch8jo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+target = NodePath("../../Serviceman Array/Serviceman A Position")
 
-[node name="Serviceman B" parent="Perimeter Manager" instance=ExtResource("4_ch8jo")]
+[node name="Serviceman B" parent="President Nodes/Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("4_ch8jo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+target = NodePath("../../Serviceman Array/Serviceman B Position")
 
-[node name="Serviceman C" parent="Perimeter Manager" instance=ExtResource("4_ch8jo")]
+[node name="Serviceman C" parent="President Nodes/Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("4_ch8jo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+target = NodePath("../../Serviceman Array/Serviceman C Position")
 
-[node name="Force Field" type="Node3D" parent="."]
+[node name="Force Field" type="Node3D" parent="President Nodes"]
 process_mode = 1
 script = ExtResource("6_y3o43")
 
-[node name="Force Field" type="MeshInstance3D" parent="Force Field"]
+[node name="Force Field" type="MeshInstance3D" parent="President Nodes/Force Field"]
 material_override = SubResource("StandardMaterial3D_v8tkb")
 mesh = SubResource("ArrayMesh_lk0ef")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="Fence" parent="Force Field/Force Field" node_paths=PackedStringArray("servicemanFrom", "servicemanTo") instance=ExtResource("7_bd5ae")]
+[node name="Fence" parent="President Nodes/Force Field/Force Field" node_paths=PackedStringArray("servicemanFrom", "servicemanTo") instance=ExtResource("7_bd5ae")]
 transform = Transform3D(1, -1.43405e-16, 3.48787e-16, 3.48787e-16, 0.411154, -3.48787e-16, -3.48787e-16, 1.43405e-16, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+visible = false
 material_override = SubResource("StandardMaterial3D_fvkbq")
 mesh = SubResource("ArrayMesh_i6ylv")
 skeleton = NodePath("../../../Perimeter Manager")
 servicemanFrom = NodePath("../../../Perimeter Manager/Serviceman A")
 servicemanTo = NodePath("../../../Perimeter Manager/Serviceman B")
 
-[node name="TakeDamage" type="Node" parent="Force Field/Force Field"]
+[node name="TakeDamage" type="Node" parent="President Nodes/Force Field/Force Field"]
 script = ExtResource("8_sm64e")
 
-[node name="Area3D" type="Area3D" parent="Force Field"]
+[node name="Area3D" type="Area3D" parent="President Nodes/Force Field"]
 collision_layer = 2
 collision_mask = 2
 input_ray_pickable = false
 
-[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Force Field/Area3D"]
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="President Nodes/Force Field/Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.465, 0)
 depth = 2.71
 polygon = PackedVector2Array(2.445, 0, -2.495, 0, 3.82, 8.045)
-
-[node name="UI Manager" parent="." instance=ExtResource("8_xc0yl")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_wueg0")
 autoplay = true
 bus = &"Music"
 
+[node name="Camera Position" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+process_mode = 1
+transform = Transform3D(-1, -1.51808e-08, 8.60946e-08, 0, 0.984808, 0.173648, -8.74228e-08, 0.173648, -0.984808, 0, 1, 0)
+script = ExtResource("13_a0c2c")
+target = NodePath("../President Nodes/President")
+
+[node name="Camera3D" type="Camera3D" parent="Camera Position"]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 10)
+environment = SubResource("Environment_q17kr")
+far = 50.0
+
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
-[connection signal="area_entered" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_area_entered"]
-[connection signal="body_entered" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="Force Field/Area3D" to="Force Field" method="_on_area_3d_body_exited"]
+[connection signal="area_entered" from="President Nodes/Force Field/Area3D" to="President Nodes/Force Field" method="_on_area_3d_area_entered"]
+[connection signal="body_entered" from="President Nodes/Force Field/Area3D" to="President Nodes/Force Field" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="President Nodes/Force Field/Area3D" to="President Nodes/Force Field" method="_on_area_3d_body_exited"]
+
+[editable path="President Nodes/Serviceman Array/Serviceman A Position"]
+[editable path="President Nodes/Serviceman Array/Serviceman B Position"]
+[editable path="President Nodes/Serviceman Array/Serviceman C Position"]

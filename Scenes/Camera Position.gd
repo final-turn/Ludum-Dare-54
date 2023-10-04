@@ -1,5 +1,6 @@
 extends Node3D
 
+@export var target : Node3D
 @export var mouse_sensitivity : float = 0.5
 
 @onready var camera = $"Camera3D"
@@ -10,6 +11,7 @@ var target_zoom
 func _ready():
 	zoom_amount = 0
 	target_zoom = camera.position.z
+	set_as_top_level(true)
 
 func _input(event):	
 	if Input.is_action_pressed("ControlCamera"):
@@ -27,5 +29,6 @@ func _input(event):
 	zoom_amount = clamp(zoom_amount + Input.get_axis("zoom", "zoomout") * 4, -20, 20)
 	target_zoom = 5 + (10 * (20 + zoom_amount)/40)
 
-func _process(delta):
+func _physics_process(delta):
+	global_position = target.global_position
 	camera.position.z = move_toward(camera.position.z, target_zoom, delta * 5)

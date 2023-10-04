@@ -1,6 +1,5 @@
 extends Node
 
-
 @export var perkManager : PerkManager
 
 @export var perkButton1 : PerkButton

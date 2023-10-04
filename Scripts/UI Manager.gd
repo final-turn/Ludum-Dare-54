@@ -1,6 +1,12 @@
 extends Control
 
-@onready var president : President = $"../President"
+signal perk_selected # use this hook to recieve perk data
+
+@export var president : President
+
+@onready var perk_menu = $"PerkMenu"
+@onready var agent_stats = $"Serviceman Stats"
+
 @onready var health_bar : TextureProgressBar = $"HP Meter/Bar"
 @onready var health_label : Label = $"HP Meter/Label"
 @onready var shield_bar : TextureProgressBar = $"Shield Meter/Bar"
@@ -11,6 +17,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	perk_menu.perk_selected.connect(on_perk_selected)
 	president.on_health_update.connect(on_health_update)
 	on_health_update(president.health, 0)
 
@@ -32,4 +39,14 @@ func update_shield_stats(current_shield, max_shield):
 	shield_label.text = "SHIELD: %.2d" % current_shield
 	shield_bar.value = floori(100 * current_shield/max_shield)
 
+func present_perks(level):
+	perk_menu._present_perks(level)
+
+func on_perk_selected(perk):
+	emit_signal("perk_selected", perk)
+
+func show_agent_ui(agent):
+	agent_stats.show_ui(agent)
 	
+func hide_agent_ui():
+	agent_stats.hide_ui()

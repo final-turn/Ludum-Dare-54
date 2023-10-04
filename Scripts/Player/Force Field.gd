@@ -2,63 +2,29 @@ class_name ForceField extends Node3D
 
 signal area_changed(new_area, new_damage_reduction)
 
-@onready var damage : damagable = $"Force Field/TakeDamage"
-@onready var force_field : MeshInstance3D = $"Force Field"
-@onready var col_polygon : CollisionPolygon3D = $"Area3D/CollisionPolygon3D"
-#render
-var height_offset : Vector3 = Vector3(0,0.5,0)
-#damage
+#@onready var damage : damagable = $"Force Field/TakeDamage"
+
 var max_defense : float #should be set by game manager
 var field_area : float
 var damage_reduction : int
 
-func _ready():
-	pass
-	
-	#mat.albedo_color = Color(randf(), randf(), randf())
+var edge_list : Array
 
+func _ready():
+	for n in get_children():
+		edge_list.append(n)
 
 func set_positions(positions : Array[Vector3]):
-	generate_triangle(positions)
-	#generate_fence(positions)
-	
-	
-func add_quad(posA : Vector3, posB : Vector3, height,  vertices :PackedVector3Array ):
-	var c = posA + Vector3(0,height,0)
-	var d = posB + Vector3(0,height,0)
-	vertices.push_back(posA)
-	vertices.push_back(posB)
-	vertices.push_back(c)
-
-	vertices.push_back(c)
-	vertices.push_back(posB)
-	vertices.push_back(d)
-	return vertices
-
-func generate_triangle(positions : Array[Vector3]):
-	var vertices = PackedVector3Array()
-	#vertices.push_back(positions[0] + height_offset)
-	#vertices.push_back(positions[1] + height_offset)
-	#vertices.push_back(positions[2]+ height_offset)
-	vertices = add_quad(positions[0], positions[1], 2, vertices )
-	vertices = add_quad(positions[1], positions[2], 2, vertices )
-	vertices = add_quad(positions[2], positions[0], 2, vertices )
-	# Initialize the ArrayMesh.
-	var arr_mesh = ArrayMesh.new()
-	var arrays = []
-	arrays.resize(Mesh.ARRAY_MAX)
-	arrays[Mesh.ARRAY_VERTEX] = vertices
-
-	# Create the Mesh.
-	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	force_field.mesh = arr_mesh
-	
-	var packed_array : PackedVector2Array = []
-	for pos in positions:
-		packed_array.push_back(Vector2(pos.x, pos.z))
-	col_polygon.polygon = packed_array
-	
-	compute_area(packed_array[0], packed_array[1], packed_array[2])
+	var i = 1
+	while(i <= positions.size()):
+		var current_node = i % positions.size()
+		var edge : ForceFieldEdge = edge_list[i - 1]
+		var node_difference : Vector3 = positions[current_node] - positions[i-1]
+		edge.area.scale.x = node_difference.length()
+		edge.global_position = positions[i-1] + (node_difference * 0.5)
+		edge.rotation.y = (1 if node_difference.z < 0 else -1) * acos(node_difference.normalized().dot(Vector3.RIGHT))
+		i+=1
+	#compute_area(positions[0], positions[1], positions[2])
 
 func compute_area(a : Vector2, b: Vector2, c: Vector2):
 	var new_area = abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y))/2.0
@@ -92,4 +58,4 @@ func _on_area_3d_area_entered(area):
 		#print("reducing %d damage" % damage_reduction)
 		area.decrease_damage(damage_reduction)
 		print("_on_area_3d_area_entered")
-		damage.flash_damage()
+		#damage.flash_damage()

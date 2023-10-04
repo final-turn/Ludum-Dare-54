@@ -2,6 +2,7 @@ class_name ServicemanPosition extends Node3D
 
 @onready var orb : Area3D = $"Area3D"
 
+signal on_hover(ref, is_hovered)
 signal node_held(ref, is_held)
 
 func _on_area_3d_input_event(_camera, _event, _position, _normal, _shape_idx):
@@ -14,7 +15,7 @@ func _on_area_3d_input_event(_camera, _event, _position, _normal, _shape_idx):
 
 
 func _on_area_3d_mouse_entered():
-	get_parent().get_parent().serviceman_ui.emit(true, self)
+	on_hover.emit(self, true)
 
 func _on_area_3d_mouse_exited():
-	get_parent().get_parent().serviceman_ui.emit(false, self)
+	on_hover.emit(self, false)

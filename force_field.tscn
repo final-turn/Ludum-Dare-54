@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dj3vics7rmpdf"]
+
+[ext_resource type="Script" path="res://Scripts/Player/Force Field.gd" id="1_yi0hd"]
+[ext_resource type="PackedScene" uid="uid://dyp2q6ul46dam" path="res://force_field_edge.tscn" id="2_38s0i"]
+
+[node name="Force Field" type="Node3D"]
+process_mode = 1
+top_level = true
+script = ExtResource("1_yi0hd")
+
+[node name="Force Field Edge 1" parent="." instance=ExtResource("2_38s0i")]
+
+[node name="Force Field Edge 2" parent="." instance=ExtResource("2_38s0i")]
+
+[node name="Force Field Edge 3" parent="." instance=ExtResource("2_38s0i")]

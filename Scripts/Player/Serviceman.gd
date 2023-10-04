@@ -1,5 +1,6 @@
 class_name Serviceman extends Node3D
 
+@export var target : Node3D
 @export var response_time : float = 2
 @export var speed : float = 5
 @export var defense : float = 2
@@ -9,13 +10,11 @@ class_name Serviceman extends Node3D
 @onready var anim_player = $"AnimationPlayer"
 
 var rng : RandomNumberGenerator
-var target : Node3D
 var is_standing : bool = false
 var idle_countdown : float = 0
 
 func _ready():
 	rng = RandomNumberGenerator.new()
-	target = get_node("/root/Game Scene/President/Serviceman Array/" + name + " Position")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

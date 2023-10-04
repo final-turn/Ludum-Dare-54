@@ -1,63 +1,57 @@
-class_name President extends RigidBody3D
+class_name President extends CharacterBody3D
 
 signal on_health_update(health, damage)
-signal serviceman_ui(is_shown, serviceman)
+
+@export var serviceman_array : ServicemanArray
+@export var environment : ClickEnvironment
 
 @export var health : int = 100
-@export var move_speed = 5
-@export var distance = 8
-@export var stand_time = 6
+@export var base_move_speed = 3
+@export var base_stand_time = 6
+@export var rotation_speed = 0.1
+@export var move_length = 3
+@export var scaled_remaining : float = 0
 
 @onready var warning = $"Warning Texture"
 @onready var anim_tree = $"Visuals/AnimationTree"
-@onready var visuals : Node3D = $"Visuals"
 @onready var damageable = $"Visuals/Armature/Skeleton3D/lower_poly/Node"
-@onready var environment : ClickEnvironment = $"../Environment"
-@onready var serviceman_array : ServicemanArray = $"Serviceman Array"
 
 var rng : RandomNumberGenerator
 var time_elapsed : float = 0
 var target_position : Vector3 = Vector3(0,0,0)
-var is_moving : bool = false
-var game_manager
+var move_duration : float = 0
+var rotation_direction : float = 1
+var move_speed = 3
+var stand_time = 6
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(global_position)
-	game_manager = get_parent_node_3d()
 	rng = RandomNumberGenerator.new()
 	environment.mouse_world_position.connect(serviceman_array.on_mouse_world_position)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	stand_time = 6 - 5 * game_manager.get_scaled_remaining()
-	time_elapsed += delta
+func _physics_process(delta):
+	move_speed = base_move_speed + (2 * scaled_remaining)
+	stand_time = base_stand_time - (base_stand_time - 1) * scaled_remaining
 	
-	if is_moving:
-		time_elapsed = 0
-		if(position == target_position):
-			is_moving = false
-			anim_tree.set("parameters/conditions/isIdle", true)
-			anim_tree.set("parameters/conditions/isMoving", false)
+	if move_duration <= 0:
+		velocity.x = move_toward(velocity.x, 0, move_speed * (1.01 - scaled_remaining))
+		velocity.z = move_toward(velocity.z, 0, move_speed * (1.01 - scaled_remaining))
+		if time_elapsed > stand_time:
+			time_elapsed = 0
+			move_duration = move_length
 		else:
-			position = position.move_toward(target_position, delta * move_speed)
-	elif time_elapsed > stand_time:
-		time_elapsed = 0
-		is_moving = true
-		anim_tree.set("parameters/conditions/isIdle", false)
-		anim_tree.set("parameters/conditions/isMoving", true)
-		var randX = rng.randf_range(-1.0, 1.0)
-		var randZ = rng.randf_range(-1.0, 1.0)
-		var randLen = rng.randf_range(3, distance)
-		
-		while true:
-			target_position = position + (Vector3(randX,0,randZ).normalized() * randLen)
-			if target_position.x > -250 && target_position.x < 250 && target_position.z > -250 && target_position.z < 250:
-				break
-		
-		var targ = -1 * target_position
-		targ.y = visuals.global_position.y
-		visuals.look_at(targ)
+			time_elapsed += delta
+			rotate_y(rotation_direction * delta * rotation_speed * (1 + (4 * scaled_remaining)))
+	else:
+		move_duration -= delta
+		var direction = (transform.basis * Vector3.FORWARD).normalized()
+		velocity.x = direction.x * move_speed
+		velocity.z = direction.z * move_speed
+
+	anim_tree.set("parameters/conditions/isIdle", move_duration <= 0)
+	anim_tree.set("parameters/conditions/isMoving", move_duration > 0)
+	
+	move_and_slide()
 
 func set_protected(protected :bool):
 	warning.visible = !protected
