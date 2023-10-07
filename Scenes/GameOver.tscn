@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://biis0edovgq3w"]
 
-[ext_resource type="Script" path="res://Scenes/TitleScene.gd" id="1_2c0wa"]
+[ext_resource type="Script" path="res://Scenes/GameOver.gd" id="1_5aap2"]
 [ext_resource type="Texture2D" uid="uid://dtgfjjjqlh8gt" path="res://Assets/GameOver.png" id="2_c611h"]
 
 [node name="Control" type="Control"]
@@ -12,17 +12,18 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1_2c0wa")
+script = ExtResource("1_5aap2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_top = -101.475
-offset_right = 1080.0
-offset_bottom = 618.525
-scale = Vector2(1.185, 1.185)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_c611h")
 
-[node name="Button2" type="Button" parent="."]
+[node name="Title" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -30,16 +31,16 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = 144.0
-offset_top = -131.0
+offset_top = -220.0
 offset_right = 436.0
-offset_bottom = -53.0
+offset_bottom = -142.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 51
 text = "Title Screen
 "
 
-[node name="Button" type="Button" parent="."]
+[node name="Game" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -47,14 +48,14 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -434.0
-offset_top = -132.0
+offset_top = -220.0
 offset_right = -144.0
-offset_bottom = -54.0
+offset_bottom = -142.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 51
 text = "TRY AGAIN
 "
 
-[connection signal="pressed" from="Button2" to="." method="goto_title"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Title" to="." method="goto_title"]
+[connection signal="pressed" from="Game" to="." method="goto_game"]

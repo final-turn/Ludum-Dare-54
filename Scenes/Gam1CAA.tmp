@@ -1,0 +1,112 @@
+[gd_scene load_steps=17 format=3 uid="uid://bjukmj8c2wcpo"]
+
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
+[ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
+[ext_resource type="Script" path="res://Scripts/Player/ClickEnvironment.gd" id="1_wh88n"]
+[ext_resource type="PackedScene" uid="uid://dkjep733w0j7q" path="res://Entities/president.tscn" id="5_mmk3v"]
+[ext_resource type="PackedScene" uid="uid://ryu7hndxpmpc" path="res://serviceman_array.tscn" id="7_xs51u"]
+[ext_resource type="PackedScene" uid="uid://dj3vics7rmpdf" path="res://force_field.tscn" id="8_5001g"]
+[ext_resource type="PackedScene" uid="uid://dwnv2oi61t50y" path="res://Scenes/ui_manager.tscn" id="8_xc0yl"]
+[ext_resource type="Script" path="res://Scripts/Enemy/Enemy Spawner.gd" id="10_e321x"]
+[ext_resource type="AudioStream" uid="uid://c4d0srwj31qdb" path="res://Sound/presidentPRINT.wav" id="10_wueg0"]
+[ext_resource type="Script" path="res://Scenes/Camera Position.gd" id="13_a0c2c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4y5le"]
+size = Vector3(500, 1, 500)
+
+[sub_resource type="QuadMesh" id="QuadMesh_252xs"]
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oo4o0"]
+albedo_texture = ExtResource("1_nse8l")
+uv1_scale = Vector3(50, 50, 50)
+texture_filter = 2
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1wsvd"]
+sky_top_color = Color(0.537255, 0.741176, 1, 1)
+sky_horizon_color = Color(0, 0.686275, 0.698039, 1)
+sky_curve = 0.023898
+ground_bottom_color = Color(0.596078, 0, 0.529412, 1)
+ground_horizon_color = Color(0, 0.686275, 0.72549, 1)
+ground_curve = 0.171484
+
+[sub_resource type="Sky" id="Sky_7jnkm"]
+sky_material = SubResource("ProceduralSkyMaterial_1wsvd")
+
+[sub_resource type="Environment" id="Environment_q17kr"]
+background_mode = 2
+sky = SubResource("Sky_7jnkm")
+fog_light_color = Color(1, 1, 1, 1)
+fog_light_energy = 0.0
+fog_density = 0.0
+
+[node name="Game Scene" type="Node3D" node_paths=PackedStringArray("president", "agent_positions")]
+process_mode = 3
+script = ExtResource("1_jj2c5")
+president = NodePath("President")
+agent_positions = NodePath("Serviceman Array")
+
+[node name="UI Manager" parent="." node_paths=PackedStringArray("president") instance=ExtResource("8_xc0yl")]
+president = NodePath("../President")
+
+[node name="Environment" type="Node3D" parent="."]
+process_mode = 1
+script = ExtResource("1_wh88n")
+
+[node name="Area3D" type="Area3D" parent="Environment"]
+top_level = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_4y5le")
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+collision_layer = 3
+collision_mask = 3
+collision_priority = 2.0
+input_ray_pickable = false
+
+[node name="Floor Mesh" type="MeshInstance3D" parent="Environment/Floor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_252xs")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_oo4o0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_4y5le")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.9151, -0.282489, 0.287734, 0, 0.713581, 0.700573, -0.403226, -0.641095, 0.652998, 0, 2.925, 0)
+
+[node name="Enemy Spawner" type="Node3D" parent="." node_paths=PackedStringArray("president")]
+process_mode = 1
+script = ExtResource("10_e321x")
+president = NodePath("../President")
+
+[node name="President" parent="." node_paths=PackedStringArray("serviceman_array", "environment") instance=ExtResource("5_mmk3v")]
+serviceman_array = NodePath("../Serviceman Array")
+environment = NodePath("../Environment")
+
+[node name="Serviceman Array" parent="." node_paths=PackedStringArray("target") instance=ExtResource("7_xs51u")]
+target = NodePath("../President")
+
+[node name="Force Field" parent="." instance=ExtResource("8_5001g")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_wueg0")
+autoplay = true
+bus = &"Music"
+
+[node name="Camera Position" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+process_mode = 1
+transform = Transform3D(-1, -1.51808e-08, 8.60946e-08, 0, 0.984808, 0.173648, -8.74228e-08, 0.173648, -0.984808, 0, 1, 0)
+script = ExtResource("13_a0c2c")
+target = NodePath("../President")
+
+[node name="Camera3D" type="Camera3D" parent="Camera Position"]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 10)
+environment = SubResource("Environment_q17kr")
+far = 50.0
+
+[connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]

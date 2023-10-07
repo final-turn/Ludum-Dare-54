@@ -1,31 +1,23 @@
 class_name damagable extends Node
 
 var mesh : MeshInstance3D
-var color
-var cooldownInterval = 0.1
+var base_color
 var cooldown = 0
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	mesh  =  get_parent()
-	color = mesh.get_active_material(0).albedo_color
-	pass # Replace with function body.
+	mesh = get_parent()
+	base_color = mesh.get_active_material(0).albedo_color
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if cooldown > 0:
+		var lerped_color = lerp(base_color, Color(1, 0, 0, base_color.a), sin(cooldown * PI * 3))
+		
+		mesh.get_active_material(0).albedo_color = lerped_color
+		
 		cooldown -= delta
 		if cooldown <= 0:
-			reset()
+			mesh.get_active_material(0).albedo_color = base_color
 			
-	pass
 	
-func flash_damage():
-	mesh.get_active_material(0).albedo_color = Color(1, 0, 0, color.a)
+func flash_damage(cooldownInterval : float):
 	cooldown = cooldownInterval
-	
-
-func reset():
-	mesh.get_active_material(0).albedo_color = color
-
-

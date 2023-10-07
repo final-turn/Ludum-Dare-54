@@ -14,15 +14,40 @@ func _ready():
 	for n in get_children():
 		edge_list.append(n)
 
-func set_positions(positions : Array[Vector3]):
+var moving_node_index = 0
+func override_edge_label(held_node : ServicemanPosition, is_held : bool):
+	edge_list[moving_node_index].show_defense_override = false
+	edge_list[(moving_node_index - 1 + edge_list.size()) % edge_list.size()].show_defense_override = false
+	
+	moving_node_index = held_node.node_index if is_held else -1
+	
+	edge_list[moving_node_index].show_defense_override = is_held
+	edge_list[(moving_node_index - 1 + edge_list.size()) % edge_list.size()].show_defense_override = is_held
+
+func set_positions(positions : Array[Serviceman]):
 	var i = 1
 	while(i <= positions.size()):
-		var current_node = i % positions.size()
+		var a_index = i % positions.size()
+		var b_index = i-1
 		var edge : ForceFieldEdge = edge_list[i - 1]
-		var node_difference : Vector3 = positions[current_node] - positions[i-1]
+		var agent_a : Serviceman = positions[a_index]
+		var agent_b : Serviceman = positions[b_index]
+		var node_difference : Vector3 = agent_a.global_position - agent_b.global_position
+		
+		edge.agent_defense = agent_a.defense + agent_b.defense
 		edge.area.scale.x = node_difference.length()
-		edge.global_position = positions[i-1] + (node_difference * 0.5)
+		edge.global_position = agent_b.global_position + (node_difference * 0.5)
 		edge.rotation.y = (1 if node_difference.z < 0 else -1) * acos(node_difference.normalized().dot(Vector3.RIGHT))
+		
+		if edge.show_defense_override:
+			var a = agent_a.global_position
+			if(a_index == moving_node_index):
+				a = agent_a.target_position.global_position
+			var b = agent_b.global_position
+			if(b_index == moving_node_index):
+				b = agent_b.target_position.global_position
+			edge.override_scale = (a - b).length()
+		
 		i+=1
 	#compute_area(positions[0], positions[1], positions[2])
 
@@ -33,16 +58,6 @@ func compute_area(a : Vector2, b: Vector2, c: Vector2):
 		area_changed.emit(new_area, damage_reduction)
 		field_area = new_area
 	#print("area: " + str(area))
-
-func _on_area_3d_body_entered(body):
-	if body.name == "President":
-		body.set_protected(true)
-		#print("President is protected")
-
-func _on_area_3d_body_exited(body):
-	if body.name == "President":
-		body.set_protected(false)
-		#print("President is exposed")
 
 func compute_damage_reduction():
 	# At the start of the game the triangle around the prez is 6

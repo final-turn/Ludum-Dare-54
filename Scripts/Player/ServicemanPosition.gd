@@ -1,9 +1,13 @@
 class_name ServicemanPosition extends Node3D
 
 @onready var orb : Area3D = $"Area3D"
+@onready var serviceman : Serviceman = $"../Serviceman"
+@onready var ui : ServicemanStats = $"Stats UI"
 
 signal on_hover(ref, is_hovered)
 signal node_held(ref, is_held)
+
+var node_index
 
 func _on_area_3d_input_event(_camera, _event, _position, _normal, _shape_idx):
 	if Input.is_action_just_pressed("click"):
@@ -13,9 +17,8 @@ func _on_area_3d_input_event(_camera, _event, _position, _normal, _shape_idx):
 		self.top_level = false
 		node_held.emit(self, false)
 
-
 func _on_area_3d_mouse_entered():
-	on_hover.emit(self, true)
+	ui.show_ui(serviceman)
 
 func _on_area_3d_mouse_exited():
-	on_hover.emit(self, false)
+	ui.hide()

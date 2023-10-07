@@ -8,9 +8,12 @@ class_name Enemy extends Node3D
 @onready var reduced_label : Label3D = $"Missle Flair/Reduced Damage Label"
 @onready var label_animp : AnimationPlayer = $"Missle Flair/Label Animation"
 @onready var mesh_animp : AnimationPlayer = $"Missle Flair/Mesh Animation"
+@onready var dmg : damagable = $"Missle Flair/missle/Head/damagable"
 
 var president : President
 var is_moving : bool = true
+
+var damage_cooldown = 0
 
 func _ready():
 	mesh_animp.play("Spin")
@@ -18,6 +21,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	damage_cooldown = max(0, damage_cooldown - delta)
 	if is_moving:
 		look_at(president.global_position, Vector3.UP)
 		global_position = global_position.move_toward(president.global_position, delta * movespeed)
@@ -28,14 +32,18 @@ func _on_body_entered(body):
 		le_kill("Explodes")
 
 func decrease_damage(amount : float):
-	damage -= amount
-	print("Enemy damage reduced to %d" % damage)
-	if damage <= 0:
-		le_kill("Deflected")
-	else:
-		reduced_label.text = "-%d" % amount
-		label_animp.play("Chip Damage")
-		damage_label.text = str(damage)
+	if damage_cooldown == 0:
+		damage -= amount
+		#print("Enemy damage reduced to %d" % damage)
+		if damage <= 0:
+			le_kill("Deflected")
+		else:
+			reduced_label.text = "-%d" % amount
+			label_animp.play("Chip Damage")
+			damage_label.text = str(damage)
+			damage_cooldown = 1
+			dmg.flash_damage(damage_cooldown)
+		
 
 func le_kill(animation):
 	if is_moving:

@@ -10,9 +10,6 @@ var camera
 func _ready():
 	camera = get_tree().root.get_camera_3d()
 
-func hide_ui():
-	visible = false;
-
 func show_ui(serviceman : Serviceman):
 	visible = true
 	alertness.text = "REACT: [shake] %.2f" % serviceman.response_time

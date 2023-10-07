@@ -5,7 +5,7 @@ signal on_health_update(health, damage)
 @export var serviceman_array : ServicemanArray
 @export var environment : ClickEnvironment
 
-@export var health : int = 100
+@export var health : int = 85
 @export var base_move_speed = 3
 @export var base_stand_time = 6
 @export var rotation_speed = 0.1
@@ -23,6 +23,7 @@ var move_duration : float = 0
 var rotation_direction : float = 1
 var move_speed = 3
 var stand_time = 6
+var is_protected : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,6 +40,8 @@ func _physics_process(delta):
 		if time_elapsed > stand_time:
 			time_elapsed = 0
 			move_duration = move_length
+			rotation_direction = rng.randi_range(-1, 1)
+			print(rotation_direction)
 		else:
 			time_elapsed += delta
 			rotate_y(rotation_direction * delta * rotation_speed * (1 + (4 * scaled_remaining)))
@@ -53,9 +56,6 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-func set_protected(protected :bool):
-	warning.visible = !protected
-
 func _set_health(hp):
 	health = hp
 	on_health_update.emit(hp, 0)
@@ -63,6 +63,29 @@ func _set_health(hp):
 func _take_damage(damage):
 	health -= damage
 	on_health_update.emit(health, damage)
-	damageable.flash_damage()
+	damageable.flash_damage(1)
 	var state_machine = anim_tree["parameters/playback"]
 	state_machine.travel("Hit")
+	move_duration = 0
+	rotation_direction = rng.randi_range(-1, 1)
+	print(rotation_direction)
+	
+func heal(amount):
+	health += amount
+	on_health_update.emit(health, 0)
+	rotation_direction = rng.randi_range(-1, 1)
+	print(rotation_direction)
+	
+func check_if_protected (servicemen : Array[Serviceman]):
+	var d1 = _sign(global_position, servicemen[0].global_position, servicemen[1].global_position);
+	var d2 = _sign(global_position, servicemen[1].global_position, servicemen[2].global_position);
+	var d3 = _sign(global_position, servicemen[2].global_position, servicemen[0].global_position);
+
+	var has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+	var has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+	warning.visible = (has_neg && has_pos);
+	is_protected = !warning.visible
+
+func _sign (p1, p2, p3):
+	return (p1.x - p3.x) * (p2.z - p3.z) - (p2.x - p3.x) * (p1.z - p3.z)

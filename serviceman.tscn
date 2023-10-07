@@ -1,0 +1,136 @@
+[gd_scene load_steps=8 format=3 uid="uid://82hxws2t5ew4"]
+
+[ext_resource type="PackedScene" uid="uid://b7uvml1wafwnw" path="res://Entities/serviceman.tscn" id="1_rvrid"]
+[ext_resource type="Script" path="res://Scripts/Player/ServicemanPosition.gd" id="2_0drsp"]
+[ext_resource type="Texture2D" uid="uid://mtgsrx4tql2c" path="res://Assets/Circle.png" id="3_6yfnp"]
+[ext_resource type="Script" path="res://Scripts/ServicemanStats.gd" id="5_q5c4u"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hr2xi"]
+transparency = 1
+albedo_color = Color(0.14902, 0.0666667, 1, 1)
+albedo_texture = ExtResource("3_6yfnp")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2tom2"]
+material = SubResource("StandardMaterial3D_hr2xi")
+size = Vector2(1, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_aaxe5"]
+height = 0.6
+
+[node name="Serviceman Node" type="Node3D"]
+
+[node name="Serviceman" parent="." node_paths=PackedStringArray("target_position") instance=ExtResource("1_rvrid")]
+top_level = true
+target_position = NodePath("../Target Position")
+dive = 1.0
+speed = 8.0
+
+[node name="Skeleton3D" parent="Serviceman/agent/Model" index="0"]
+bones/0/position = Vector3(-0.0945516, 0.294361, -61.964)
+bones/0/rotation = Quaternion(-0.641562, -0.0902921, 0.0836024, 0.757137)
+bones/1/rotation = Quaternion(0.0364068, 0.0440648, 0.00623002, 0.998346)
+bones/2/rotation = Quaternion(0.00741496, -0.0201777, 0.0399452, 0.998971)
+bones/3/rotation = Quaternion(-0.0218445, -0.0497056, -0.0288753, 0.998107)
+bones/4/rotation = Quaternion(0.15373, 0.00512006, 0.0190564, 0.987916)
+bones/5/rotation = Quaternion(-0.132677, 0.159627, -0.022985, 0.977951)
+bones/7/rotation = Quaternion(-0.613905, -0.418261, 0.510968, -0.432539)
+bones/8/rotation = Quaternion(0.135939, -0.273704, 0.539976, 0.784241)
+bones/9/rotation = Quaternion(0.0783645, 0.0283686, 0.436284, 0.895941)
+bones/10/rotation = Quaternion(-0.239781, -0.486751, -0.211313, 0.812973)
+bones/11/rotation = Quaternion(0.105036, -0.053504, 0.226901, 0.966758)
+bones/13/rotation = Quaternion(-0.0346188, 0.0119298, 0.09718, 0.994593)
+bones/15/rotation = Quaternion(0.310998, 0.0042347, 0.0036748, 0.950394)
+bones/16/rotation = Quaternion(0.500184, -0.000792865, -0.0455372, 0.86472)
+bones/17/rotation = Quaternion(0.209149, 0.000366225, -0.0199652, 0.97768)
+bones/19/rotation = Quaternion(0.447069, -0.0181321, 0.0109788, 0.894248)
+bones/23/rotation = Quaternion(0.476542, -0.0407924, 0.038788, 0.877348)
+bones/24/rotation = Quaternion(0.460499, 9.20808e-05, -0.048106, 0.886356)
+bones/27/rotation = Quaternion(0.582886, -0.100449, 0.0703804, 0.803244)
+bones/28/rotation = Quaternion(0.165596, -0.00017073, -0.0176912, 0.986035)
+bones/29/rotation = Quaternion(0.100463, -0.000307343, -0.021685, 0.994704)
+bones/31/rotation = Quaternion(0.620498, -0.393725, 0.501801, 0.456244)
+bones/32/rotation = Quaternion(0.130731, 0.199165, -0.724692, 0.646579)
+bones/33/rotation = Quaternion(0.0411702, -0.0202561, -0.229178, 0.972302)
+bones/34/rotation = Quaternion(-0.178219, 0.328349, 0.144406, 0.916281)
+bones/55/rotation = Quaternion(0.0872099, 0.317784, 0.943975, -0.017838)
+bones/56/rotation = Quaternion(-0.792376, -0.0387768, 0.0112955, 0.608695)
+bones/57/rotation = Quaternion(0.694064, 0.0579964, 0.0920484, 0.711645)
+bones/58/rotation = Quaternion(0.279523, -0.150669, 0.0426845, 0.947282)
+bones/60/rotation = Quaternion(0.0523831, 0.270041, 0.958488, -0.0750616)
+bones/61/rotation = Quaternion(-0.576664, 0.00984334, -0.0476682, 0.81553)
+bones/62/rotation = Quaternion(0.805989, 0.0618655, -0.0562901, 0.585992)
+bones/63/rotation = Quaternion(0.318622, 0.143352, -0.0413433, 0.936067)
+
+[node name="Area3D" parent="Serviceman" index="1"]
+input_ray_pickable = false
+
+[node name="Target Position" type="Node3D" parent="."]
+script = ExtResource("2_0drsp")
+
+[node name="Visual" type="MeshInstance3D" parent="Target Position"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("PlaneMesh_2tom2")
+
+[node name="Area3D" type="Area3D" parent="Target Position"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target Position/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("CylinderShape3D_aaxe5")
+
+[node name="Label3D" type="Label3D" parent="Target Position"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+pixel_size = 0.0115
+billboard = 1
+render_priority = 1
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0.25, 0.183594, 0.996094, 1)
+text = "Curly"
+
+[node name="Stats UI" type="Panel" parent="Target Position"]
+visible = false
+offset_right = 220.0
+offset_bottom = 120.0
+mouse_filter = 2
+script = ExtResource("5_q5c4u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Target Position/Stats UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Movespeed" type="RichTextLabel" parent="Target Position/Stats UI/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "SPEED: [wave] 0"
+fit_content = true
+
+[node name="Defense" type="RichTextLabel" parent="Target Position/Stats UI/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "DEFENSE: [rainbow] 0"
+fit_content = true
+
+[node name="Alertness" type="RichTextLabel" parent="Target Position/Stats UI/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "ALERTNESS: [shake] 0"
+fit_content = true
+
+[connection signal="input_event" from="Target Position/Area3D" to="Target Position" method="_on_area_3d_input_event" flags=18]
+[connection signal="mouse_entered" from="Target Position/Area3D" to="Target Position" method="_on_area_3d_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="Target Position/Area3D" to="Target Position" method="_on_area_3d_mouse_exited" flags=18]
+
+[editable path="Serviceman"]

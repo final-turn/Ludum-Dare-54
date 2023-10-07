@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bq8rfxhukyu2u"]
+[gd_scene load_steps=13 format=3 uid="uid://bq8rfxhukyu2u"]
 
 [ext_resource type="PackedScene" uid="uid://dbu0vj7dltvvh" path="res://Assets/Models/missle.glb" id="1_remhh"]
 [ext_resource type="Texture2D" uid="uid://bok7a0v2kq8g" path="res://Assets/explosion.png" id="2_7t3fg"]
+[ext_resource type="Script" path="res://Scripts/Player/Damagable.gd" id="2_f8gac"]
 [ext_resource type="AudioStream" uid="uid://cb5dfypf1ea8m" path="res://Sound/explodemini.wav" id="3_ptt6o"]
 
 [sub_resource type="Animation" id="Animation_5p51e"]
@@ -318,6 +319,9 @@ libraries = {
 
 [node name="missle" parent="." instance=ExtResource("1_remhh")]
 transform = Transform3D(-0.5, 0, -6.33795e-07, 0, 0.5, 0, 1.26759e-06, 0, -0.25, 0, 1, 0)
+
+[node name="damagable" type="Node" parent="missle/Head" index="0"]
+script = ExtResource("2_f8gac")
 
 [node name="Tail" parent="missle" index="1"]
 transform = Transform3D(-1, -2.53518e-06, 0, 2.53518e-06, -1, 0, 0, 0, 1, 0, 0, 0)

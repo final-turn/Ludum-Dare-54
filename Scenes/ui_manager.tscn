@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwnv2oi61t50y"]
+[gd_scene load_steps=6 format=3 uid="uid://dwnv2oi61t50y"]
 
 [ext_resource type="Script" path="res://Scripts/UI Manager.gd" id="1_7ecfm"]
 [ext_resource type="PackedScene" uid="uid://bnvk6flifxul" path="res://UI/PerkMenu.tscn" id="2_rjd7c"]
 [ext_resource type="Texture2D" uid="uid://jnqfdwed14p0" path="res://Assets/HealthBar.png" id="3_dtwm8"]
 [ext_resource type="Texture2D" uid="uid://bvsnuja4h32xw" path="res://Assets/Health.png" id="4_hv3lu"]
-[ext_resource type="Script" path="res://Scripts/ServicemanStats.gd" id="5_vut87"]
 [ext_resource type="Script" path="res://Scenes/SoundSlider.gd" id="6_vvgj5"]
 
 [node name="UI Manager" type="Control"]
@@ -16,6 +15,41 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_7ecfm")
+
+[node name="Volume" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="Volume"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -549.0
+offset_top = 21.0
+offset_right = -385.0
+offset_bottom = 47.0
+grow_horizontal = 0
+text = "Sound"
+
+[node name="HSlider" type="HSlider" parent="Volume"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -374.0
+offset_top = 27.0
+offset_right = -17.0
+offset_bottom = 43.0
+grow_horizontal = 0
+max_value = 1.0
+step = 0.05
+script = ExtResource("6_vvgj5")
 
 [node name="HP Meter" type="Control" parent="."]
 layout_mode = 1
@@ -46,52 +80,6 @@ offset_bottom = 52.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 31
 text = "Health"
-
-[node name="Shield Meter" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -20.0
-offset_top = 40.0
-offset_right = 20.0
-offset_bottom = 80.0
-
-[node name="Bar" type="TextureProgressBar" parent="Shield Meter"]
-layout_mode = 1
-offset_left = 30.5
-offset_top = 12.25
-offset_right = 286.5
-offset_bottom = 268.25
-scale = Vector2(0.86, 0.095)
-value = 100.0
-texture_under = ExtResource("3_dtwm8")
-texture_progress = ExtResource("4_hv3lu")
-texture_progress_offset = Vector2(5, 5)
-tint_progress = Color(0, 0.694118, 0.784314, 1)
-
-[node name="Label" type="Label" parent="Shield Meter"]
-layout_mode = 0
-offset_left = 44.0
-offset_top = 11.0
-offset_right = 208.0
-offset_bottom = 58.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-text = "Shield
-"
-
-[node name="Max Shield" type="Label" parent="Shield Meter"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 218.0
-offset_top = 10.0
-offset_right = 308.0
-offset_bottom = 57.0
-grow_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-text = "MAX 99"
 
 [node name="EXP Meter" type="Control" parent="."]
 layout_mode = 1
@@ -135,14 +123,15 @@ vertical_alignment = 2
 
 [node name="Timer" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -253.0
-offset_top = 642.0
-offset_right = 12.0
-offset_bottom = 753.0
+anchor_bottom = 1.0
+offset_left = -265.0
+offset_top = -111.0
 grow_horizontal = 0
+grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
 text = "10:00.00"
@@ -150,73 +139,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PerkMenu" parent="." instance=ExtResource("2_rjd7c")]
-layout_mode = 1
-
-[node name="Serviceman Stats" type="Panel" parent="."]
 visible = false
-layout_mode = 0
-offset_right = 220.0
-offset_bottom = 120.0
-mouse_filter = 2
-script = ExtResource("5_vut87")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Serviceman Stats"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Movespeed" type="RichTextLabel" parent="Serviceman Stats/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/normal_font_size = 20
-bbcode_enabled = true
-text = "SPEED: [wave] 0"
-fit_content = true
-
-[node name="Defense" type="RichTextLabel" parent="Serviceman Stats/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/normal_font_size = 20
-bbcode_enabled = true
-text = "DEFENSE: [rainbow] 0"
-fit_content = true
-
-[node name="Alertness" type="RichTextLabel" parent="Serviceman Stats/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/normal_font_size = 20
-bbcode_enabled = true
-text = "ALERTNESS: [shake] 0"
-fit_content = true
-
-[node name="Volume" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Label" type="Label" parent="Volume"]
-layout_mode = 0
-offset_left = 848.0
-offset_top = 2.0
-offset_right = 1012.0
-offset_bottom = 28.0
-text = "Sound"
-
-[node name="HSlider" type="HSlider" parent="Volume"]
-layout_mode = 0
-offset_left = 913.0
-offset_top = 6.0
-offset_right = 1270.0
-offset_bottom = 22.0
-max_value = 1.0
-step = 0.05
-script = ExtResource("6_vvgj5")
 
 [connection signal="value_changed" from="Volume/HSlider" to="Volume/HSlider" method="_on_value_changed"]

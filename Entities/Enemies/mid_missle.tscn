@@ -15,6 +15,7 @@ albedo_texture = ExtResource("3_fd0cm")
 [node name="Missle" type="Area3D"]
 collision_layer = 2
 collision_mask = 2
+input_ray_pickable = false
 script = ExtResource("1_rrf8j")
 movespeed = 5.0
 damage = 8.0

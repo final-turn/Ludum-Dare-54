@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://5ve6kvgey6q4"]
+[gd_scene load_steps=7 format=3 uid="uid://5ve6kvgey6q4"]
 
 [ext_resource type="Script" path="res://Scenes/TitleScene.gd" id="1_k4h2k"]
-[ext_resource type="Texture2D" uid="uid://bjylwdwneldy6" path="res://Assets/cover.png" id="2_q0xqn"]
+[ext_resource type="VideoStream" path="res://Assets/Menu/titlevid.ogv" id="2_6pkhp"]
+[ext_resource type="VideoStream" path="res://Assets/Menu/button.ogv" id="3_5gjuh"]
+[ext_resource type="Shader" path="res://Assets/Menu/AlphaVid.gdshader" id="4_su5w0"]
+[ext_resource type="AudioStream" uid="uid://c67f612chf1vu" path="res://Assets/Menu/CleanerLessBoom.wav" id="5_3lybk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bjofx"]
+shader = ExtResource("4_su5w0")
+shader_parameter/threshold = 0.2
+shader_parameter/clip_color = Color(1, 0, 0.662745, 1)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -14,69 +22,54 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_k4h2k")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -4.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
+stream = ExtResource("2_6pkhp")
+autoplay = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Button Video" type="VideoStreamPlayer" parent="."]
+material = SubResource("ShaderMaterial_bjofx")
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -352.0
+offset_top = -200.0
+offset_right = 352.0
+offset_bottom = -39.9999
 grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_q0xqn")
-expand_mode = 3
-stretch_mode = 4
+grow_vertical = 0
+stream = ExtResource("3_5gjuh")
+autoplay = true
 
-[node name="Control" type="Control" parent="."]
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = -88.0
-offset_bottom = -88.0
+anchor_bottom = 1.0
+offset_left = -352.0
+offset_top = -200.0
+offset_right = 352.0
+offset_bottom = -40.0001
 grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Button" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 315.0
-offset_top = 347.0
-offset_right = 605.0
-offset_bottom = 425.0
-grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 theme_override_font_sizes/font_size = 51
 text = "PLAY GAME"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_left = 925.0
-offset_top = 13.0
-offset_right = 1256.0
-offset_bottom = 586.0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 25
-bbcode_enabled = true
-text = "[center]position the agents around the president to protect him from threats, the bigger the area of the force field, however, the weaker the shield
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_3lybk")
+autoplay = true
 
-click and drag on the circles on the ground to position the agents.
-
-hold right mouse button to rotate the camera
-
-scroll wheel to zoom
-"
-
-[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

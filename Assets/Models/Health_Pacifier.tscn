@@ -1,0 +1,106 @@
+[gd_scene load_steps=9 format=3 uid="uid://bhpirbiq5ngwt"]
+
+[ext_resource type="PackedScene" uid="uid://1yanab48i1ff" path="res://Assets/Models/pacifier.glb" id="1_w4wu3"]
+[ext_resource type="Script" path="res://Assets/Models/Health_Pacifier.gd" id="2_abtup"]
+[ext_resource type="Texture2D" uid="uid://c5tj6rs30eraf" path="res://Assets/Models/pacifier_Pacifier.png" id="2_n84pl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_30bb0"]
+albedo_texture = ExtResource("2_n84pl")
+metallic_specular = 1.0
+roughness = 0.0
+
+[sub_resource type="Animation" id="Animation_l4f47"]
+resource_name = "Idle"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sphere:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.1, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.640734, 1.77102, 0), Vector3(-0.641, 2.546, 0), Vector3(-0.640734, 1.77102, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hu21r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sphere:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.640734, 1.77102, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ehqeb"]
+_data = {
+"Idle": SubResource("Animation_l4f47"),
+"RESET": SubResource("Animation_hu21r")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_or5h4"]
+radius = 4.0
+
+[node name="Health Pacifier" instance=ExtResource("1_w4wu3")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+script = ExtResource("2_abtup")
+
+[node name="Sphere" parent="." index="0"]
+transform = Transform3D(0.899428, 0.437069, 0, -0.437069, 0.899428, 0, 0, 0, 1, -0.640734, 1.77102, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_30bb0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_ehqeb")
+}
+
+[node name="Label3D" type="Label3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.785, 0)
+modulate = Color(0, 1, 0, 1)
+text = "+15
+"
+font_size = 517
+
+[node name="Area3D" type="Area3D" parent="." index="3"]
+collision_layer = 2
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.405, 0)
+shape = SubResource("SphereShape3D_or5h4")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

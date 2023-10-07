@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ryu7hndxpmpc"]
+
+[ext_resource type="Script" path="res://Scripts/Player/ServicemanArray.gd" id="1_2fvyg"]
+[ext_resource type="PackedScene" uid="uid://82hxws2t5ew4" path="res://serviceman.tscn" id="2_bji6w"]
+
+[node name="Serviceman Array" type="Node3D"]
+process_mode = 3
+script = ExtResource("1_2fvyg")
+
+[node name="Serviceman 1" parent="." instance=ExtResource("2_bji6w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Serviceman 2" parent="." instance=ExtResource("2_bji6w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="Serviceman 3" parent="." instance=ExtResource("2_bji6w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)

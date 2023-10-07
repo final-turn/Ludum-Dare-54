@@ -2,37 +2,56 @@ class_name ServicemanArray extends Node3D
 
 @export var target : Node3D
 
-var perimeter_nodes : Array[ServicemanPosition]
+signal agent_position_hovered(is_shown, serviceman)
+
+@onready var force_field : ForceField = $"../Force Field"
+
 var held_node : ServicemanPosition
 var space_state
 var camera
 
-signal agent_position_hovered(is_shown, serviceman_position)
+var agents : Array[Serviceman]
+var agent_positions : Array[ServicemanPosition]
+
+var president
 
 func _ready():
 	camera = get_tree().root.get_camera_3d()
 	space_state = get_world_3d().direct_space_state
 	
-	for N in get_children():
-		var child : ServicemanPosition = N
-		child.node_held.connect(on_node_held)
-		child.on_hover.connect(on_position_hover)
-		perimeter_nodes.append(child)
+	var i = 0
+	for child in get_children():
+		var target_position : ServicemanPosition = child.get_node("Target Position")
+		target_position.node_held.connect(on_node_held)
+		target_position.on_hover.connect(on_position_hover)
+		target_position.node_index = i
+		agent_positions.append(target_position)
+		agents.append(child.get_node("Serviceman"))
+		i+=1
+
+func on_node_held(t, is_held):
+	if held_node != null:
+		force_field.override_edge_label(held_node, is_held)
+	held_node = t if is_held else null
+
+func on_position_hover(ref, is_hovered):
+	agent_position_hovered.emit(ref, is_hovered)
 
 func on_mouse_world_position(pos):
 	if held_node != null:
 		#print("Holding " + str(held_node) + " at " + str(pos))
 		held_node.position = Vector3(pos.x, 0, pos.z)
 
-func on_node_held(target, is_held):
-	held_node = target if is_held else null
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	global_position = target.global_position
+	
+	force_field.set_positions(agents)
+	target.check_if_protected(agents)
+	
 	if held_node != null:
 		var pos = screen_to_world()
-		print(pos)
 		held_node.position = Vector3(pos.x, 0, pos.z)
+		force_field.override_edge_label(held_node, true)
 
 func screen_to_world():
 	var mouse_position = get_viewport().get_mouse_position()
@@ -48,5 +67,3 @@ func screen_to_world():
 		return ray_array["position"]
 	return Vector3()
 
-func on_position_hover(ref, is_hovered):
-	agent_position_hovered.emit(ref, is_hovered)

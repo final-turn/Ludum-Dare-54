@@ -1,20 +1,18 @@
-[gd_scene load_steps=26 format=3 uid="uid://bjukmj8c2wcpo"]
+[gd_scene load_steps=20 format=3 uid="uid://bjukmj8c2wcpo"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
 [ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
 [ext_resource type="Script" path="res://Scripts/Player/ClickEnvironment.gd" id="1_wh88n"]
-[ext_resource type="Script" path="res://Scripts/Player/PerimeterManager.gd" id="4_bflj1"]
-[ext_resource type="PackedScene" uid="uid://b7uvml1wafwnw" path="res://Entities/serviceman.tscn" id="4_ch8jo"]
 [ext_resource type="PackedScene" uid="uid://dkjep733w0j7q" path="res://Entities/president.tscn" id="5_mmk3v"]
-[ext_resource type="Script" path="res://Scripts/Player/Force Field.gd" id="6_y3o43"]
-[ext_resource type="PackedScene" uid="uid://cw417jfpsdh44" path="res://Entities/fence.tscn" id="7_bd5ae"]
-[ext_resource type="Script" path="res://Scripts/Player/Damagable.gd" id="8_sm64e"]
+[ext_resource type="Texture2D" uid="uid://d3hx2auwpkkx0" path="res://Assets/icon.svg" id="5_ss0wv"]
+[ext_resource type="PackedScene" uid="uid://b4e8biof54fpt" path="res://Assets/Models/pills_enemy.tscn" id="6_cm1bo"]
+[ext_resource type="PackedScene" uid="uid://ryu7hndxpmpc" path="res://serviceman_array.tscn" id="7_xs51u"]
+[ext_resource type="PackedScene" uid="uid://dj3vics7rmpdf" path="res://force_field.tscn" id="8_5001g"]
 [ext_resource type="PackedScene" uid="uid://dwnv2oi61t50y" path="res://Scenes/ui_manager.tscn" id="8_xc0yl"]
 [ext_resource type="Script" path="res://Scripts/Enemy/Enemy Spawner.gd" id="10_e321x"]
 [ext_resource type="AudioStream" uid="uid://c4d0srwj31qdb" path="res://Sound/presidentPRINT.wav" id="10_wueg0"]
+[ext_resource type="PackedScene" uid="uid://bhpirbiq5ngwt" path="res://Assets/Models/Health_Pacifier.tscn" id="11_3yvnr"]
 [ext_resource type="Script" path="res://Scenes/Camera Position.gd" id="13_a0c2c"]
-[ext_resource type="Script" path="res://Scripts/Player/ServicemanArray.gd" id="14_x2rwj"]
-[ext_resource type="PackedScene" uid="uid://1c1ruagdu8ys" path="res://Entities/serviceman_position.tscn" id="15_sktww"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4y5le"]
 size = Vector3(500, 1, 500)
@@ -23,20 +21,14 @@ size = Vector3(500, 1, 500)
 size = Vector2(500, 500)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oo4o0"]
+albedo_color = Color(0.34902, 0.34902, 0.34902, 1)
 albedo_texture = ExtResource("1_nse8l")
+emission_enabled = true
+emission = Color(0.415686, 0.776471, 1, 1)
+emission_energy_multiplier = 0.28
+emission_texture = ExtResource("5_ss0wv")
 uv1_scale = Vector3(50, 50, 50)
 texture_filter = 2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v8tkb"]
-transparency = 1
-cull_mode = 2
-albedo_color = Color(0, 0.615686, 0.878431, 0.490196)
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_lk0ef"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvkbq"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_i6ylv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1wsvd"]
 sky_top_color = Color(0.537255, 0.741176, 1, 1)
@@ -56,18 +48,16 @@ fog_light_color = Color(1, 1, 1, 1)
 fog_light_energy = 0.0
 fog_density = 0.0
 
-[node name="Game Scene" type="Node3D" node_paths=PackedStringArray("president", "permimeter_manager", "agent_positions", "force_field", "scaled_entities")]
+[node name="Game Scene" type="Node3D" node_paths=PackedStringArray("president", "agent_positions", "scaled_entities")]
 process_mode = 3
 script = ExtResource("1_jj2c5")
-president = NodePath("President Nodes/President")
-permimeter_manager = NodePath("President Nodes/Perimeter Manager")
-agent_positions = NodePath("President Nodes/Serviceman Array")
-force_field = NodePath("President Nodes/Force Field")
-exp_per_second = 3.0
-scaled_entities = [NodePath("President Nodes/President"), NodePath("Enemy Spawner")]
+president = NodePath("President")
+agent_positions = NodePath("Serviceman Array")
+scaled_entities = [NodePath("Enemy Spawner"), NodePath("President")]
 
 [node name="UI Manager" parent="." node_paths=PackedStringArray("president") instance=ExtResource("8_xc0yl")]
-president = NodePath("../President Nodes/President")
+process_mode = 3
+president = NodePath("../President")
 
 [node name="Environment" type="Node3D" parent="."]
 process_mode = 1
@@ -99,88 +89,449 @@ shape = SubResource("BoxShape3D_4y5le")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
 transform = Transform3D(0.9151, -0.282489, 0.287734, 0, 0.713581, 0.700573, -0.403226, -0.641095, 0.652998, 0, 2.925, 0)
 
+[node name="Damage" type="Node3D" parent="Environment"]
+
+[node name="Enemy" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 24.4641, 0, -16.7217)
+
+[node name="Enemy2" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -35.8636, 0, -12.7879)
+
+[node name="Enemy3" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -54.0518, 0, 17.4938)
+
+[node name="Enemy4" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -0.452245, 0, 23.0477)
+
+[node name="Enemy5" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 53.6155, 0, -10.4405)
+
+[node name="Enemy6" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 7.96736, 0, -105.196)
+
+[node name="Enemy7" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -141.24, 1.52588e-05, -12.3085)
+
+[node name="Enemy8" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -60.3718, -1.52588e-05, -54.576)
+
+[node name="Enemy9" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -37.7755, 0, 59.7454)
+
+[node name="Enemy13" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(2.25, 0, 0, 0, 2.25, 0, 0, 0, 2.25, 25.147, 0, -72.1239)
+
+[node name="Enemy10" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 20.8298, 0, 50.2604)
+
+[node name="Enemy11" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 62.8107, 0, -57.8696)
+
+[node name="Enemy12" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -16.052, 0, -51.1953)
+
+[node name="Enemy14" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 74.1674, 0, 24.022)
+
+[node name="Enemy15" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -91.7638, 0, 134.129)
+
+[node name="Enemy16" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -152.092, 0, 138.063)
+
+[node name="Enemy17" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -170.28, 0, 168.345)
+
+[node name="Enemy18" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -116.68, 0, 173.899)
+
+[node name="Enemy19" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -62.6124, 0, 140.411)
+
+[node name="Enemy20" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -108.261, 0, 45.6553)
+
+[node name="Enemy21" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -217.748, 0, 125.264)
+
+[node name="Enemy22" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -176.6, -1.52588e-05, 96.2752)
+
+[node name="Enemy23" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -154.003, 0, 210.597)
+
+[node name="Enemy24" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(2.25, 0, 0, 0, 2.25, 0, 0, 0, 2.25, -91.0809, 0, 78.7272)
+
+[node name="Enemy25" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -95.3981, 0, 201.112)
+
+[node name="Enemy26" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -53.4172, 0, 92.9816)
+
+[node name="Enemy27" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -132.28, 0, 99.6559)
+
+[node name="Enemy28" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -42.0605, 0, 174.873)
+
+[node name="Enemy29" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 107.3, 0, 128.574)
+
+[node name="Enemy30" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 46.9724, 0, 132.508)
+
+[node name="Enemy31" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 28.7843, 0, 162.79)
+
+[node name="Enemy32" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 82.3838, 0, 168.344)
+
+[node name="Enemy33" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 136.452, 0, 134.856)
+
+[node name="Enemy34" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 90.8034, 0, 40.1002)
+
+[node name="Enemy35" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -18.6841, 0, 119.709)
+
+[node name="Enemy36" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 22.4643, -1.52588e-05, 90.7201)
+
+[node name="Enemy37" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 45.0606, 0, 205.041)
+
+[node name="Enemy38" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(2.25, 0, 0, 0, 2.25, 0, 0, 0, 2.25, 107.983, 0, 73.1721)
+
+[node name="Enemy39" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 103.666, 0, 195.556)
+
+[node name="Enemy40" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 145.647, 0, 87.4264)
+
+[node name="Enemy41" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 66.784, 0, 94.1008)
+
+[node name="Enemy42" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 157.004, 0, 169.318)
+
+[node name="Enemy43" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 174.089, 0, -85.9424)
+
+[node name="Enemy44" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 113.761, 0, -82.0086)
+
+[node name="Enemy45" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 95.5728, 0, -51.7269)
+
+[node name="Enemy46" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 149.172, 0, -46.173)
+
+[node name="Enemy47" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 203.24, 0, -79.6612)
+
+[node name="Enemy48" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 157.592, 0, -174.417)
+
+[node name="Enemy49" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 48.1044, 0, -94.8076)
+
+[node name="Enemy50" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 89.2528, -1.52588e-05, -123.797)
+
+[node name="Enemy51" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 111.849, 0, -9.47525)
+
+[node name="Enemy52" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(2.25, 0, 0, 0, 2.25, 0, 0, 0, 2.25, 174.772, 0, -141.345)
+
+[node name="Enemy53" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 170.454, 0, -18.9603)
+
+[node name="Enemy54" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 212.435, 0, -127.09)
+
+[node name="Enemy55" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 133.573, 0, -120.416)
+
+[node name="Enemy56" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 223.792, 0, -45.1987)
+
+[node name="Enemy57" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -84.0809, 0, -142.83)
+
+[node name="Enemy58" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -151.088, 1.52588e-05, -98.1723)
+
+[node name="Enemy59" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -195.864, 0, -79.0612)
+
+[node name="Enemy60" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -108.997, 0, -103.061)
+
+[node name="Enemy61" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -54.9295, 0, -136.549)
+
+[node name="Enemy62" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -100.578, 0, -231.304)
+
+[node name="Enemy63" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -210.065, 0, -151.695)
+
+[node name="Enemy64" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -168.917, -1.52588e-05, -180.684)
+
+[node name="Enemy65" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -194.548, 0, -20.3522)
+
+[node name="Enemy66" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(2.25, 0, 0, 0, 2.25, 0, 0, 0, 2.25, -30.689, 0, -188.426)
+
+[node name="Enemy67" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -117.056, 0, -55.8104)
+
+[node name="Enemy68" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 39.742, 1.52588e-05, -176.229)
+
+[node name="Enemy69" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -124.597, 0, -177.304)
+
+[node name="Enemy70" parent="Environment/Damage" instance=ExtResource("6_cm1bo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -34.3776, 0, -102.086)
+
+[node name="Health" type="Node3D" parent="Environment"]
+
+[node name="Health Pacifier" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -4.34895, 0, -7)
+
+[node name="Health Pacifier2" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 9.9908, 0, -32.7584)
+
+[node name="Health Pacifier3" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -22.9375, 0, -25.0575)
+
+[node name="Health Pacifier4" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -31.4352, 0, 22.4762)
+
+[node name="Health Pacifier5" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 38.4047, 0, 28.0527)
+
+[node name="Health Pacifier6" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -85.6075, 0, -24.2608)
+
+[node name="Health Pacifier7" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 64.6943, 0, -35.9451)
+
+[node name="Health Pacifier8" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -21.6098, 0, -82.682)
+
+[node name="Health Pacifier9" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 42.1225, 0, 73.4619)
+
+[node name="Health Pacifier10" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -9.39442, 0, 70.0098)
+
+[node name="Health Pacifier11" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -74.1889, 0, 53.0145)
+
+[node name="Health Pacifier12" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -95.6985, 0, 13.713)
+
+[node name="Health Pacifier13" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 117.008, 0, 20.6173)
+
+[node name="Health Pacifier14" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 22.7372, 0, 112.232)
+
+[node name="Health Pacifier15" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 77.8233, 0, 113.519)
+
+[node name="Health Pacifier16" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 92.1631, 0, 87.7609)
+
+[node name="Health Pacifier17" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 59.2348, 0, 95.4619)
+
+[node name="Health Pacifier18" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 50.7371, 0, 142.995)
+
+[node name="Health Pacifier19" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 120.577, 0, 148.572)
+
+[node name="Health Pacifier20" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -3.43525, 0, 96.2585)
+
+[node name="Health Pacifier21" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 146.867, 0, 84.5743)
+
+[node name="Health Pacifier22" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 60.5625, 0, 37.8373)
+
+[node name="Health Pacifier23" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 124.295, 0, 193.981)
+
+[node name="Health Pacifier24" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 72.7779, 0, 190.529)
+
+[node name="Health Pacifier25" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 7.98343, 0, 173.534)
+
+[node name="Health Pacifier26" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -13.5262, 0, 134.232)
+
+[node name="Health Pacifier27" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 199.18, 0, 141.137)
+
+[node name="Health Pacifier28" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 104.91, 0, 232.752)
+
+[node name="Health Pacifier29" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -138.774, 0, 121.947)
+
+[node name="Health Pacifier30" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -124.435, 0, 96.1888)
+
+[node name="Health Pacifier31" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -157.363, 0, 103.89)
+
+[node name="Health Pacifier32" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -165.861, 0, 151.423)
+
+[node name="Health Pacifier33" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -96.0207, 0, 157)
+
+[node name="Health Pacifier34" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -220.033, 0, 104.686)
+
+[node name="Health Pacifier35" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -69.7311, 0, 93.0022)
+
+[node name="Health Pacifier36" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -156.035, 0, 46.2652)
+
+[node name="Health Pacifier37" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -92.303, 0, 202.409)
+
+[node name="Health Pacifier38" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -143.82, 0, 198.957)
+
+[node name="Health Pacifier39" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -208.614, 0, 181.962)
+
+[node name="Health Pacifier40" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -230.124, 0, 142.66)
+
+[node name="Health Pacifier41" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -17.4176, 0, 149.565)
+
+[node name="Health Pacifier42" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -111.688, 0, 241.18)
+
+[node name="Health Pacifier43" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -124.17, 0, -148.033)
+
+[node name="Health Pacifier44" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -109.83, 0, -173.792)
+
+[node name="Health Pacifier45" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -142.758, 0, -166.091)
+
+[node name="Health Pacifier46" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -151.256, 0, -118.557)
+
+[node name="Health Pacifier47" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -81.4161, 0, -112.98)
+
+[node name="Health Pacifier48" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -205.428, 0, -165.294)
+
+[node name="Health Pacifier49" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -55.1265, 0, -176.978)
+
+[node name="Health Pacifier50" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -141.431, 0, -223.715)
+
+[node name="Health Pacifier51" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -77.6983, 0, -67.5711)
+
+[node name="Health Pacifier52" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -129.215, 0, -71.0233)
+
+[node name="Health Pacifier53" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -194.01, 0, -88.0186)
+
+[node name="Health Pacifier54" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -215.519, 0, -127.32)
+
+[node name="Health Pacifier55" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -2.81295, 0, -120.416)
+
+[node name="Health Pacifier56" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -97.0835, 0, -28.8007)
+
+[node name="Health Pacifier57" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 101.139, 0, -173.258)
+
+[node name="Health Pacifier58" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 115.479, 0, -199.017)
+
+[node name="Health Pacifier59" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 82.5506, 0, -191.316)
+
+[node name="Health Pacifier60" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 74.053, 0, -143.782)
+
+[node name="Health Pacifier61" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 143.893, 0, -138.206)
+
+[node name="Health Pacifier62" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 19.8806, 0, -190.519)
+
+[node name="Health Pacifier63" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 170.182, 0, -202.204)
+
+[node name="Health Pacifier64" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 83.8784, 0, -248.941)
+
+[node name="Health Pacifier65" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 147.611, 0, -92.7966)
+
+[node name="Health Pacifier66" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 96.0937, 0, -96.2487)
+
+[node name="Health Pacifier67" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 31.2993, 0, -113.244)
+
+[node name="Health Pacifier68" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 9.78965, 0, -152.546)
+
+[node name="Health Pacifier69" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 222.496, 0, -145.641)
+
+[node name="Health Pacifier70" parent="Environment/Health" instance=ExtResource("11_3yvnr")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 128.225, 0, -54.0261)
+
 [node name="Enemy Spawner" type="Node3D" parent="." node_paths=PackedStringArray("president")]
 process_mode = 1
 script = ExtResource("10_e321x")
-president = NodePath("../President Nodes/President")
+min_distance = 10.0
+max_distance = 20.0
+president = NodePath("../President")
 
-[node name="President Nodes" type="Node3D" parent="."]
-
-[node name="President" parent="President Nodes" node_paths=PackedStringArray("serviceman_array", "environment") instance=ExtResource("5_mmk3v")]
+[node name="President" parent="." node_paths=PackedStringArray("serviceman_array", "environment") instance=ExtResource("5_mmk3v")]
+process_mode = 1
+collision_layer = 6
+collision_mask = 6
 serviceman_array = NodePath("../Serviceman Array")
-environment = NodePath("../../Environment")
+environment = NodePath("../Environment")
 
-[node name="Serviceman Array" type="Node3D" parent="President Nodes" node_paths=PackedStringArray("target")]
-process_mode = 3
-script = ExtResource("14_x2rwj")
+[node name="Serviceman Array" parent="." node_paths=PackedStringArray("target") instance=ExtResource("7_xs51u")]
+process_mode = 1
 target = NodePath("../President")
 
-[node name="Serviceman A Position" parent="President Nodes/Serviceman Array" instance=ExtResource("15_sktww")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
-
-[node name="Label3D" parent="President Nodes/Serviceman Array/Serviceman A Position" index="2"]
-text = "Curly"
-
-[node name="Serviceman B Position" parent="President Nodes/Serviceman Array" instance=ExtResource("15_sktww")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
-
-[node name="Label3D" parent="President Nodes/Serviceman Array/Serviceman B Position" index="2"]
-text = "Larry
-"
-
-[node name="Serviceman C Position" parent="President Nodes/Serviceman Array" instance=ExtResource("15_sktww")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
-
-[node name="Label3D" parent="President Nodes/Serviceman Array/Serviceman C Position" index="2"]
-text = "Moe"
-
-[node name="Perimeter Manager" type="Node3D" parent="President Nodes"]
-process_mode = 1
-script = ExtResource("4_bflj1")
-camera_distance = 0.0
-
-[node name="Serviceman A" parent="President Nodes/Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("4_ch8jo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
-target = NodePath("../../Serviceman Array/Serviceman A Position")
-
-[node name="Serviceman B" parent="President Nodes/Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("4_ch8jo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
-target = NodePath("../../Serviceman Array/Serviceman B Position")
-
-[node name="Serviceman C" parent="President Nodes/Perimeter Manager" node_paths=PackedStringArray("target") instance=ExtResource("4_ch8jo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
-target = NodePath("../../Serviceman Array/Serviceman C Position")
-
-[node name="Force Field" type="Node3D" parent="President Nodes"]
-process_mode = 1
-script = ExtResource("6_y3o43")
-
-[node name="Force Field" type="MeshInstance3D" parent="President Nodes/Force Field"]
-material_override = SubResource("StandardMaterial3D_v8tkb")
-mesh = SubResource("ArrayMesh_lk0ef")
-skeleton = NodePath("../../..")
-
-[node name="Fence" parent="President Nodes/Force Field/Force Field" node_paths=PackedStringArray("servicemanFrom", "servicemanTo") instance=ExtResource("7_bd5ae")]
-transform = Transform3D(1, -1.43405e-16, 3.48787e-16, 3.48787e-16, 0.411154, -3.48787e-16, -3.48787e-16, 1.43405e-16, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
-visible = false
-material_override = SubResource("StandardMaterial3D_fvkbq")
-mesh = SubResource("ArrayMesh_i6ylv")
-skeleton = NodePath("../../../Perimeter Manager")
-servicemanFrom = NodePath("../../../Perimeter Manager/Serviceman A")
-servicemanTo = NodePath("../../../Perimeter Manager/Serviceman B")
-
-[node name="TakeDamage" type="Node" parent="President Nodes/Force Field/Force Field"]
-script = ExtResource("8_sm64e")
-
-[node name="Area3D" type="Area3D" parent="President Nodes/Force Field"]
-collision_layer = 2
-collision_mask = 2
-input_ray_pickable = false
-
-[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="President Nodes/Force Field/Area3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.465, 0)
-depth = 2.71
-polygon = PackedVector2Array(2.445, 0, -2.495, 0, 3.82, 8.045)
+[node name="Force Field" parent="." instance=ExtResource("8_5001g")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_wueg0")
@@ -191,7 +542,7 @@ bus = &"Music"
 process_mode = 1
 transform = Transform3D(-1, -1.51808e-08, 8.60946e-08, 0, 0.984808, 0.173648, -8.74228e-08, 0.173648, -0.984808, 0, 1, 0)
 script = ExtResource("13_a0c2c")
-target = NodePath("../President Nodes/President")
+target = NodePath("../President")
 
 [node name="Camera3D" type="Camera3D" parent="Camera Position"]
 transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 10)
@@ -199,10 +550,3 @@ environment = SubResource("Environment_q17kr")
 far = 50.0
 
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
-[connection signal="area_entered" from="President Nodes/Force Field/Area3D" to="President Nodes/Force Field" method="_on_area_3d_area_entered"]
-[connection signal="body_entered" from="President Nodes/Force Field/Area3D" to="President Nodes/Force Field" method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="President Nodes/Force Field/Area3D" to="President Nodes/Force Field" method="_on_area_3d_body_exited"]
-
-[editable path="President Nodes/Serviceman Array/Serviceman A Position"]
-[editable path="President Nodes/Serviceman Array/Serviceman B Position"]
-[editable path="President Nodes/Serviceman Array/Serviceman C Position"]
