@@ -30,32 +30,30 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 144.0
-offset_top = -220.0
-offset_right = 436.0
-offset_bottom = -142.0
+offset_left = -146.0
+offset_top = -240.86
+offset_right = 146.0
+offset_bottom = -162.86
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 51
 text = "Title Screen
 "
 
-[node name="Game" type="Button" parent="."]
+[node name="Timer" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -434.0
-offset_top = -220.0
-offset_right = -144.0
-offset_bottom = -142.0
+offset_left = -185.0
+offset_top = 88.49
+offset_right = 185.0
+offset_bottom = 217.915
 grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 51
-text = "TRY AGAIN
-"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 36
+text = "YOU LASTED 10:00.00"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="Title" to="." method="goto_title"]
-[connection signal="pressed" from="Game" to="." method="goto_game"]

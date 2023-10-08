@@ -13,15 +13,16 @@ func generate_perks():
 		
 	perks.clear()
 	var random
-	random = allPerks.pick_random()
-	random.assign_agent()
+	random = allPerks.pick_random().duplicate()
+	random.assign_agent(0)
 	perks.append(random)
-	random = allPerks.pick_random()
-	random.assign_agent()
+	random = allPerks.pick_random().duplicate()
+	random.assign_agent(1)
 	perks.append(random)
-	random = allPerks.pick_random()
-	random.assign_agent()
+	random = allPerks.pick_random().duplicate()
+	random.assign_agent(2)
 	perks.append(random)
+	#print("done")
 
 func get_perk( index):
 	return perks[index]

@@ -9,6 +9,7 @@ class_name Serviceman extends Node3D
 
 @onready var anim_tree = $"agent/AnimationTree"
 @onready var anim_player = $"agent/AnimationPlayer"
+@onready var dive_shape : CollisionShape3D = $"Area3D/CollisionShape3D"
 
 var rng : RandomNumberGenerator
 var is_standing : bool = false
@@ -39,7 +40,7 @@ func _process(delta):
 		if not is_standing:
 			anim_tree.set("parameters/conditions/isIdle", true)
 			anim_tree.set("parameters/conditions/isMoving", false)
-			idle_countdown = response_time + rng.randf_range(0, 0.5)
+			idle_countdown = response_time
 			is_standing = true
 	else:
 		idle_countdown = max(0, idle_countdown - delta)
@@ -49,12 +50,10 @@ func _process(delta):
 	#print(blend)
 	anim_tree.set("parameters/Moving/blend_amount", blend)
 
-func start_dive(area):
-	dive_duration = 1.6
-	dive_position = area.global_position
-	var state_machine = anim_tree["parameters/playback"]
-	state_machine.travel("Dive")
-	#print("Serviceman Radius: " + area.name)
+func increase_dive(amount):
+	if amount != 0:
+		dive += amount
+		dive_shape.shape.radius = max(4, 3 * dive)
 
 func _on_area_3d_area_entered(area):
 	if dive > 0 && area.name.contains("Enemy") && not president.is_protected:
@@ -69,3 +68,10 @@ func _on_area_3d_area_entered(area):
 		var result = space_state.intersect_ray(query)
 		if result && result.collider.name == "President":
 			start_dive(area)
+
+func start_dive(area):
+	dive_duration = 1.6
+	dive_position = area.global_position
+	var state_machine = anim_tree["parameters/playback"]
+	state_machine.travel("Dive")
+	#print("Serviceman Radius: " + area.name)

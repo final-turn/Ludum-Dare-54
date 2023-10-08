@@ -5,7 +5,7 @@ signal on_health_update(health, damage)
 @export var serviceman_array : ServicemanArray
 @export var environment : ClickEnvironment
 
-@export var health : int = 85
+@export var health : int = 80
 @export var base_move_speed = 3
 @export var base_stand_time = 6
 @export var rotation_speed = 0.1
@@ -54,6 +54,9 @@ func _physics_process(delta):
 	anim_tree.set("parameters/conditions/isIdle", move_duration <= 0)
 	anim_tree.set("parameters/conditions/isMoving", move_duration > 0)
 	
+	if global_position.x < -250 || global_position.z < -250 || global_position.x > 250 || global_position.z > 250:
+		look_at(Vector3(0,0,0),Vector3.UP)
+	
 	move_and_slide()
 
 func _set_health(hp):
@@ -68,13 +71,13 @@ func _take_damage(damage):
 	state_machine.travel("Hit")
 	move_duration = 0
 	rotation_direction = rng.randi_range(-1, 1)
-	print(rotation_direction)
+	#print(rotation_direction)
 	
 func heal(amount):
 	health += amount
 	on_health_update.emit(health, 0)
 	rotation_direction = rng.randi_range(-1, 1)
-	print(rotation_direction)
+	#print(rotation_direction)
 	
 func check_if_protected (servicemen : Array[Serviceman]):
 	var d1 = _sign(global_position, servicemen[0].global_position, servicemen[1].global_position);

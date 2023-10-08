@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://ryu7hndxpmpc"]
+[gd_scene load_steps=5 format=3 uid="uid://ryu7hndxpmpc"]
 
 [ext_resource type="Script" path="res://Scripts/Player/ServicemanArray.gd" id="1_2fvyg"]
 [ext_resource type="PackedScene" uid="uid://82hxws2t5ew4" path="res://serviceman.tscn" id="2_bji6w"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b3efa"]
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tklmg"]
+height = 1.0
 
 [node name="Serviceman Array" type="Node3D"]
 process_mode = 3
@@ -10,8 +16,156 @@ script = ExtResource("1_2fvyg")
 [node name="Serviceman 1" parent="." instance=ExtResource("2_bji6w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
 
+[node name="Serviceman" parent="Serviceman 1" index="0"]
+dive = 0.0
+speed = 4.0
+
+[node name="Skeleton3D" parent="Serviceman 1/Serviceman/agent/Model" index="0"]
+bones/0/position = Vector3(0.756493, 1.23164, -67.3469)
+bones/0/rotation = Quaternion(-0.634053, -0.0572015, 0.031276, 0.770536)
+bones/1/rotation = Quaternion(0.0278259, 0.0128848, 0.0188245, 0.999352)
+bones/2/rotation = Quaternion(0.00247158, -0.0307794, 0.0496671, 0.998288)
+bones/3/rotation = Quaternion(-0.0256967, -0.0607571, -0.0193546, 0.997634)
+bones/4/rotation = Quaternion(0.162993, -0.00387058, 0.0342623, 0.986025)
+bones/5/rotation = Quaternion(-0.12093, 0.135259, -0.0306142, 0.982926)
+bones/7/rotation = Quaternion(-0.663125, -0.387055, 0.428483, -0.476293)
+bones/8/rotation = Quaternion(0.161757, -0.336964, 0.399153, 0.837238)
+bones/9/rotation = Quaternion(0.0989869, 0.0261281, 0.55101, 0.828195)
+bones/10/rotation = Quaternion(-0.27341, -0.448977, -0.25916, 0.810249)
+bones/11/rotation = Quaternion(0.10492, -0.053488, 0.226926, 0.966766)
+bones/13/rotation = Quaternion(-0.0348426, 0.0122091, 0.0978992, 0.994511)
+bones/15/rotation = Quaternion(0.31003, 0.00432304, 0.00355265, 0.95071)
+bones/16/rotation = Quaternion(0.50096, -0.000794567, -0.0456039, 0.864268)
+bones/17/rotation = Quaternion(0.209986, 0.000367992, -0.0200379, 0.977499)
+bones/19/rotation = Quaternion(0.446297, -0.0180762, 0.011033, 0.894634)
+bones/23/rotation = Quaternion(0.476521, -0.0406176, 0.0384664, 0.877382)
+bones/24/rotation = Quaternion(0.459787, 9.19993e-05, -0.0480237, 0.88673)
+bones/27/rotation = Quaternion(0.583091, -0.10049, 0.0703459, 0.803093)
+bones/28/rotation = Quaternion(0.164958, -0.00016876, -0.0175996, 0.986144)
+bones/29/rotation = Quaternion(0.0995594, -0.00030608, -0.021557, 0.994798)
+bones/31/rotation = Quaternion(0.620727, -0.3935, 0.501759, 0.456172)
+bones/32/rotation = Quaternion(0.135473, 0.189693, -0.68855, 0.686704)
+bones/33/rotation = Quaternion(0.0573344, -0.0196548, -0.319165, 0.945759)
+bones/34/rotation = Quaternion(-0.204597, 0.313675, 0.196266, 0.906216)
+bones/55/rotation = Quaternion(0.114869, -0.000163828, 0.992955, 0.0290754)
+bones/56/rotation = Quaternion(-0.343148, -0.0345389, 0.00781959, 0.938614)
+bones/57/rotation = Quaternion(0.633569, 0.0308027, 0.0136566, 0.772953)
+bones/58/rotation = Quaternion(0.528916, -0.124467, 0.0345622, 0.838785)
+bones/60/rotation = Quaternion(0.0185144, 0.477563, 0.877006, -0.0495115)
+bones/61/rotation = Quaternion(-0.304213, 0.0111127, -0.0119845, 0.952464)
+bones/62/rotation = Quaternion(0.713961, 0.126642, 0.0909617, 0.682604)
+bones/63/rotation = Quaternion(0.344489, 0.140109, -0.0408974, 0.927375)
+
+[node name="CollisionShape3D" parent="Serviceman 1/Serviceman/Area3D" index="0"]
+shape = SubResource("CylinderShape3D_b3efa")
+
+[node name="Area3D" parent="Serviceman 1/Target Position" index="1"]
+process_mode = 3
+
 [node name="Serviceman 2" parent="." instance=ExtResource("2_bji6w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
 
+[node name="Serviceman" parent="Serviceman 2" index="0"]
+dive = 0.0
+speed = 4.0
+
+[node name="Skeleton3D" parent="Serviceman 2/Serviceman/agent/Model" index="0"]
+bones/0/position = Vector3(0.756493, 1.23164, -67.3469)
+bones/0/rotation = Quaternion(-0.634053, -0.0572015, 0.031276, 0.770536)
+bones/1/rotation = Quaternion(0.0278259, 0.0128848, 0.0188245, 0.999352)
+bones/2/rotation = Quaternion(0.00247158, -0.0307794, 0.0496671, 0.998288)
+bones/3/rotation = Quaternion(-0.0256967, -0.0607571, -0.0193546, 0.997634)
+bones/4/rotation = Quaternion(0.162993, -0.00387058, 0.0342623, 0.986025)
+bones/5/rotation = Quaternion(-0.12093, 0.135259, -0.0306142, 0.982926)
+bones/7/rotation = Quaternion(-0.663125, -0.387055, 0.428483, -0.476293)
+bones/8/rotation = Quaternion(0.161757, -0.336964, 0.399153, 0.837238)
+bones/9/rotation = Quaternion(0.0989869, 0.0261281, 0.55101, 0.828195)
+bones/10/rotation = Quaternion(-0.27341, -0.448977, -0.25916, 0.810249)
+bones/11/rotation = Quaternion(0.10492, -0.053488, 0.226926, 0.966766)
+bones/13/rotation = Quaternion(-0.0348426, 0.0122091, 0.0978992, 0.994511)
+bones/15/rotation = Quaternion(0.31003, 0.00432304, 0.00355265, 0.95071)
+bones/16/rotation = Quaternion(0.50096, -0.000794567, -0.0456039, 0.864268)
+bones/17/rotation = Quaternion(0.209986, 0.000367992, -0.0200379, 0.977499)
+bones/19/rotation = Quaternion(0.446297, -0.0180762, 0.011033, 0.894634)
+bones/23/rotation = Quaternion(0.476521, -0.0406176, 0.0384664, 0.877382)
+bones/24/rotation = Quaternion(0.459787, 9.19993e-05, -0.0480237, 0.88673)
+bones/27/rotation = Quaternion(0.583091, -0.10049, 0.0703459, 0.803093)
+bones/28/rotation = Quaternion(0.164958, -0.00016876, -0.0175996, 0.986144)
+bones/29/rotation = Quaternion(0.0995594, -0.00030608, -0.021557, 0.994798)
+bones/31/rotation = Quaternion(0.620727, -0.3935, 0.501759, 0.456172)
+bones/32/rotation = Quaternion(0.135473, 0.189693, -0.68855, 0.686704)
+bones/33/rotation = Quaternion(0.0573344, -0.0196548, -0.319165, 0.945759)
+bones/34/rotation = Quaternion(-0.204597, 0.313675, 0.196266, 0.906216)
+bones/55/rotation = Quaternion(0.114869, -0.000163828, 0.992955, 0.0290754)
+bones/56/rotation = Quaternion(-0.343148, -0.0345389, 0.00781959, 0.938614)
+bones/57/rotation = Quaternion(0.633569, 0.0308027, 0.0136566, 0.772953)
+bones/58/rotation = Quaternion(0.528916, -0.124467, 0.0345622, 0.838785)
+bones/60/rotation = Quaternion(0.0185144, 0.477563, 0.877006, -0.0495115)
+bones/61/rotation = Quaternion(-0.304213, 0.0111127, -0.0119845, 0.952464)
+bones/62/rotation = Quaternion(0.713961, 0.126642, 0.0909617, 0.682604)
+bones/63/rotation = Quaternion(0.344489, 0.140109, -0.0408974, 0.927375)
+
+[node name="CollisionShape3D" parent="Serviceman 2/Serviceman/Area3D" index="0"]
+shape = SubResource("CylinderShape3D_tklmg")
+
+[node name="Area3D" parent="Serviceman 2/Target Position" index="1"]
+process_mode = 3
+
+[node name="Label3D" parent="Serviceman 2/Target Position" index="2"]
+text = "Larry"
+
 [node name="Serviceman 3" parent="." instance=ExtResource("2_bji6w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Serviceman" parent="Serviceman 3" index="0"]
+dive = 0.0
+speed = 4.0
+
+[node name="Skeleton3D" parent="Serviceman 3/Serviceman/agent/Model" index="0"]
+bones/0/position = Vector3(0.756493, 1.23164, -67.3469)
+bones/0/rotation = Quaternion(-0.634053, -0.0572015, 0.031276, 0.770536)
+bones/1/rotation = Quaternion(0.0278259, 0.0128848, 0.0188245, 0.999352)
+bones/2/rotation = Quaternion(0.00247158, -0.0307794, 0.0496671, 0.998288)
+bones/3/rotation = Quaternion(-0.0256967, -0.0607571, -0.0193546, 0.997634)
+bones/4/rotation = Quaternion(0.162993, -0.00387058, 0.0342623, 0.986025)
+bones/5/rotation = Quaternion(-0.12093, 0.135259, -0.0306142, 0.982926)
+bones/7/rotation = Quaternion(-0.663125, -0.387055, 0.428483, -0.476293)
+bones/8/rotation = Quaternion(0.161757, -0.336964, 0.399153, 0.837238)
+bones/9/rotation = Quaternion(0.0989869, 0.0261281, 0.55101, 0.828195)
+bones/10/rotation = Quaternion(-0.27341, -0.448977, -0.25916, 0.810249)
+bones/11/rotation = Quaternion(0.10492, -0.053488, 0.226926, 0.966766)
+bones/13/rotation = Quaternion(-0.0348426, 0.0122091, 0.0978992, 0.994511)
+bones/15/rotation = Quaternion(0.31003, 0.00432304, 0.00355265, 0.95071)
+bones/16/rotation = Quaternion(0.50096, -0.000794567, -0.0456039, 0.864268)
+bones/17/rotation = Quaternion(0.209986, 0.000367992, -0.0200379, 0.977499)
+bones/19/rotation = Quaternion(0.446297, -0.0180762, 0.011033, 0.894634)
+bones/23/rotation = Quaternion(0.476521, -0.0406176, 0.0384664, 0.877382)
+bones/24/rotation = Quaternion(0.459787, 9.19993e-05, -0.0480237, 0.88673)
+bones/27/rotation = Quaternion(0.583091, -0.10049, 0.0703459, 0.803093)
+bones/28/rotation = Quaternion(0.164958, -0.00016876, -0.0175996, 0.986144)
+bones/29/rotation = Quaternion(0.0995594, -0.00030608, -0.021557, 0.994798)
+bones/31/rotation = Quaternion(0.620727, -0.3935, 0.501759, 0.456172)
+bones/32/rotation = Quaternion(0.135473, 0.189693, -0.68855, 0.686704)
+bones/33/rotation = Quaternion(0.0573344, -0.0196548, -0.319165, 0.945759)
+bones/34/rotation = Quaternion(-0.204597, 0.313675, 0.196266, 0.906216)
+bones/55/rotation = Quaternion(0.114869, -0.000163828, 0.992955, 0.0290754)
+bones/56/rotation = Quaternion(-0.343148, -0.0345389, 0.00781959, 0.938614)
+bones/57/rotation = Quaternion(0.633569, 0.0308027, 0.0136566, 0.772953)
+bones/58/rotation = Quaternion(0.528916, -0.124467, 0.0345622, 0.838785)
+bones/60/rotation = Quaternion(0.0185144, 0.477563, 0.877006, -0.0495115)
+bones/61/rotation = Quaternion(-0.304213, 0.0111127, -0.0119845, 0.952464)
+bones/62/rotation = Quaternion(0.713961, 0.126642, 0.0909617, 0.682604)
+bones/63/rotation = Quaternion(0.344489, 0.140109, -0.0408974, 0.927375)
+
+[node name="Area3D" parent="Serviceman 3/Target Position" index="1"]
+process_mode = 3
+
+[node name="Label3D" parent="Serviceman 3/Target Position" index="2"]
+text = "Moe"
+
+[editable path="Serviceman 1"]
+[editable path="Serviceman 1/Serviceman"]
+[editable path="Serviceman 2"]
+[editable path="Serviceman 2/Serviceman"]
+[editable path="Serviceman 3"]
+[editable path="Serviceman 3/Serviceman"]

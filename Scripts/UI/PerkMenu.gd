@@ -18,7 +18,7 @@ func _ready():
 
 	
 func _on_perk_selected(perk: PerkDefinition):
-	print(perk.formatted_description)
+	#print(perk.formatted_description)
 	_close()
 	emit_signal("perk_selected", perk)
 	pass

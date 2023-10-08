@@ -35,6 +35,6 @@ func _process(delta):
 		new_enemy.president = president
 		add_child(new_enemy)
 		new_enemy.name = "Enemy %d" % enemy_counter
-		new_enemy.global_position = president.position + offset
+		new_enemy.global_position = president.global_position + offset
 		
 		enemy_counter += 1

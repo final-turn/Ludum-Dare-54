@@ -3,12 +3,15 @@ extends Node3D
 @export var president : President
 @export var agent_positions : ServicemanArray
 
-@export var exp_per_second : float = 3
+@export var exp_per_second : float = 30
 @export var exp_per_health : float = 10
 @export var scaled_entities : Array[Node3D]
 
 @onready var ui_manager = $"UI Manager"
 @onready var audio_stream_player : AudioStreamPlayer = $"AudioStreamPlayer"
+@onready var game_over = $"Game Over"
+@onready var timer = $"Game Over/Timer"
+@onready var win_screen = $"Win Screen"
 
 var max_time : float = 300
 var time_remaining : float
@@ -32,7 +35,15 @@ func _input(_event):
 func on_damage_taken(_health, damage_taken):
 	increase_exp(damage_taken * exp_per_health)	
 	if _health <= 0:
-		get_tree().change_scene_to_file("res://Scenes/GameOver.tscn")
+		get_tree().paused = true
+		update_timer(max_time - time_remaining)
+		game_over.show()
+
+func update_timer(amount : float):
+	var minutes = floori(amount /60.0)
+	var seconds = "%02d" % floori(amount - (minutes * 60))
+	var ms = "%02d" % floori((amount - floorf(amount)) * 100)
+	timer.text = ("You lasted %02d" % minutes) + ":" + seconds + "." + ms
 
 func increase_exp(amount):
 	experience += amount
@@ -48,6 +59,12 @@ func increase_exp(amount):
 func _process(delta):
 	if !get_tree().paused:
 		time_remaining -= delta
+	
+		if time_remaining <= 0:
+			time_remaining = 0
+			get_tree().paused = true
+			win_screen.show()
+				
 		ui_manager.update_timer(time_remaining)
 		
 		var experienceMultiplier =1
@@ -63,13 +80,12 @@ func _process(delta):
 			for n in scaled_entities:
 				n.scaled_remaining = scaled_remaining
 			
-			if time_remaining <= 0:
-				get_tree().change_scene_to_file("res://Scenes/Winning Scene.tscn")
 
 func on_perk_selected(perk : PerkDefinition):
 	var servman = agent_positions.get_child(perk.agent_affected).get_child(0)
 	president._set_health(president.health + perk._increaseHealth)
 	servman.defense += perk._increaseDefense
-	servman.speed *= 1 + perk._increaseMovementSpeed
-	servman.response_time *= 1 - perk._increaseReactionTime
+	servman.speed += perk._increaseMovementSpeed
+	servman.response_time -= perk._increaseReactionTime
+	servman.increase_dive(perk.increase_dive)
 	get_tree().paused = false

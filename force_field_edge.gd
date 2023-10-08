@@ -12,13 +12,15 @@ var show_defense_override : bool
 var effective_defense = 0
 
 func _physics_process(_delta):
+	effective_defense = get_defense( area.scale.x)
 	if show_defense_override:
-		effective_defense = floori(agent_defense/(max(2, area.scale.x) * 0.5))
-		var override = floori(agent_defense/(max(2, override_scale) * 0.5))
+		var override = get_defense(override_scale)
 		label.text = "%d -> %d" % [effective_defense, override]
 	else:
-		effective_defense = floori(agent_defense/(max(2, area.scale.x) * 0.5))
 		label.text = "%d" % effective_defense
+
+func get_defense(d_scale):
+	return floori(agent_defense/(max(4, d_scale) * 0.25))
 
 func _on_area_3d_area_entered(collision):
 	if collision.name != "Area3D":

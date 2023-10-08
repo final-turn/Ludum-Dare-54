@@ -1,8 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://bjukmj8c2wcpo"]
+[gd_scene load_steps=22 format=3 uid="uid://bjukmj8c2wcpo"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_jj2c5"]
 [ext_resource type="Texture2D" uid="uid://difk4td0dj5f2" path="res://Assets/grid.png" id="1_nse8l"]
 [ext_resource type="Script" path="res://Scripts/Player/ClickEnvironment.gd" id="1_wh88n"]
+[ext_resource type="PackedScene" uid="uid://biis0edovgq3w" path="res://Scenes/GameOver.tscn" id="3_swb0u"]
+[ext_resource type="Script" path="res://Scenes/Win Screen.gd" id="4_b2ytl"]
 [ext_resource type="PackedScene" uid="uid://dkjep733w0j7q" path="res://Entities/president.tscn" id="5_mmk3v"]
 [ext_resource type="Texture2D" uid="uid://d3hx2auwpkkx0" path="res://Assets/icon.svg" id="5_ss0wv"]
 [ext_resource type="PackedScene" uid="uid://b4e8biof54fpt" path="res://Assets/Models/pills_enemy.tscn" id="6_cm1bo"]
@@ -58,6 +60,51 @@ scaled_entities = [NodePath("Enemy Spawner"), NodePath("President")]
 [node name="UI Manager" parent="." node_paths=PackedStringArray("president") instance=ExtResource("8_xc0yl")]
 process_mode = 3
 president = NodePath("../President")
+
+[node name="Game Over" parent="." instance=ExtResource("3_swb0u")]
+visible = false
+
+[node name="Win Screen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_b2ytl")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Win Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 128.57
+offset_bottom = 128.57
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 201
+bbcode_enabled = true
+text = "[rainbow][center]YOU WON"
+
+[node name="Title Screen" type="Button" parent="Win Screen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -146.0
+offset_top = -234.62
+offset_right = 146.0
+offset_bottom = -156.62
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 51
+text = "Title Screen
+"
 
 [node name="Environment" type="Node3D" parent="."]
 process_mode = 1
@@ -516,8 +563,6 @@ transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 128.225, 0, -54.0261)
 [node name="Enemy Spawner" type="Node3D" parent="." node_paths=PackedStringArray("president")]
 process_mode = 1
 script = ExtResource("10_e321x")
-min_distance = 10.0
-max_distance = 20.0
 president = NodePath("../President")
 
 [node name="President" parent="." node_paths=PackedStringArray("serviceman_array", "environment") instance=ExtResource("5_mmk3v")]
@@ -539,7 +584,7 @@ autoplay = true
 bus = &"Music"
 
 [node name="Camera Position" type="Node3D" parent="." node_paths=PackedStringArray("target")]
-process_mode = 1
+process_mode = 3
 transform = Transform3D(-1, -1.51808e-08, 8.60946e-08, 0, 0.984808, 0.173648, -8.74228e-08, 0.173648, -0.984808, 0, 1, 0)
 script = ExtResource("13_a0c2c")
 target = NodePath("../President")
@@ -549,4 +594,5 @@ transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 10)
 environment = SubResource("Environment_q17kr")
 far = 50.0
 
+[connection signal="pressed" from="Win Screen/Title Screen" to="Win Screen" method="goto_title"]
 [connection signal="input_event" from="Environment/Area3D" to="Environment" method="_on_area_3d_input_event"]
