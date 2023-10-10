@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://5ve6kvgey6q4"]
+[gd_scene load_steps=8 format=3 uid="uid://5ve6kvgey6q4"]
 
 [ext_resource type="Script" path="res://Scenes/TitleScene.gd" id="1_k4h2k"]
 [ext_resource type="VideoStream" path="res://Assets/Menu/titlevid.ogv" id="2_6pkhp"]
 [ext_resource type="VideoStream" path="res://Assets/Menu/button.ogv" id="3_5gjuh"]
 [ext_resource type="Shader" path="res://Assets/Menu/AlphaVid.gdshader" id="4_su5w0"]
 [ext_resource type="AudioStream" uid="uid://c67f612chf1vu" path="res://Assets/Menu/CleanerLessBoom.wav" id="5_3lybk"]
+[ext_resource type="Script" path="res://Scenes/SoundSlider.gd" id="6_p1mog"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bjofx"]
 shader = ExtResource("4_su5w0")
@@ -72,4 +73,41 @@ text = "PLAY GAME"
 stream = ExtResource("5_3lybk")
 autoplay = true
 
+[node name="Volume" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="Volume"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -554.0
+offset_top = 22.0
+offset_right = -390.0
+offset_bottom = 48.0
+grow_horizontal = 0
+text = "Sound"
+horizontal_alignment = 2
+
+[node name="HSlider" type="HSlider" parent="Volume"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -374.0
+offset_top = 27.0
+offset_right = -17.0
+offset_bottom = 43.0
+grow_horizontal = 0
+max_value = 1.0
+step = 0.05
+script = ExtResource("6_p1mog")
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="value_changed" from="Volume/HSlider" to="Volume/HSlider" method="_on_value_changed"]

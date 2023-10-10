@@ -30,12 +30,13 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -549.0
-offset_top = 21.0
-offset_right = -385.0
-offset_bottom = 47.0
+offset_left = -560.0
+offset_top = 23.0
+offset_right = -396.0
+offset_bottom = 49.0
 grow_horizontal = 0
 text = "Sound"
+horizontal_alignment = 2
 
 [node name="HSlider" type="HSlider" parent="Volume"]
 layout_mode = 1

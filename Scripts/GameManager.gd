@@ -12,6 +12,7 @@ extends Node3D
 @onready var game_over = $"Game Over"
 @onready var timer = $"Game Over/Timer"
 @onready var win_screen = $"Win Screen"
+@onready var help_screen = $"Button/Panel"
 
 var max_time : float = 300
 var time_remaining : float
@@ -89,3 +90,13 @@ func on_perk_selected(perk : PerkDefinition):
 	servman.response_time -= perk._increaseReactionTime
 	servman.increase_dive(perk.increase_dive)
 	get_tree().paused = false
+
+
+func _on_button_pressed():
+	if help_screen.visible:
+		get_tree().paused = false
+		help_screen.hide()
+	else:
+		get_tree().paused = true
+		help_screen.show()
+	
